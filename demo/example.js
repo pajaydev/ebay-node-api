@@ -1,3 +1,3 @@
-const Ebay = require('../index');
+const Ebay = require('../src/index');
 
-new Ebay(null);
+new Ebay({});
