@@ -4,7 +4,7 @@ function Ebay(options) {
 
     if (!options) throw new Error("Options is missing, please provide the input");
     if (!options.clientID) throw Error("Client ID is Missing\ncheck documentation to get Client ID http://developer.ebay.com/DevZone/account/");
-
+    this.options = options;
 }
 
 Ebay.prototype.findItemsByKeywords = () => {
