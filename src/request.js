@@ -9,8 +9,9 @@ let makeRequest = function makeRequest(url) {
                 body += data;
             });
             res.on("end", () => {
-
+                console.log(body);
                 resolve(body);
+
             });
         });
     })

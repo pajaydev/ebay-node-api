@@ -33,7 +33,7 @@ describe("check build url method", () => {
         clientID: "testID",
         limit: 6
     });
-    let expected_url = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=findItemsByKeywords&REST-PAYLOAD&keywords=iphonepaginationInput.entriesPerPage=6GLOBAL-ID=EBAY-US"
+    let expected_url = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords=iphonepaginationInput.entriesPerPage=6GLOBAL-ID=EBAY-US"
     it("should build correct url", () => {
         expect(ebay.buildAPIUrl("iphone")).to.be.equal(expected_url);
     });
