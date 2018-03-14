@@ -1,9 +1,7 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
 let configData = require('./config');
 let makeRequest = require('./request');
-function _cb_findItemsByKeywords(data) {
-    console.log("ajayyyyy");
-}
+
 function Ebay(options) {
     console.log(options);
 
@@ -25,8 +23,11 @@ Ebay.prototype.findItemsByKeywords = function (keyword) {
     let url = this.buildAPIUrl(keyword);
     console.log(url);
     makeRequest(url).then((data) => {
-        console.log(data);
-
+        //console.log(data);
+        let dataArray = data.split(configData["findItemsByKeywords"]["callback"] + "(");
+        console.log(typeof dataArray[1]);
+        let result = dataArray[1].substring(0, dataArray[1].length - 1);
+        console.log(result);
         //return result;
     }, (error) => {
         console.log(error);
@@ -41,8 +42,8 @@ Ebay.prototype.buildAPIUrl = function (keyword) {
     base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
     base_url += "&callback=" + configData["findItemsByKeywords"]["callback"];
     base_url += "&REST-PAYLOAD&keywords=" + keyword;
-    base_url += "paginationInput.entriesPerPage=" + this.options.limit;
-    base_url += "GLOBAL-ID=" + this.options.globalID;
+    base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
+    base_url += "&GLOBAL-ID=" + this.options.globalID;
 
     return base_url;
 };
