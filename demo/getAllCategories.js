@@ -1,15 +1,11 @@
 const Ebay = require('../src/index');
 
 let ebay = new Ebay({
-    clientID: "--Enter your Client ID",
-    limit: 6
+    clientID: "--Enter your Client ID"
 });
-ebay.findItemsByKeywords("iphone").then((data) => {
+
+ebay.getAllCategories().then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
-});
-
-
-
-
+})

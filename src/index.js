@@ -12,40 +12,45 @@ function Ebay(options) {
     this.options.keyword = "iphone";
 }
 
-Ebay.prototype._cb_findItemsByKeywords = function (data) {
-    console.log("dataaaaa");
-}
+Ebay.prototype = {
+    buildAPIUrl: function (keyword) {
+        let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
+        base_url += "SECURITY-APPNAME=" + this.options.clientID;
+        base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
+        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
+        base_url += "&callback=" + configData["findItemsByKeywords"]["callback"];
+        base_url += "&REST-PAYLOAD&keywords=" + keyword;
+        base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
+        base_url += "&GLOBAL-ID=" + this.options.globalID;
 
-Ebay.prototype.findItemsByKeywords = function (keyword) {
-    console.log("find item by keyword");
-    console.log(this);
-    this.options.name = keyword;
-    let url = this.buildAPIUrl(keyword);
-    console.log(url);
-    makeRequest(url).then((data) => {
-        //console.log(data);
-        let dataArray = data.split(configData["findItemsByKeywords"]["callback"] + "(");
-        console.log(typeof dataArray[1]);
-        let result = dataArray[1].substring(0, dataArray[1].length - 1);
-        console.log(result);
-        //return result;
-    }, (error) => {
-        console.log(error);
-    })
+        return base_url;
+    },
 
-}
+    findItemsByKeywords: function (keyword) {
+        this.options.name = keyword;
+        let url = this.buildAPIUrl(keyword);
+        //console.log(url);
+        return makeRequest(url).then((data) => {
+            //console.log(data);
+            let dataArray = data.split(configData["findItemsByKeywords"]["callback"] + "(");
+            let result = dataArray[1].substring(0, dataArray[1].length - 1);
+            return result;
+        }, (error) => {
+            console.log(error);
+        })
 
-Ebay.prototype.buildAPIUrl = function (keyword) {
-    let base_url = "https://svcs.ebay.com/services/search/FindingService/v1?";
-    base_url += "SECURITY-APPNAME=" + this.options.clientID;
-    base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
-    base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
-    base_url += "&callback=" + configData["findItemsByKeywords"]["callback"];
-    base_url += "&REST-PAYLOAD&keywords=" + keyword;
-    base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
-    base_url += "&GLOBAL-ID=" + this.options.globalID;
+    },
 
-    return base_url;
+    getAllCategories: function () {
+        //console.log(url);
+        return makeRequest("http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + this.options.clientID + "&version=967&siteid=0&CategoryID=-1&responseencoding=JSON&IncludeSelector=ChildCategories").then((data) => {
+            // console.log(data);
+            return data;
+        }, (error) => {
+            console.log(error);
+        })
+    }
+
 };
 
 module.exports = Ebay;
