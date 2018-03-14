@@ -17,11 +17,4 @@ let makeRequest = function makeRequest(url) {
 
 }
 
-
-
-makeRequest("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords=iPhone&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US&siteid=0").then((data) => {
-    console.log("success");
-}, (error) => {
-    console.log(error);
-})
 module.exports = makeRequest;

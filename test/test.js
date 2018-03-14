@@ -1,7 +1,7 @@
 let expect = require("chai").expect;
 let should = require('chai').should();
 let eBay = require('../src/index');
-let configData = require('./config');
+let configData = require('../src/config');
 
 describe("check all the options provided is valid or not - Ebay Constructor ", () => {
     it("check input is provided or not", () => {
@@ -12,7 +12,6 @@ describe("check all the options provided is valid or not - Ebay Constructor ", (
 
     it("should have client ID", () => {
         let ebayApi = new eBay({ clientID: "12345" });
-        console.log("ebay api " + JSON.stringify(ebayApi));
         ebayApi.options.should.have.property('clientID');
     });
 
@@ -28,3 +27,15 @@ describe("check all the options provided is valid or not - Ebay Constructor ", (
     });
 
 });
+
+describe("check build url method", () => {
+    let ebay = new eBay({
+        clientID: "testID",
+        limit: 6
+    });
+    let expected_url = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=findItemsByKeywords&REST-PAYLOAD&keywords=iphonepaginationInput.entriesPerPage=6GLOBAL-ID=EBAY-US"
+    it("should build correct url", () => {
+        expect(ebay.buildAPIUrl("iphone")).to.be.equal(expected_url);
+    });
+});
+

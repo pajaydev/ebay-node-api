@@ -1,7 +1,7 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
 let configData = require('./config');
+let makeRequest = require('./request');
 
-console.log(configData["findItemsByKeywords"]["OPERATION-NAME"]);
 function Ebay(options) {
     console.log(options);
 
@@ -12,18 +12,30 @@ function Ebay(options) {
     this.options.keyword = "iphone";
 }
 
-Ebay.prototype.findItemsByKeywords = (keyword) => {
+Ebay.prototype.findItemsByKeywords = function (keyword) {
     console.log("find item by keyword");
+    console.log(this);
     this.options.name = keyword;
+    let url = this.buildAPIUrl(keyword);
+
+    makeRequest(url).then((data) => {
+        console.log("success");
+    }, (error) => {
+        console.log(error);
+    })
+
 }
 
-Ebay.prototype.buildAPIUrl = function () {
+Ebay.prototype.buildAPIUrl = function (keyword) {
     let base_url = "https://svcs.ebay.com/services/search/FindingService/v1?";
     base_url += "SECURITY-APPNAME=" + this.options.clientID;
     base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
     base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
     base_url += "&callback=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
-    base_url += "&REST-PAYLOAD&keywords=" + this.options.keyword;
+    base_url += "&REST-PAYLOAD&keywords=" + keyword;
+    base_url += "paginationInput.entriesPerPage=" + this.options.limit;
+    base_url += "GLOBAL-ID=" + this.options.globalID;
+
     return base_url;
 };
 
