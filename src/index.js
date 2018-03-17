@@ -18,7 +18,6 @@ Ebay.prototype = {
         base_url += "SECURITY-APPNAME=" + this.options.clientID;
         base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
         base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
-        base_url += "&callback=" + configData["findItemsByKeywords"]["callback"];
         base_url += "&REST-PAYLOAD&keywords=" + keyword;
         base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
         base_url += "&GLOBAL-ID=" + this.options.globalID;
@@ -30,11 +29,10 @@ Ebay.prototype = {
         this.options.name = keyword;
         let url = this.buildAPIUrl(keyword);
         //console.log(url);
-        return makeRequest(url).then((data) => {
-            //console.log(data);
-            let dataArray = data.split(configData["findItemsByKeywords"]["callback"] + "(");
-            let result = dataArray[1].substring(0, dataArray[1].length - 1);
+        return makeRequest(url).then((result) => {
+            console.log(result);
             return result;
+
         }, (error) => {
             console.log(error);
         })

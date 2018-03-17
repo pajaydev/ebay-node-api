@@ -28,14 +28,5 @@ describe("check all the options provided is valid or not - Ebay Constructor ", (
 
 });
 
-describe("check build url method", () => {
-    let ebay = new eBay({
-        clientID: "testID",
-        limit: 6
-    });
-    let expected_url = "https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&callback=_cb_findItemsByKeywords&REST-PAYLOAD&keywords=iphone&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US"
-    it("should build correct url", () => {
-        expect(ebay.buildAPIUrl("iphone")).to.be.equal(expected_url);
-    });
-});
+
 
