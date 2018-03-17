@@ -1,23 +1,48 @@
-function ebayURL() {
+/**
+ * This method is used to build the url based on 
+ * the type of request.
+ */
 
-}
-
-ebayURL.prototype = {
-    buildSearchUrl: function (param, data) {
+const buildURL = {
+    /**
+   * Builds the findings(search)  URL.
+   *
+   * @param {Object} options
+   * @param {String} data
+   * @return {String} build url
+   * @private
+   */
+    buildSearchUrl(options) {
         let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
-        base_url += "SECURITY-APPNAME=" + this.options.clientID;
-        base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
-        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
-        base_url += "&callback=" + configData["findItemsByKeywords"]["callback"] + "&REST-PAYLOAD&";
-        base_url += param + "=" + data;
-        base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
-        base_url += "&GLOBAL-ID=" + this.options.globalID;
+        base_url += "SECURITY-APPNAME=" + options.clientID;
+        base_url += "&OPERATION-NAME=" + options.operationName;
+        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&";
+        base_url += options.param + "=" + options.name;
+        base_url += "&paginationInput.entriesPerPage=" + options.limit;
+        base_url += "&GLOBAL-ID=" + options.globalID;
 
         return base_url;
     },
 
-    buildShoppingUrl: function () {
-
+    /**
+   * Builds the Shopping(open api)  URL.
+   *
+   * @param {String} param
+   * @param {String} data
+   * @return {String} build url
+   * @private
+   */
+    buildShoppingUrl() {
+        let base_url = "http://open.api.ebay.com/Shopping?";
+        base_url += "SECURITY-APPNAME=" + this.options.clientID;
+        base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
+        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&";
+        base_url += param + "=" + data;
+        base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
+        base_url += "&GLOBAL-ID=" + this.options.globalID;
+        return base_url;
     }
-}
+};
+
+module.exports = buildURL;
 

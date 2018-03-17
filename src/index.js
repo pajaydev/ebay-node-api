@@ -1,6 +1,6 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
-let configData = require('./config');
 let makeRequest = require('./request');
+let urlObject = require('./buildURL');
 
 function Ebay(options) {
     console.log(options);
@@ -13,25 +13,16 @@ function Ebay(options) {
 }
 
 Ebay.prototype = {
-    buildAPIUrl: function (keyword) {
-        let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
-        base_url += "SECURITY-APPNAME=" + this.options.clientID;
-        base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
-        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
-        base_url += "&REST-PAYLOAD&keywords=" + keyword;
-        base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
-        base_url += "&GLOBAL-ID=" + this.options.globalID;
-
-        return base_url;
-    },
 
     findItemsByKeywords: function (keyword) {
         this.options.name = keyword;
-        let url = this.buildAPIUrl(keyword);
-        //console.log(url);
-        return makeRequest(url).then((result) => {
-            console.log(result);
-            return result;
+        this.options.operationName = "findItemsByKeywords";
+        this.options.param = "keywords";
+        let url = urlObject.buildSearchUrl(this.options, keyword);
+        console.log(url);
+        return makeRequest(url).then((data) => {
+            let result = JSON.parse(data);
+            return result["findItemsByKeywordsResponse"];
 
         }, (error) => {
             console.log(error);
@@ -42,8 +33,8 @@ Ebay.prototype = {
     getAllCategories: function () {
         //console.log(url);
         return makeRequest("http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + this.options.clientID + "&version=967&siteid=0&CategoryID=-1&responseencoding=JSON&IncludeSelector=ChildCategories").then((data) => {
-            // console.log(data);
-            return data;
+            let result = JSON.parse(data);
+            return result;
         }, (error) => {
             console.log(error);
         })
