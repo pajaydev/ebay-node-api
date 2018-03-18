@@ -39,8 +39,7 @@ Ebay.prototype = {
         console.log(url);
         return makeRequest(url).then((data) => {
             let result = JSON.parse(data);
-            console.log(result);
-            return result["findItemsByKeywordsResponse"];
+            return result["findItemsByCategoryResponse"];
 
         }, (error) => {
             console.log(error);
@@ -48,15 +47,29 @@ Ebay.prototype = {
 
     },
 
-    getAllCategories: function () {
+    getAllCategories: function (categoryID) {
         //console.log(url);
-        this.options.name = keyword;
+        this.options.name = categoryID ? categoryID : -1;
         this.options.operationName = "findItemsByKeywords";
-        this.options.param = "keywords";
+        this.options.param = "CategoryID";
         let url = urlObject.buildShoppingUrl(this.options);
+        console.log(url);
         return makeRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result;
+        }, (error) => {
+            console.log(error);
+        })
+    },
+
+    getVersion: function () {
+        //this.options.name = categoryID ? categoryID : -1;
+        this.options.operationName = "getVersion";
+        //this.options.param = "CategoryID";
+        let url = urlObject.buildSearchUrl(this.options);
+        return makeRequest(url).then((data) => {
+            let result = JSON.parse(data);
+            return result["getVersionResponse"][0];
         }, (error) => {
             console.log(error);
         })

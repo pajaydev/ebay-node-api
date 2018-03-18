@@ -16,10 +16,10 @@ const buildURL = {
         let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
         base_url += "SECURITY-APPNAME=" + options.clientID;
         base_url += "&OPERATION-NAME=" + options.operationName;
-        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&";
-        base_url += options.param + "=" + options.name;
-        base_url += "&paginationInput.entriesPerPage=" + options.limit;
-        base_url += "&GLOBAL-ID=" + options.globalID;
+        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD";
+        base_url += options.param ? "&" + options.param + "=" + options.name : '';
+        base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
+        base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';
 
         return base_url;
     },
@@ -27,9 +27,8 @@ const buildURL = {
     /**
    * Builds the Shopping(open api)  URL.
    *
-   * @param {String} param
-   * @param {String} data
-   * @return {String} build url
+   * @param {Object} options
+   * @return {String} url
    * @private
    */
     buildShoppingUrl(options) {
@@ -41,7 +40,8 @@ const buildURL = {
         base_url += "&paginationInput.entriesPerPage=" + options.limit;
         //base_url += "&GLOBAL-ID=" + oglobalID;
         return base_url;
-    }
+    },
+
 };
 
 module.exports = buildURL;

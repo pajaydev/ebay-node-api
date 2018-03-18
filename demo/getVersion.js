@@ -4,8 +4,8 @@ let ebay = new Ebay({
     clientID: "Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45",
     limit: 6
 });
-ebay.findItemsByCategory(10181).then((data) => {
-    console.log(data);
+ebay.getVersion().then((data) => {
+    console.log(data.version);
 }, (error) => {
     console.log(error);
 });

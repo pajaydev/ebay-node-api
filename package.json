@@ -1,13 +1,23 @@
 {
   "name": "ebay-node-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Ebay node api client",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "Ajaykumar prathap",
-  "license": "ISC",
+  "keywords": [
+    "eBay",
+    "Shopping",
+    "Searching",
+    "products"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/t3chnoboy/amazon-product-api.git"
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^5.0.1",
