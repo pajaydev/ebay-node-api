@@ -50,7 +50,7 @@ Ebay.prototype = {
     getAllCategories: function (categoryID) {
         //console.log(url);
         this.options.name = categoryID ? categoryID : -1;
-        this.options.operationName = "findItemsByKeywords";
+        this.options.operationName = "GetCategoryInfo";
         this.options.param = "CategoryID";
         let url = urlObject.buildShoppingUrl(this.options);
         console.log(url);

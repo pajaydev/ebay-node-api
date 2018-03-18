@@ -5,7 +5,7 @@ let ebay = new Ebay({
 });
 
 ebay.getAllCategories().then((data) => {
-    console.log(data);
+    console.log(data); //data.CategoryArray
 }, (error) => {
     console.log(error);
 })
