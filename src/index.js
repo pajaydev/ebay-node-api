@@ -63,13 +63,27 @@ Ebay.prototype = {
     },
 
     getVersion: function () {
-        //this.options.name = categoryID ? categoryID : -1;
         this.options.operationName = "getVersion";
-        //this.options.param = "CategoryID";
         let url = urlObject.buildSearchUrl(this.options);
         return makeRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result["getVersionResponse"][0];
+        }, (error) => {
+            console.log(error);
+        })
+    },
+
+    getUserDetails: function (userID) {
+        this.options.operationName = "GetUserProfile";
+        this.options.param = "UserID";
+        this.options.name = userID;
+        this.options.includeSelector = this.options.details ? "Details" : null;
+        let url = urlObject.buildShoppingUrl(this.options);
+        console.log(url);
+        return makeRequest(url).then((data) => {
+            let result = JSON.parse(data);
+            console.log(result);
+            return result;
         }, (error) => {
             console.log(error);
         })

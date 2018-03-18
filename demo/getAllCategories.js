@@ -1,7 +1,8 @@
 const Ebay = require('../src/index');
 
 let ebay = new Ebay({
-    clientID: "Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45"
+    clientID: "-- Client App id ----",
+    details: "childCategories" //optional parameter
 });
 
 ebay.getAllCategories().then((data) => {

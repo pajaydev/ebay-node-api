@@ -36,7 +36,8 @@ const buildURL = {
         base_url += "appid=" + options.clientID;
         base_url += "&callname=" + options.operationName;
         base_url += "&version=967&siteid=0&responseencoding=JSON&";
-        base_url += options.param + "=" + options.name + "&IncludeSelector=ChildCategories";
+        base_url += options.param + "=" + options.name;
+        base_url += options.includeSelector ? "&IncludeSelector=" + options.includeSelector : '';
         //base_url += "&GLOBAL-ID=" + oglobalID;
         return base_url;
     },
