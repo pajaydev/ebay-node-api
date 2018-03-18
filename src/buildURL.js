@@ -32,14 +32,14 @@ const buildURL = {
    * @return {String} build url
    * @private
    */
-    buildShoppingUrl() {
+    buildShoppingUrl(options) {
         let base_url = "http://open.api.ebay.com/Shopping?";
-        base_url += "SECURITY-APPNAME=" + this.options.clientID;
-        base_url += "&OPERATION-NAME=" + configData["findItemsByKeywords"]["OPERATION-NAME"];
+        base_url += "SECURITY-APPNAME=" + options.clientID;
+        base_url += "&OPERATION-NAME=" + options.operationName;
         base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&";
-        base_url += param + "=" + data;
-        base_url += "&paginationInput.entriesPerPage=" + this.options.limit;
-        base_url += "&GLOBAL-ID=" + this.options.globalID;
+        base_url += options.param + "=" + options.name;
+        base_url += "&paginationInput.entriesPerPage=" + options.limit;
+        //base_url += "&GLOBAL-ID=" + oglobalID;
         return base_url;
     }
 };

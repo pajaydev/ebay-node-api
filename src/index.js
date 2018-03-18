@@ -18,7 +18,7 @@ Ebay.prototype = {
         this.options.name = keyword;
         this.options.operationName = "findItemsByKeywords";
         this.options.param = "keywords";
-        let url = urlObject.buildSearchUrl(this.options, keyword);
+        let url = urlObject.buildSearchUrl(this.options);
         console.log(url);
         return makeRequest(url).then((data) => {
             let result = JSON.parse(data);
@@ -30,9 +30,31 @@ Ebay.prototype = {
 
     },
 
+    findItemsByCategory: function (categoryID) {
+        if (!categoryID) throw new Error("Category ID is null or invalid");
+        this.options.name = categoryID;
+        this.options.operationName = "findItemsByCategory";
+        this.options.param = "categoryId";
+        let url = urlObject.buildSearchUrl(this.options);
+        console.log(url);
+        return makeRequest(url).then((data) => {
+            let result = JSON.parse(data);
+            console.log(result);
+            return result["findItemsByKeywordsResponse"];
+
+        }, (error) => {
+            console.log(error);
+        })
+
+    },
+
     getAllCategories: function () {
         //console.log(url);
-        return makeRequest("http://open.api.ebay.com/Shopping?callname=GetCategoryInfo&appid=" + this.options.clientID + "&version=967&siteid=0&CategoryID=-1&responseencoding=JSON&IncludeSelector=ChildCategories").then((data) => {
+        this.options.name = keyword;
+        this.options.operationName = "findItemsByKeywords";
+        this.options.param = "keywords";
+        let url = urlObject.buildShoppingUrl(this.options);
+        return makeRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result;
         }, (error) => {

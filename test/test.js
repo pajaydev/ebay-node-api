@@ -1,7 +1,6 @@
 let expect = require("chai").expect;
 let should = require('chai').should();
 let eBay = require('../src/index');
-let configData = require('../src/config');
 
 describe("check all the options provided is valid or not - Ebay Constructor ", () => {
     it("check input is provided or not", () => {
