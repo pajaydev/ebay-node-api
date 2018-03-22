@@ -74,6 +74,7 @@ Ebay.prototype = {
     },
 
     getUserDetails: function (userID) {
+        if (!userID) throw new Error("User ID is null or invalid");
         this.options.operationName = "GetUserProfile";
         this.options.param = "UserID";
         this.options.name = userID;

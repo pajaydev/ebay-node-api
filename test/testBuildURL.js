@@ -5,9 +5,9 @@ let buildURL = require('../src/buildURL');
 
 describe("test building url methods", () => {
 
-    let expected_search_url = "http://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=iphone&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US"
-    it("test search url", () => {
 
+    it("test search url", () => {
+        let expected_search_url = "http://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=iphone&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US"
         let options = {
             name: "iphone",
             operationName: "findItemsByKeywords",
@@ -17,5 +17,28 @@ describe("test building url methods", () => {
             globalID: "EBAY-US"
         }
         expect(buildURL.buildSearchUrl(options)).to.be.equal(expected_search_url);
+    });
+
+    it("test Shopping url without selector", () => {
+        let expected_search_url = "http://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone"
+        let options = {
+            name: "iphone",
+            operationName: "demoShoppingName",
+            param: "keywords",
+            clientID: "testID",
+        }
+        expect(buildURL.buildShoppingUrl(options)).to.be.equal(expected_search_url);
+    });
+
+    it("test Shopping url including selector", () => {
+        let expected_search_url = "http://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone&IncludeSelector=true"
+        let options = {
+            name: "iphone",
+            operationName: "demoShoppingName",
+            param: "keywords",
+            clientID: "testID",
+            includeSelector: true
+        }
+        expect(buildURL.buildShoppingUrl(options)).to.be.equal(expected_search_url);
     });
 });
