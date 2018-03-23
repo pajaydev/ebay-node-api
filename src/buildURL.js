@@ -16,7 +16,7 @@ const buildURL = {
         let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
         base_url += "SECURITY-APPNAME=" + options.clientID;
         base_url += "&OPERATION-NAME=" + options.operationName;
-        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD";
+        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
         base_url += options.param ? "&" + options.param + "=" + options.name : '';
         base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
         base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';

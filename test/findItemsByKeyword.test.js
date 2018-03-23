@@ -1,0 +1,42 @@
+const nock = require('nock');
+const eBay = require('../src/index');
+let expect = require("chai").expect;
+
+describe("Test find items by keyword method", () => {
+
+    beforeEach(() => {
+        nock('http://svcs.ebay.com')
+            .get('/services/search/FindingService/v1')
+            .query({
+                'SECURITY-APPNAME': 'ClientId',
+                'OPERATION-NAME': 'findItemsByKeywords',
+                'SERVICE-VERSION': '1.0.0',
+                'RESPONSE-DATA-FORMAT': 'JSON',
+                'keywords': 'iphone',
+                'GLOBAL-ID': 'EBAY-US'
+
+            })
+            .reply(200, {
+                "access_token": "abcd"
+            });
+    });
+
+    it("test input parameter in findItemsByKeyword method", () => {
+        let ebay = new eBay({
+            clientID: "ClientId"
+        })
+        expect(() => { ebay.findItemsByKeywords() }).to.throw("Keyword is missing, Keyword is required");
+    });
+
+    it("test get items from findItemsByKeyword method", () => {
+        let ebay = new eBay({
+            clientID: "ClientId",
+        })
+
+        return ebay.findItemsByKeywords("iphone").then((response) => {
+            console.log("------" + response);
+            //done();
+        })
+    })
+
+})

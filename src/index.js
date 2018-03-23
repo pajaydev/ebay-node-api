@@ -15,6 +15,8 @@ function Ebay(options) {
 Ebay.prototype = {
 
     findItemsByKeywords: function (keyword) {
+        // console.log("keyword" + keyword);
+        if (!keyword) throw new Error("Keyword is missing, Keyword is required");
         this.options.name = keyword;
         this.options.operationName = "findItemsByKeywords";
         this.options.param = "keywords";
