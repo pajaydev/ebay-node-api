@@ -17,4 +17,10 @@ let makeRequest = function makeRequest(url) {
 
 }
 
-module.exports = makeRequest;
+
+let base64Encode = (encodeData) => {
+    let buff = new Buffer(encodeData);
+    return buff.toString('base64');
+}
+
+module.exports = { makeRequest, base64Encode };

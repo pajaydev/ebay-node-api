@@ -1,5 +1,5 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
-let makeRequest = require('./request');
+let { makeRequest, base64Encode } = require('./request');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -90,6 +90,20 @@ Ebay.prototype = {
         }, (error) => {
             console.log(error);
         })
+    },
+
+    getItem: function (itemId) {
+        if (!itemId) throw new Error("Item Id is required");
+
+
+    },
+
+    setAccessToken: function (token) {
+        this.options.access_token = token;
+    },
+
+    getAccessToken: function () {
+
     }
 
 };
