@@ -23,7 +23,7 @@ Ebay.prototype = {
         this.options.param = "keywords";
         let url = urlObject.buildSearchUrl(this.options);
         console.log(url);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result["findItemsByKeywordsResponse"];
 

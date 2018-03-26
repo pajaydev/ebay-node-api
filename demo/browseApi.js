@@ -1,8 +1,8 @@
 const Ebay = require('../src/index');
 let access_token = "";
 let ebay = new Ebay({
-    clientID: "-- Client ID ----",
-    clientSecret: '-- Client Secret--',
+    clientID: "--Client ID ----",
+    clientSecret: '-- Client Secret----',
     body: {
         grant_type: "client_credentials",
         scope: 'https://api.ebay.com/oauth/api_scope'
