@@ -1,5 +1,5 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
-let makeRequest = require('./request');
+let { getRequest, makeRequest, base64Encode } = require('./request');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -7,6 +7,7 @@ function Ebay(options) {
 
     if (!options) throw new Error("Options is missing, please provide the input");
     if (!options.clientID) throw Error("Client ID is Missing\ncheck documentation to get Client ID http://developer.ebay.com/DevZone/account/");
+    if (!(this instanceof Ebay)) return new Ebay(options);
     this.options = options;
     this.options.globalID = options.countryCode || "EBAY-US";
     this.options.keyword = "iphone";
@@ -22,7 +23,7 @@ Ebay.prototype = {
         this.options.param = "keywords";
         let url = urlObject.buildSearchUrl(this.options);
         console.log(url);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result["findItemsByKeywordsResponse"];
 
@@ -39,7 +40,7 @@ Ebay.prototype = {
         this.options.param = "categoryId";
         let url = urlObject.buildSearchUrl(this.options);
         console.log(url);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result["findItemsByCategoryResponse"];
 
@@ -56,7 +57,7 @@ Ebay.prototype = {
         this.options.param = "CategoryID";
         let url = urlObject.buildShoppingUrl(this.options);
         console.log(url);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result;
         }, (error) => {
@@ -67,7 +68,7 @@ Ebay.prototype = {
     getVersion: function () {
         this.options.operationName = "getVersion";
         let url = urlObject.buildSearchUrl(this.options);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             return result["getVersionResponse"][0];
         }, (error) => {
@@ -83,13 +84,49 @@ Ebay.prototype = {
         this.options.includeSelector = this.options.details ? "Details" : null;
         let url = urlObject.buildShoppingUrl(this.options);
         console.log(url);
-        return makeRequest(url).then((data) => {
+        return getRequest(url).then((data) => {
             let result = JSON.parse(data);
             console.log(result);
             return result;
         }, (error) => {
             console.log(error);
         })
+    },
+
+    getItem: function (itemId) {
+        console.log(this.options);
+        if (!itemId) throw new Error("Item Id is required");
+        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
+        const auth = "Bearer " + this.options.access_token;
+        const id = encodeURIComponent(itemId);
+        return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
+            console.log("Success");
+            let resultJSON = JSON.parse(result);
+            //this.setAccessToken(resultJSON);
+            return resultJSON;
+        });
+    },
+
+    setAccessToken: function (token) {
+        console.log("inside access tokeeeeee" + token);
+        this.options.access_token = token;
+    },
+
+    getAccessToken: function () {
+        if (!this.options.clientID) throw new Error("Missing Client ID");
+        if (!this.options.clientSecret) throw new Error("Missing Client Secret or Cert Id");
+        if (!this.options.body) throw new Error("Missing Body, required Grant type");
+        const encodedStr = base64Encode(this.options.clientID + ":" + this.options.clientSecret);
+        let self = this;
+        console.log(this.options.body);
+        const auth = "Basic " + encodedStr;
+        return makeRequest('api.ebay.com', '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
+            console.log("Successssssssss");
+            let resultJSON = JSON.parse(result);
+            // console.log(this);
+            self.setAccessToken(resultJSON.access_token);
+            return resultJSON;
+        });
     }
 
 };
