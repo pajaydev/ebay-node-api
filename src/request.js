@@ -1,10 +1,10 @@
-let request = require("https");
+let httpRequest = require("https");
 const qs = require("querystring");
 
 let getRequest = function getRequest(url) {
-    if (url.includes("http://")) request = require("http");
+    if (url.includes("http://")) httpRequest = require("http");
     return new Promise(function (resolve, reject) {
-        request.get(url, res => {
+        httpRequest.get(url, res => {
             res.setEncoding("utf8");
             let body = "";
             res.on("data", data => {
@@ -19,21 +19,23 @@ let getRequest = function getRequest(url) {
 
 }
 
-let postRequest = function postRequest(hostName, endpoint, data, token) {
-    const dataString = qs.stringify({ grant_type: 'client_credentials' });
-    console.log(dataString);
+let makeRequest = function postRequest(hostName, endpoint, methodName, data, token) {
+    methodName == "POST" ? dataString = qs.stringify(data) : '';
+    // console.log(dataString);
     const options = {
         "hostname": hostName,
         "path": endpoint,
-        "method": 'POST',
+        "method": methodName || 'GET',
         "headers": {
-            "content-type": "application/x-www-form-urlencoded",
+            "content-type": methodName == "POST" ? "application/x-www-form-urlencoded" : "application/json",
             "authorization": token,
             "cache-control": "no-cache",
         }
     };
+    console.log("------------------------");
+    console.log(options);
     return new Promise(function (resolve, reject) {
-        var req = https.request(options, res => {
+        var req = httpRequest.request(options, res => {
             res.setEncoding("utf8");
             let body = "";
             res.on("data", data => {
@@ -46,7 +48,7 @@ let postRequest = function postRequest(hostName, endpoint, data, token) {
             });
         });
         //console.log("request " + dataString);
-        req.write(dataString)
+        if (methodName == "POST") req.write(dataString)
         req.end();
 
     })
@@ -58,4 +60,4 @@ let base64Encode = (encodeData) => {
     return buff.toString('base64');
 }
 
-module.exports = { getRequest, postRequest, base64Encode };
+module.exports = { getRequest, makeRequest, base64Encode };
