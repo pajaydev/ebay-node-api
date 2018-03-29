@@ -2,6 +2,7 @@
 
 Ebay API Client for node js.
 
+The intent is to simplify the request process by handling the tedious logic. It's a thin wrapper around eBay Api.
 
 [![npm version](https://badge.fury.io/js/ebay-node-api.svg)](https://badge.fury.io/js/ebay-node-api)
 [![Build Status](https://travis-ci.org/ajay2507/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api) 
@@ -36,6 +37,26 @@ Register your app here https://go.developer.ebay.com/quick-start-guide.
 - `details` - optional(`Boolean`) - Get User Details functionality - true, if you need details about the user.
 
 #### Example
+
+## GetAccessToken
+
+```javascript
+const Ebay = require('../src/index');
+
+let ebay = new Ebay({
+    clientID: "--Client Id----",
+    clientSecret: '-- Client Secret --',
+    body: {
+        grant_type: "client_credentials"
+    }
+});
+ebay.getAccessToken().then((data) => {
+    console.log(data); // data.access_token
+}, (error) => {
+    console.log(error);
+});
+```
+
 ## FetchItemsByKeyword
 ```javascript
 const Ebay = require("ebay-node-api");
@@ -57,6 +78,8 @@ All test files are present inside test folder. You can run using
 ```javascript
 npm run test
 ```
+## Issues:
+If you are facing any issues, you can create the issues [here](https://github.com/ajay2507/ebay-node-api/issues).
 
 
 ## Examples:
