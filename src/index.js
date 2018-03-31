@@ -116,7 +116,6 @@ Ebay.prototype = {
         let param = "legacy_item_id=" + legacyOptions.legacyItemId;
         param += legacyOptions.legacyVariationSku ? "&legacy_variation_sku=" + legacyOptions.legacyVariationSku : '';
         return makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
-            console.log("Successsssssss");
             let resultJSON = JSON.parse(result);
             //this.setAccessToken(resultJSON);
             return resultJSON;
