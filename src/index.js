@@ -94,7 +94,7 @@ Ebay.prototype = {
     },
 
     getItem: function (itemId) {
-        console.log(this.options);
+        // console.log(this.options);
         if (!itemId) throw new Error("Item Id is required");
         if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
         const auth = "Bearer " + this.options.access_token;
@@ -107,8 +107,27 @@ Ebay.prototype = {
         });
     },
 
+    getItemByLegacyId: function (legacyOptions) {
+        console.log(legacyOptions);
+        if (!legacyOptions) throw new Error("Error Required input to get Items By LegacyID");
+        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
+        if (!legacyOptions.legacyItemId) throw new Error("Error Legacy Item Id is required");
+        const auth = "Bearer " + this.options.access_token;
+        let param = "legacy_item_id=" + legacyOptions.legacyItemId;
+        param += legacyOptions.legacyVariationSku ? "&legacy_variation_sku=" + legacyOptions.legacyVariationSku : '';
+        return makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
+            console.log("Successsssssss");
+            let resultJSON = JSON.parse(result);
+            //this.setAccessToken(resultJSON);
+            return resultJSON;
+        }).then((error) => {
+            console.log(error.errors);
+            console.log("Error Occurred ===> " + error.errors[0].message);
+        });
+    },
+
     setAccessToken: function (token) {
-        console.log("inside access tokeeeeee" + token);
+
         this.options.access_token = token;
     },
 

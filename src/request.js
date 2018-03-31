@@ -21,7 +21,7 @@ let getRequest = function getRequest(url) {
 
 let makeRequest = function postRequest(hostName, endpoint, methodName, data, token) {
     methodName == "POST" ? dataString = qs.stringify(data) : '';
-    // console.log(dataString);
+    console.log(endpoint);
     const options = {
         "hostname": hostName,
         "path": endpoint,
