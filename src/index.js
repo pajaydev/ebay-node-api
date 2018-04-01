@@ -125,6 +125,20 @@ Ebay.prototype = {
         });
     },
 
+    getItemByItemGroup: function (itemGroupId) {
+        if (typeof itemGroupId == "object") throw new Error("Expecting String or number (Item group id)");
+        if (!itemGroupId) throw new Error("Error Item Group ID is required");
+        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
+        const auth = "Bearer " + this.options.access_token;
+        return new Promise((resolve, reject) => {
+            makeRequest('api.ebay.com', `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
+                resolve(JSON.parse(result));
+            });
+        })
+
+
+    },
+
     setAccessToken: function (token) {
 
         this.options.access_token = token;
@@ -136,17 +150,14 @@ Ebay.prototype = {
         if (!this.options.body) throw new Error("Missing Body, required Grant type");
         const encodedStr = base64Encode(this.options.clientID + ":" + this.options.clientSecret);
         let self = this;
-        console.log(this.options.body);
         const auth = "Basic " + encodedStr;
         return makeRequest('api.ebay.com', '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
-            console.log("Successssssssss");
             let resultJSON = JSON.parse(result);
-            // console.log(this);
+            console.log(resultJSON);
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;
         });
     }
-
 };
 
 module.exports = Ebay;

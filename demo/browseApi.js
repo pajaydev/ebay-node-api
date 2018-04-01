@@ -1,11 +1,11 @@
 const Ebay = require('../src/index');
 let access_token = "";
 let ebay = new Ebay({
-    clientID: "--Client ID -----",
+    clientID: "---Client Id------",
     clientSecret: '-- Client Secret----',
     body: {
         grant_type: "client_credentials",
-        scope: 'https://api.ebay.com/oauth/api_scope'
+        scope: 'PRD-f1a91299c206-f184-45e0-b068-f139'
 
     }
 });
@@ -46,4 +46,19 @@ ebay.getAccessToken()
             // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
         });
     });
+
+
+//retrieves the details of the individual items in an item group
+// reference https://developer.ebay.com/api-docs/buy/browse/resources/item/methods/getItemsByItemGroup#uri.item_group_id
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.getItemByItemGroup("151915076499").then((data) => {
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
+            console.log(data)
+        }, (error) => {
+            console.log(error);
+        });
+    });
+
 
