@@ -1,5 +1,9 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
 let { getRequest, makeRequest, base64Encode } = require('./request');
+let { getItem,
+    getItemByLegacyId,
+    getItemByItemGroup,
+    searchItems } = require('./buy-api');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -92,53 +96,6 @@ Ebay.prototype = {
             console.log(error);
         })
     },
-
-    getItem: function (itemId) {
-        // console.log(this.options);
-        if (!itemId) throw new Error("Item Id is required");
-        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
-        const auth = "Bearer " + this.options.access_token;
-        const id = encodeURIComponent(itemId);
-        return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
-            console.log("Success");
-            let resultJSON = JSON.parse(result);
-            //this.setAccessToken(resultJSON);
-            return resultJSON;
-        });
-    },
-
-    getItemByLegacyId: function (legacyOptions) {
-        console.log(legacyOptions);
-        if (!legacyOptions) throw new Error("Error Required input to get Items By LegacyID");
-        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
-        if (!legacyOptions.legacyItemId) throw new Error("Error Legacy Item Id is required");
-        const auth = "Bearer " + this.options.access_token;
-        let param = "legacy_item_id=" + legacyOptions.legacyItemId;
-        param += legacyOptions.legacyVariationSku ? "&legacy_variation_sku=" + legacyOptions.legacyVariationSku : '';
-        return makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
-            let resultJSON = JSON.parse(result);
-            //this.setAccessToken(resultJSON);
-            return resultJSON;
-        }).then((error) => {
-            console.log(error.errors);
-            console.log("Error Occurred ===> " + error.errors[0].message);
-        });
-    },
-
-    getItemByItemGroup: function (itemGroupId) {
-        if (typeof itemGroupId == "object") throw new Error("Expecting String or number (Item group id)");
-        if (!itemGroupId) throw new Error("Error Item Group ID is required");
-        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
-        const auth = "Bearer " + this.options.access_token;
-        return new Promise((resolve, reject) => {
-            makeRequest('api.ebay.com', `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
-                resolve(JSON.parse(result));
-            });
-        })
-
-
-    },
-
     setAccessToken: function (token) {
 
         this.options.access_token = token;
@@ -157,7 +114,11 @@ Ebay.prototype = {
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;
         });
-    }
+    },
+    getItem,
+    getItemByLegacyId,
+    getItemByItemGroup,
+    searchItems
 };
 
 module.exports = Ebay;
