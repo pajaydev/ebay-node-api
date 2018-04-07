@@ -1,5 +1,6 @@
+let { getRequest, makeRequest, base64Encode } = require('./request');
+
 const getItem = function (itemId) {
-    // console.log(this.options);
     if (!itemId) throw new Error("Item Id is required");
     if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
     const auth = "Bearer " + this.options.access_token;
@@ -46,9 +47,10 @@ const getItemByItemGroup = function (itemGroupId) {
 };
 
 const searchItems = function (searchConfig) {
-    if (!searchConfig) throw new Error("Missing or invalid input parameter to search");
-    if (!searchConfig.keyword || !searchConfig.categoryId) throw new Error("Error Keyword or category id is required in query param");
-    if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
+    if (!searchConfig) throw new Error("Error --> Missing or invalid input parameter to search");
+    if (!searchConfig.keyword || !searchConfig.categoryId) throw new Error("Error --> Keyword or category id is required in query param");
+    if (!this.options.access_token) throw new Error("Error -->Missing Access token, Generate access token");
+    if (searchConfig.fieldgroups.length > 0 && !Array.isArray(searchConfig.fieldgroups)) throw new Error("Error -->Field groups should be an array");
     const auth = "Bearer " + this.options.access_token;
     let queryParam = searchConfig.keyword ? "q=" + searchConfig.keyword + "&" : "";
     queryParam = queryParam + searchConfig.categoryId ? "category_ids=" + searchConfig.categoryId + "&" : '';
