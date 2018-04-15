@@ -1,5 +1,9 @@
 //let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
 let { getRequest, makeRequest, base64Encode } = require('./request');
+let { getItem,
+    getItemByLegacyId,
+    getItemByItemGroup,
+    searchItems } = require('./buy-api');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -92,23 +96,8 @@ Ebay.prototype = {
             console.log(error);
         })
     },
-
-    getItem: function (itemId) {
-        console.log(this.options);
-        if (!itemId) throw new Error("Item Id is required");
-        if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
-        const auth = "Bearer " + this.options.access_token;
-        const id = encodeURIComponent(itemId);
-        return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
-            console.log("Success");
-            let resultJSON = JSON.parse(result);
-            //this.setAccessToken(resultJSON);
-            return resultJSON;
-        });
-    },
-
     setAccessToken: function (token) {
-        console.log("inside access tokeeeeee" + token);
+
         this.options.access_token = token;
     },
 
@@ -118,17 +107,18 @@ Ebay.prototype = {
         if (!this.options.body) throw new Error("Missing Body, required Grant type");
         const encodedStr = base64Encode(this.options.clientID + ":" + this.options.clientSecret);
         let self = this;
-        console.log(this.options.body);
         const auth = "Basic " + encodedStr;
         return makeRequest('api.ebay.com', '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
-            console.log("Successssssssss");
             let resultJSON = JSON.parse(result);
-            // console.log(this);
+            console.log(resultJSON);
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;
         });
-    }
-
+    },
+    getItem,
+    getItemByLegacyId,
+    getItemByItemGroup,
+    searchItems
 };
 
 module.exports = Ebay;
