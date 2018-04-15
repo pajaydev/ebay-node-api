@@ -21,6 +21,9 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Fetch Items By Keyword](#fetchitemsbykeyword)
   * [Get All Categories](#getallcategories)
   * [Get Items By Category](#getitemsbycategory)
+  * [Get Single Item](#getitem)
+  * [Get Item By Legacy Id](#getitembylegacyid)
+  * [Get Items By Group Id](#getitemsbygroupid)
 * [Test](#test)
 * [Issues](#issues)
 * [LICENSE](#license)
@@ -120,6 +123,49 @@ ebay.findItemsByCategory(10181).then((data) => {
 }, (error) => {
     console.log(error);
 });
+```
+
+## GetItem
+```javascript
+// Get access token and pass it to this method
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.getItem('v1|202117468662|0').then((data) => {
+            console.log(data);
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
+        })
+    });
+```
+
+## GetItemByLegacyId
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.getItemByLegacyId({
+            "legacyItemId": 2628001 // Get Item Details Using a Legacy ID
+            "legacyVariationSku": "V-00031-WHM" // default null
+        }).then((data) => {
+            if (!data) console.log(data);
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
+        });
+    });
+```
+
+
+## GetItemsByGroupId
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.getItemByItemGroup("151915076499").then((data) => {
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
+            console.log(data)
+        }, (error) => {
+            console.log(error);
+        });
+    });
 ```
 
 ## Test
