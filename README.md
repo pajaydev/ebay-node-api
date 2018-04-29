@@ -24,6 +24,9 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Get Single Item](#getitem)
   * [Get Item By Legacy Id](#getitembylegacyid)
   * [Get Items By Group Id](#getitemsbygroupid)
+  * [Search Items by Keyword](#searchitemsbykeyword)
+  * [Search Items with Free Shipping](#searchitemsbyfreeshipping)
+  * [Search Items Based on Price and Condition](#searchitemsbyfilter)
 * [Test](#test)
 * [Issues](#issues)
 * [LICENSE](#license)
@@ -64,7 +67,7 @@ Register your app here https://go.developer.ebay.com/quick-start-guide.
 ## GetAccessToken
 
 ```javascript
-const Ebay = require('../src/index');
+const Ebay = require("ebay-node-api");
 
 let ebay = new Ebay({
     clientID: "--Client Id----",
@@ -97,7 +100,7 @@ ebay.findItemsByKeywords("iphone").then((data) => {
 
 ## GetAllCategories
 ```javascript
-const Ebay = require('../src/index');
+const Ebay = require("ebay-node-api");
 
 let ebay = new Ebay({
     clientID: "-- Client App id ----",
@@ -112,8 +115,6 @@ ebay.getAllCategories().then((data) => {
 ```
 ## GetItemsByCategory
 ```javascript
-const Ebay = require('../src/index');
-
 let ebay = new Ebay({
     clientID: "-- Client APP ID ----",
     limit: 6
@@ -165,6 +166,53 @@ ebay.getAccessToken()
         }, (error) => {
             console.log(error);
         });
+    });
+```
+
+## SearchItemsByKeyword
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.searchItems({
+            keyword: "drone",
+            limit: "3"
+        }).then((data) => {
+            console.log(data);
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://developer.ebay.com/api-     docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-SearchforItemsbyKeyword-0)
+        })
+    });
+```
+
+## SearchItemsByFreeShipping
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.searchItems({
+            keyword: "drone",
+            limit: 3,
+            filter: { maxDeliveryCost: 0 }
+        }).then((data) => {
+            console.log(data);
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-ReturnItemswithFreeShipping-6.
+        })
+    });
+```
+
+## SearchItemsByFilter
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.searchItems({
+            keyword: "iphone",
+            limit: 3,
+            filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" }
+        }).then((data) => {
+            console.log(data);
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-ReturnItemsBasedonPriceandCondition-7.
+        })
     });
 ```
 
