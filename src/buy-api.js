@@ -5,20 +5,11 @@ const getItem = function (itemId) {
     if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
     const auth = "Bearer " + this.options.access_token;
     const id = encodeURIComponent(itemId);
-    // return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
-    //     console.log("Success");
-    //     let resultJSON = JSON.parse(result);
-    //     //this.setAccessToken(resultJSON);
-    //     return resultJSON;
-    // });
-
-    return getRequest("https://api.ebay.com/buy/browse/v1/item_summary/search?q=drone&limit=3").then((data) => {
-        let result = JSON.parse(data);
-        console.log(result);
-        return result;
-    }, (error) => {
-        console.log(error);
-    })
+    return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
+        let resultJSON = JSON.parse(result);
+        //this.setAccessToken(resultJSON);
+        return resultJSON;
+    });
 };
 
 const getItemByLegacyId = function (legacyOptions) {
@@ -31,7 +22,6 @@ const getItemByLegacyId = function (legacyOptions) {
 
     makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
         let resultJSON = JSON.parse(result);
-        //this.setAccessToken(resultJSON);
         return resultJSON;
     }).then((error) => {
         console.log(error.errors);
