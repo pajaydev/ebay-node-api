@@ -29,6 +29,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Search Items Based on Price and Condition](#searchitemsbyfilter)
 * [Test](#test)
 * [Issues](#issues)
+* [Contribution](#contribution)
 * [LICENSE](#license)
 
 
@@ -224,6 +225,9 @@ npm run test
 ```
 ## Issues:
 If you are facing any issues, you can create the issues [here](https://github.com/ajay2507/ebay-node-api/issues).
+
+## Contribution:
+Willing to share your idea or ready to contribute, check [here](https://github.com/ajay2507/ebay-node-api/blob/master/CONTRIBUTING.md)
 
 ## License:
 MIT.
