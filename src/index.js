@@ -4,7 +4,8 @@ let { getItem,
     getItemByLegacyId,
     getItemByItemGroup,
     searchItems } = require('./buy-api');
-const { getDefaultCategoryTreeId } = require('./taxonomy-api');
+const { getDefaultCategoryTreeId,
+    getCategoryTree, getCategorySubtree } = require('./taxonomy-api');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -118,7 +119,9 @@ Ebay.prototype = {
     getItemByLegacyId,
     getItemByItemGroup,
     searchItems,
-    getDefaultCategoryTreeId
+    getDefaultCategoryTreeId,
+    getCategoryTree,
+    getCategorySubtree
 };
 
 module.exports = Ebay;
