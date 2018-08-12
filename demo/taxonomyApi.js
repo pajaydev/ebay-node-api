@@ -1,8 +1,7 @@
 const Ebay = require('../src/index');
-let access_token = "";
 let ebay = new Ebay({
-    clientID: "Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45",
-    clientSecret: 'PRD-f1a91299c206-f184-45e0-b068-f139',
+    clientID: "--client id---",
+    clientSecret: '-- client secret---',
     body: {
         grant_type: "client_credentials",
         scope: 'https://api.ebay.com/oauth/api_scope'
@@ -24,6 +23,16 @@ ebay.getAccessToken()
         });
 
         ebay.getCategorySubtree(0, 11450).then((data) => {
+            console.log(data);
+            // JSON format of complete category sub tree.    
+        });
+
+        ebay.getCategorySuggestions(0, "iphone").then((data) => {
+            console.log(data);
+            // JSON format of category suggestions.    
+        });
+
+        ebay.getItemAspectsForCategory(0, 67726).then((data) => {
             console.log(data);
             // JSON format of complete category sub tree.    
         });
