@@ -4,6 +4,11 @@ let { getItem,
     getItemByLegacyId,
     getItemByItemGroup,
     searchItems } = require('./buy-api');
+const { getDefaultCategoryTreeId,
+    getCategoryTree,
+    getCategorySubtree,
+    getCategorySuggestions,
+    getItemAspectsForCategory } = require('./taxonomy-api');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -14,7 +19,6 @@ function Ebay(options) {
     if (!(this instanceof Ebay)) return new Ebay(options);
     this.options = options;
     this.options.globalID = options.countryCode || "EBAY-US";
-    this.options.keyword = "iphone";
 }
 
 Ebay.prototype = {
@@ -110,7 +114,6 @@ Ebay.prototype = {
         const auth = "Basic " + encodedStr;
         return makeRequest('api.ebay.com', '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
             let resultJSON = JSON.parse(result);
-            console.log(resultJSON);
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;
         });
@@ -118,7 +121,12 @@ Ebay.prototype = {
     getItem,
     getItemByLegacyId,
     getItemByItemGroup,
-    searchItems
+    searchItems,
+    getDefaultCategoryTreeId,
+    getCategoryTree,
+    getCategorySubtree,
+    getCategorySuggestions,
+    getItemAspectsForCategory
 };
 
 module.exports = Ebay;

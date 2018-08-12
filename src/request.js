@@ -32,8 +32,6 @@ let makeRequest = function postRequest(hostName, endpoint, methodName, data, tok
             "cache-control": "no-cache",
         }
     };
-    console.log("------------------------");
-    console.log(options);
     return new Promise(function (resolve, reject) {
         var req = httpRequest.request(options, res => {
             res.setEncoding("utf8");
