@@ -27,6 +27,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Search Items by Keyword](#searchitemsbykeyword)
   * [Search Items with Free Shipping](#searchitemsbyfreeshipping)
   * [Search Items Based on Price and Condition](#searchitemsbyfilter)
+  * [Taxonomy Api(getDefaultCategoryTreeId, getCategoryTree, getCategorySubtree, getCategorySuggestions)](#taxonomyapi)
 * [Test](#test)
 * [Issues](#issues)
 * [Contribution](#contribution)
@@ -214,6 +215,37 @@ ebay.getAccessToken()
             // Data is in format of JSON
             // To check the format of Data, Go to this url https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-ReturnItemsBasedonPriceandCondition-7.
         })
+    });
+```
+## TaxonomyApi
+
+```javascript
+ebay.getAccessToken()
+    .then((data) => {
+        ebay.getDefaultCategoryTreeId("EBAY_US").then((data) => {
+            console.log(data);
+            // for EN_US { categoryTreeId: '0', categoryTreeVersion: '119' }    
+        });
+
+        ebay.getCategoryTree(0).then((data) => {
+            console.log(data);
+            // JSON format of complete category tree.  
+        });
+
+        ebay.getCategorySubtree(0, 11450).then((data) => {
+            console.log(data);
+            // JSON format of complete category sub tree.    
+        });
+
+        ebay.getCategorySuggestions(0, "iphone").then((data) => {
+            console.log(data);
+            // JSON format of category suggestions.    
+        });
+
+        ebay.getItemAspectsForCategory(0, 67726).then((data) => {
+            console.log(data);
+            // JSON format of complete category sub tree.    
+        });
     });
 ```
 
