@@ -49,6 +49,7 @@ const searchItems = function (searchConfig) {
     let queryParam = searchConfig.keyword ? "q=" + searchConfig.keyword : "";
     queryParam = queryParam + (searchConfig.categoryId ? "&category_ids=" + searchConfig.categoryId : '');
     queryParam = queryParam + (searchConfig.limit ? "&limit=" + searchConfig.limit : "");
+    queryParam = queryParam + (searchConfig.sort ? "&sort=" + searchConfig.sort : "");
     if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups.toString();
     if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURIComponent(searchConfig.filter);
     // console.log(queryParam);
