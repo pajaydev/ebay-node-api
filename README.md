@@ -5,7 +5,7 @@ Ebay API Client for node js.
 The intent is to simplify the request process by handling the tedious logic. It's a thin wrapper around eBay Api.
 
 [![npm version](https://badge.fury.io/js/ebay-node-api.svg)](https://badge.fury.io/js/ebay-node-api)
-[![Build Status](https://travis-ci.org/ajay2507/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api) 
+[![Build Status](https://travis-ci.org/ajay2507/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
 
 
 ## Table of Contents
@@ -47,7 +47,7 @@ npm install ebay-node-api
 let eBay = require('ebay-node-api')
 
 let ebay = new eBay({
-    clientID: "-- Client APP ID ----", 
+    clientID: "-- Client APP ID ----",
     // options  - optional HTTP request timeout to apply to all requests.
 })
 ```
@@ -55,7 +55,7 @@ Creates a new `Ebay` instance.
 
 ### Getting Client ID:
 
-Join eBay developers program. 
+Join eBay developers program.
 Register your app here https://go.developer.ebay.com/quick-start-guide.
 
 #### Options
@@ -193,7 +193,8 @@ ebay.getAccessToken()
         ebay.searchItems({
             keyword: "drone",
             limit: 3,
-            filter: { maxDeliveryCost: 0 }
+            // filter: { maxDeliveryCost: 0 } old object based filter method
+		  filter: 'maxDeliveryCost:0' // new string based filter method. Format here: https://developer.ebay.com/api-docs/buy/static/ref-buy-browse-filters.html#conditionIds
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -209,7 +210,8 @@ ebay.getAccessToken()
         ebay.searchItems({
             keyword: "iphone",
             limit: 3,
-            filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" }
+            // filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" } old object based filter method
+		  filter: 'price:[300..800],priceCurrency:USD,conditions{NEW}' // new string based filter method. Format here: https://developer.ebay.com/api-docs/buy/static/ref-buy-browse-filters.html#conditionIds
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -265,5 +267,5 @@ Willing to share your idea or ready to contribute, check [here](https://github.c
 MIT.
 
 ## Examples:
-I have mentioned the examples here 
+I have mentioned the examples here
 https://github.com/ajay2507/ebay-node-api/tree/master/demo.
