@@ -12,7 +12,6 @@ let getRequest = function getRequest(url) {
             });
             res.on("end", () => {
                 resolve(body);
-
             });
         });
     })
@@ -33,7 +32,7 @@ let makeRequest = function postRequest(hostName, endpoint, methodName, data, tok
         }
     };
     return new Promise(function (resolve, reject) {
-        var req = httpRequest.request(options, res => {
+        const req = httpRequest.request(options, res => {
             res.setEncoding("utf8");
             let body = "";
             res.on("data", data => {

@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "homepage": "https://github.com/ajay2507/ebay-node-api",
   "scripts": {
-    "test": "mocha",
+    "lint": "./node_modules/.bin/eslint src/*.js",
+    "test": "mocha && npm run lint",
     "prepublish": "npm run test"
   },
   "author": "Ajaykumar prathap",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "eslint": "^5.8.0",
     "mocha": "^5.0.1",
     "nock": "^9.2.3",
     "sinon": "^4.4.5"

@@ -33,7 +33,8 @@ Ebay.prototype = {
             return result["findItemsByKeywordsResponse"];
 
         }, console.error
-    )},
+        )
+    },
 
     findItemsByCategory: function (categoryID) {
         if (!categoryID) throw new Error("Category ID is null or invalid");
@@ -47,7 +48,8 @@ Ebay.prototype = {
 
         }, console.error
 
-    )},
+        )
+    },
 
     getAllCategories: function (categoryID) {
         this.options.name = categoryID ? categoryID : -1;
@@ -58,7 +60,8 @@ Ebay.prototype = {
             let result = JSON.parse(data);
             return result;
         }, console.error
-    )},
+        )
+    },
 
     getVersion: function () {
         this.options.operationName = "getVersion";
@@ -67,7 +70,8 @@ Ebay.prototype = {
             let result = JSON.parse(data);
             return result["getVersionResponse"][0];
         }, console.error
-    )},
+        )
+    },
 
     getUserDetails: function (userID) {
         if (!userID) throw new Error("User ID is null or invalid");
@@ -80,8 +84,9 @@ Ebay.prototype = {
             let result = JSON.parse(data);
             return result;
         }, console.error
-    )},
-    
+        )
+    },
+
     setAccessToken: function (token) {
 
         this.options.access_token = token;
