@@ -50,7 +50,7 @@ const getCategorySubtree = function (categoryTreeId, categoryId) {
 /**
   * @method getCategorySuggestions {Function}
   * @param {String} categoryTreeId = identifier of the category at the top of the subtree.
-  * @param {String} keyword = input string to get CategorySuggestions. 
+  * @param {String} keyword = input string to get CategorySuggestions.
   */
 
 const getCategorySuggestions = function (categoryTreeId, keyword) {
@@ -66,7 +66,7 @@ const getCategorySuggestions = function (categoryTreeId, keyword) {
 /**
   * @method getItemAspectsForCategory {Function}
   * @param {String} categoryId = identifier of the category at the top of the subtree.
-  * @param {String} keyword = input string to get CategorySuggestions. 
+  * @param {String} keyword = input string to get CategorySuggestions.
   */
 const getItemAspectsForCategory = function (categoryTreeId, categoryId) {
     if (!categoryTreeId) categoryTreeId = 0;
