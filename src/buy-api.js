@@ -1,3 +1,5 @@
+const queryString = require('querystring');
+const makeString = require('make-string');
 let { getRequest, makeRequest, base64Encode } = require('./request');
 
 const getItem = function (itemId) {
@@ -49,8 +51,9 @@ const searchItems = function (searchConfig) {
     let queryParam = searchConfig.keyword ? "q=" + searchConfig.keyword : "";
     queryParam = queryParam + (searchConfig.categoryId ? "&category_ids=" + searchConfig.categoryId : '');
     queryParam = queryParam + (searchConfig.limit ? "&limit=" + searchConfig.limit : "");
-    if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups.toString();
-    if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + JSON.stringify(searchConfig.filter).replace(/[{}]/g, "").replace(/[""]/g, "");
+    if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups;
+    if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURI(makeString(searchConfig.filter, { quotes: "no", braces: 'false' }));
+    //JSON.stringify(searchConfig.filter).replace(/[{}]/g, "").replace(/[""]/g, "");
     console.log(queryParam);
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
