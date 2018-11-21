@@ -1,6 +1,5 @@
-const queryString = require('querystring');
 const makeString = require('make-string');
-let { getRequest, makeRequest, base64Encode } = require('./request');
+let { makeRequest } = require('./request');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error("Item Id is required");
@@ -39,6 +38,8 @@ const getItemByItemGroup = function (itemGroupId) {
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
+        }).then((error) => {
+            reject(error);
         });
     })
 };
@@ -58,6 +59,8 @@ const searchItems = function (searchConfig) {
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
+        }).then((error) => {
+            reject(error);
         });
     });
 };

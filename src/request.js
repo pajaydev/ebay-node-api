@@ -13,6 +13,10 @@ let getRequest = function getRequest(url) {
             res.on("end", () => {
                 resolve(body);
             });
+            res.on("error", (error) => {
+                reject(error);
+
+            });
         });
     })
 
@@ -41,6 +45,10 @@ let makeRequest = function postRequest(hostName, endpoint, methodName, data, tok
             });
             res.on("end", () => {
                 resolve(body);
+
+            });
+            res.on("error", (error) => {
+                reject(error);
 
             });
         });
