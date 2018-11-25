@@ -10,7 +10,7 @@ const { BASE_SVC_URL, MERCH_SRVC_NAME } = require('./constants');
   * Add interest and excitement for buyers by showing them what other people are watching.
   * @param {String} categoryId (optional)
   */
-async function getMostWatchedItems(merchOptions) {
+const getMostWatchedItems = (merchOptions) => {
     if (!this.options.clientID) throw new Error("Missing App id or client id");
     let url = '';
     if (merchOptions && merchOptions.categoryId != undefined) url = `&categoryId=${merchOptions.categoryId}`;

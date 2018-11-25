@@ -3,8 +3,6 @@ const qs = require("querystring");
 
 const getRequest = (url) => {
     if (url.includes("http://")) httpRequest = require("http");
-    console.log(url.includes("http://"));
-    console.log(url);
     return new Promise(function (resolve, reject) {
         httpRequest.get(url, res => {
             res.setEncoding("utf8");
@@ -59,7 +57,7 @@ const makeRequest = function postRequest(hostName, endpoint, methodName, data, t
 
 
 const base64Encode = (encodeData) => {
-    let buff = new Buffer(encodeData);
+    const buff = new Buffer(encodeData);
     return buff.toString('base64');
 }
 
