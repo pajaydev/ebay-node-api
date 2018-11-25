@@ -9,6 +9,7 @@ const { getDefaultCategoryTreeId,
     getCategorySubtree,
     getCategorySuggestions,
     getItemAspectsForCategory } = require('./taxonomy-api');
+const { getMostWatchedItems } = require('./merchandising');
 let urlObject = require('./buildURL');
 
 function Ebay(options) {
@@ -113,7 +114,8 @@ Ebay.prototype = {
     getCategoryTree,
     getCategorySubtree,
     getCategorySuggestions,
-    getItemAspectsForCategory
+    getItemAspectsForCategory,
+    getMostWatchedItems
 };
 
 module.exports = Ebay;
