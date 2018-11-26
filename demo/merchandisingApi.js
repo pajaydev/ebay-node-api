@@ -1,5 +1,5 @@
 const Ebay = require('../src/index');
-const ebay = new Ebay({
+let ebay = new Ebay({
     clientID: "Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45",
     clientSecret: '-- client secret---',
     body: {
@@ -9,13 +9,10 @@ const ebay = new Ebay({
     }
 });
 
-ebay.getMostWatchedItems({
-    maxResults: 3, // optional
-    categoryId: 267 // optional
-}).then((data) => {
+ebay.getMostWatchedItems({}).then((data) => {
     if (data.errorMessage) {
         console.log("Error:" + data.errorMessage);
     }
-    console.log(JSON.stringify(data));
+    console.log(data);
     // JSON format of complete category sub tree.    
 });

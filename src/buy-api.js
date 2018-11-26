@@ -50,7 +50,7 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.sort ? "&sort=" + searchConfig.sort : "");
     if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups.toString();
     if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURIComponent(searchConfig.filter);
-    // console.log(queryParam);
+    console.log(queryParam);
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
