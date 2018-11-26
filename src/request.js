@@ -1,7 +1,7 @@
 let httpRequest = require("https");
 const qs = require("querystring");
 
-let getRequest = function getRequest(url) {
+const getRequest = (url) => {
     if (url.includes("http://")) httpRequest = require("http");
     return new Promise(function (resolve, reject) {
         httpRequest.get(url, res => {
@@ -11,6 +11,10 @@ let getRequest = function getRequest(url) {
                 body += data;
             });
             res.on("end", () => {
+                console.log(JSON.parse(body).errorMessage);
+                if (JSON.parse(body).errorMessage) {
+                    reject(body);
+                }
                 resolve(body);
             });
             res.on("error", (error) => {
@@ -22,7 +26,7 @@ let getRequest = function getRequest(url) {
 
 }
 
-let makeRequest = function postRequest(hostName, endpoint, methodName, data, token) {
+const makeRequest = function postRequest(hostName, endpoint, methodName, data, token) {
     methodName == "POST" ? dataString = qs.stringify(data) : '';
     // console.log(endpoint);
     const options = {
@@ -60,8 +64,8 @@ let makeRequest = function postRequest(hostName, endpoint, methodName, data, tok
 }
 
 
-let base64Encode = (encodeData) => {
-    let buff = new Buffer(encodeData);
+const base64Encode = (encodeData) => {
+    const buff = new Buffer(encodeData);
     return buff.toString('base64');
 }
 

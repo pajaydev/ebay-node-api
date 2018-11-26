@@ -1,7 +1,7 @@
 const Ebay = require('../src/index');
 let ebay = new Ebay({
-    clientID: "-- client id --",
-    clientSecret: '-- client secret ---',
+    clientID: "-- client id ---",
+    clientSecret: ' -- client secret -- ',
     body: {
         grant_type: "client_credentials",
         scope: 'https://api.ebay.com/oauth/api_scope'
@@ -75,7 +75,7 @@ ebay.getAccessToken()
         ebay.searchItems({
             keyword: "iphone",
             limit: 3,
-            filter: { price: "[300..800]", priceCurrency: "USD", conditions: "{NEW}" }
+            filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" }
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON

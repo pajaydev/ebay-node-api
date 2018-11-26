@@ -36,6 +36,13 @@
                 "functions": false
             }
         ],
+        "prefer-const": [
+            "error",
+            {
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": false
+            }
+        ],
         "no-var": "error",
         "no-template-curly-in-string": "error"
     }

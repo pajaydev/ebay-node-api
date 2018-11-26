@@ -1,5 +1,6 @@
+
 const makeString = require('make-string');
-let { makeRequest } = require('./request');
+const { makeRequest } = require('./request');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error("Item Id is required");
@@ -7,9 +8,7 @@ const getItem = function (itemId) {
     const auth = "Bearer " + this.options.access_token;
     const id = encodeURIComponent(itemId);
     return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
-        let resultJSON = JSON.parse(result);
-        //this.setAccessToken(resultJSON);
-        return resultJSON;
+        return JSON.parse(result);
     });
 };
 
@@ -22,8 +21,7 @@ const getItemByLegacyId = function (legacyOptions) {
     param += legacyOptions.legacyVariationSku ? "&legacy_variation_sku=" + legacyOptions.legacyVariationSku : '';
 
     makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
-        let resultJSON = JSON.parse(result);
-        return resultJSON;
+        return JSON.parse(result);
     }).then((error) => {
         console.log(error.errors);
         console.log("Error Occurred ===> " + error.errors[0].message);
