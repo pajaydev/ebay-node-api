@@ -17,6 +17,10 @@ const getRequest = (url) => {
                 }
                 resolve(body);
             });
+            res.on("error", (error) => {
+                reject(error);
+
+            });
         });
     })
 
@@ -45,6 +49,10 @@ const makeRequest = function postRequest(hostName, endpoint, methodName, data, t
             });
             res.on("end", () => {
                 resolve(body);
+
+            });
+            res.on("error", (error) => {
+                reject(error);
 
             });
         });
