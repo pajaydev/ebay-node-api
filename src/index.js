@@ -9,7 +9,7 @@ const { getDefaultCategoryTreeId,
     getCategorySubtree,
     getCategorySuggestions,
     getItemAspectsForCategory } = require('./taxonomy-api');
-let { getMostWatchedItems, getSimilarItems } = require('./merchandising');
+const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const urlObject = require('./buildURL');
 
 function Ebay(options) {

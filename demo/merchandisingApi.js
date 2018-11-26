@@ -1,6 +1,6 @@
 const Ebay = require('../src/index');
 let ebay = new Ebay({
-    clientID: "Ajaykuma-nodeapi-PRD-bf1a91299-ed4deb45",
+    clientID: "-- client ID----",
     clientSecret: '-- client secret---',
     body: {
         grant_type: "client_credentials",
@@ -9,10 +9,25 @@ let ebay = new Ebay({
     }
 });
 
-ebay.getMostWatchedItems({}).then((data) => {
+
+ebay.getMostWatchedItems({
+    maxResults: 3, // optional
+    categoryId: 267 // optional
+}).then((data) => {
     if (data.errorMessage) {
         console.log("Error:" + data.errorMessage);
     }
-    console.log(data);
-    // JSON format of complete category sub tree.    
+    console.log(JSON.stringify(data));
+});
+
+
+ebay.getSimilarItems({
+    maxResults: 3, // optional
+    itemId=280254552262 // optional
+}).then((data) => {
+    if (data.errorMessage) {
+        console.log("Error:" + data.errorMessage);
+    }
+    console.log(JSON.stringify(data));
+    // JSON format of similar items.    
 });

@@ -1,4 +1,6 @@
-const { getRequest, makeRequest, base64Encode } = require('./request');
+
+const makeString = require('make-string');
+const { makeRequest } = require('./request');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error("Item Id is required");
@@ -34,6 +36,8 @@ const getItemByItemGroup = function (itemGroupId) {
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
+        }).then((error) => {
+            reject(error);
         });
     })
 };
@@ -48,12 +52,13 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.categoryId ? "&category_ids=" + searchConfig.categoryId : '');
     queryParam = queryParam + (searchConfig.limit ? "&limit=" + searchConfig.limit : "");
     queryParam = queryParam + (searchConfig.sort ? "&sort=" + searchConfig.sort : "");
-    if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups.toString();
-    if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURIComponent(searchConfig.filter);
-    console.log(queryParam);
+    if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups;
+    if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURIComponent(makeString(searchConfig.filter, { quotes: "no", braces: 'false' }));
     return new Promise((resolve, reject) => {
         makeRequest('api.ebay.com', `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
+        }).then((error) => {
+            reject(error);
         });
     });
 };

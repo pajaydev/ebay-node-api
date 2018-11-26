@@ -18,6 +18,13 @@
         "no-trailing-spaces": 2,
         "space-unary-ops": 0,
         "no-unused-expressions": "off",
+        "no-unused-vars": [
+            "error",
+            {
+                "vars": "all",
+                "args": "after-used"
+            }
+        ],
         "no-new": "off",
         "no-console": "off",
         "no-shadow": "off",
