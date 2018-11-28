@@ -28,6 +28,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Search Items with Free Shipping](#searchitemsbyfreeshipping)
   * [Search Items Based on Price and Condition](#searchitemsbyfilter)
   * [Taxonomy Api(getDefaultCategoryTreeId, getCategoryTree, getCategorySubtree, getCategorySuggestions)](#taxonomyapi)
+  * [Get Most Watched item, Get Most Similar Items](#merchandisingapi)
 * [Test](#test)
 * [Issues](#issues)
 * [Contribution](#contribution)
@@ -205,6 +206,7 @@ ebay.getAccessToken()
 
 ## SearchItemsByFilter
 ```javascript
+
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -218,6 +220,32 @@ ebay.getAccessToken()
             // To check the format of Data, Go to this url https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-ReturnItemsBasedonPriceandCondition-7.
         })
     });
+```
+
+## MerchandisingApi
+```javascript
+
+ebay.getMostWatchedItems({
+    maxResults: 3, // optional
+    categoryId: 267 // optional
+}).then((data) => {
+    if (data.errorMessage) {
+        console.log("Error:" + data.errorMessage);
+    }
+    console.log(JSON.stringify(data));
+});
+
+
+ebay.getSimilarItems({
+    maxResults: 3, // optional
+    itemId=280254552262 // optional
+}).then((data) => {
+    if (data.errorMessage) {
+        console.log("Error:" + data.errorMessage);
+    }
+    console.log(JSON.stringify(data));
+    // JSON format of similar items.    
+});
 ```
 ## TaxonomyApi
 
