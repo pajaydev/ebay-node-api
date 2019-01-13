@@ -10,13 +10,23 @@ const { getDefaultCategoryTreeId,
     getCategorySuggestions,
     getItemAspectsForCategory } = require('./taxonomy-api');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
+const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
 const urlObject = require('./buildURL');
-
+const PROD_ENV = "PROD";
+const SANDBOX_ENV = "SANDBOX";
 function Ebay(options) {
 
     if (!options) throw new Error("Options is missing, please provide the input");
     if (!options.clientID) throw Error("Client ID is Missing\ncheck documentation to get Client ID http://developer.ebay.com/DevZone/account/");
     if (!(this instanceof Ebay)) return new Ebay(options);
+    if (!options.env) options.env = PROD_ENV;
+    options.baseUrl = PROD_BASE_URL;
+    options.baseSvcUrl = BASE_SVC_URL;
+    // handle sandbox env.
+    if (options.env === SANDBOX_ENV) {
+        options.baseUrl = SANDBOX_BASE_URL;
+        options.baseSvcUrl = BASE_SANDBX_SVC_URL;
+    }
     this.options = options;
     this.options.globalID = options.countryCode || "EBAY-US";
 }
@@ -64,6 +74,7 @@ Ebay.prototype = {
     getVersion: function () {
         this.options.operationName = "getVersion";
         const url = urlObject.buildSearchUrl(this.options);
+        console.log(url);
         return getRequest(url).then((data) => {
             return JSON.parse(data)["getVersionResponse"][0];
         }, console.error
@@ -94,7 +105,7 @@ Ebay.prototype = {
         const encodedStr = base64Encode(this.options.clientID + ":" + this.options.clientSecret);
         const self = this;
         const auth = "Basic " + encodedStr;
-        return makeRequest('api.ebay.com', '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
+        return makeRequest(this.options.baseUrl, '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
             const resultJSON = JSON.parse(result);
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;

@@ -7,7 +7,7 @@ const getItem = function (itemId) {
     if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
     const auth = "Bearer " + this.options.access_token;
     const id = encodeURIComponent(itemId);
-    return makeRequest('api.ebay.com', `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options.baseUrl, `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -20,7 +20,7 @@ const getItemByLegacyId = function (legacyOptions) {
     let param = "legacy_item_id=" + legacyOptions.legacyItemId;
     param += legacyOptions.legacyVariationSku ? "&legacy_variation_sku=" + legacyOptions.legacyVariationSku : '';
 
-    makeRequest('api.ebay.com', `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
+    makeRequest(this.options.baseUrl, `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
         return JSON.parse(result);
     }).then((error) => {
         console.log(error.errors);
@@ -34,7 +34,7 @@ const getItemByItemGroup = function (itemGroupId) {
     if (!this.options.access_token) throw new Error("Missing Access token, Generate access token");
     const auth = "Bearer " + this.options.access_token;
     return new Promise((resolve, reject) => {
-        makeRequest('api.ebay.com', `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options.baseUrl, `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);
@@ -55,7 +55,7 @@ const searchItems = function (searchConfig) {
     if (searchConfig.fieldgroups != undefined) queryParam = queryParam + "&fieldgroups=" + searchConfig.fieldgroups;
     if (searchConfig.filter != undefined) queryParam = queryParam + "&filter=" + encodeURIComponent(makeString(searchConfig.filter, { quotes: "no", braces: 'false' }));
     return new Promise((resolve, reject) => {
-        makeRequest('api.ebay.com', `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options.baseUrl, `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);
