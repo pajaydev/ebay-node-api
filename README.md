@@ -50,6 +50,7 @@ let eBay = require('ebay-node-api')
 let ebay = new eBay({
     clientID: "-- Client APP ID ----",
     // options  - optional HTTP request timeout to apply to all requests.
+    env: "SANDBOX" // optional default = "PRODUCTION"
 })
 ```
 Creates a new `Ebay` instance.
@@ -59,11 +60,14 @@ Creates a new `Ebay` instance.
 Join eBay developers program.
 Register your app here https://go.developer.ebay.com/quick-start-guide.
 
+If you using Sandbox environment, make sure to provide `env` variable in options as mentioned above.
+
 #### Options
 
 - `clientID` - Required(`String`) - Client Id key provided when you register in eBay developers program.
 - `limit` - optional(`Number`) - fetch items functionality - Number that limits the number of data you need in response.
 - `details` - optional(`Boolean`) - Get User Details functionality - true, if you need details about the user.
+- `env` - optional(`String`) - Environment, default value is PRODUCTION.
 
 ## Example
 
