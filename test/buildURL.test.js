@@ -14,7 +14,8 @@ describe("test building url methods", () => {
             param: "keywords",
             clientID: "testID",
             limit: 6,
-            globalID: "EBAY-US"
+            globalID: "EBAY-US",
+            baseSvcUrl: 'svcs.ebay.com'
         }
         expect(buildURL.buildSearchUrl(options)).to.be.equal(expected_search_url);
     });
@@ -26,6 +27,7 @@ describe("test building url methods", () => {
             operationName: "demoShoppingName",
             param: "keywords",
             clientID: "testID",
+            baseUrl: 'open.api.ebay.com'
         }
         expect(buildURL.buildShoppingUrl(options)).to.be.equal(expected_search_url);
     });
@@ -37,7 +39,8 @@ describe("test building url methods", () => {
             operationName: "demoShoppingName",
             param: "keywords",
             clientID: "testID",
-            includeSelector: true
+            includeSelector: true,
+            baseUrl: 'open.api.ebay.com'
         }
         expect(buildURL.buildShoppingUrl(options)).to.be.equal(expected_search_url);
     });

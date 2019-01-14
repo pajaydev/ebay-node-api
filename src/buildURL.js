@@ -13,7 +13,8 @@ const buildURL = {
    * @private
    */
     buildSearchUrl(options) {
-        let base_url = "http://svcs.ebay.com/services/search/FindingService/v1?";
+        console.log(options);
+        let base_url = `http://${options.baseSvcUrl}/services/search/FindingService/v1?`;
         base_url += "SECURITY-APPNAME=" + options.clientID;
         base_url += "&OPERATION-NAME=" + options.operationName;
         base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
@@ -33,7 +34,7 @@ const buildURL = {
    * @private
    */
     buildShoppingUrl(options) {
-        let base_url = "http://open.api.ebay.com/Shopping?";
+        let base_url = `http://${options.baseUrl}/Shopping?`;
         base_url += "appid=" + options.clientID;
         base_url += "&callname=" + options.operationName;
         base_url += "&version=967&siteid=0&responseencoding=JSON&";
