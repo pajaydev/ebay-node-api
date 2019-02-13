@@ -43,7 +43,6 @@ const getItemByItemGroup = function (itemGroupId) {
 };
 
 const searchItems = function (searchConfig) {
-    console.log(this.options);
     if (!searchConfig) throw new Error("Error --> Missing or invalid input parameter to search");
     if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin) throw new Error("Error --> Keyword or category id is required in query param");
     if (!this.options.access_token) throw new Error("Error -->Missing Access token, Generate access token");

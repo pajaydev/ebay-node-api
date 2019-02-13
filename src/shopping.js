@@ -9,7 +9,6 @@ const getAllCategories = function (categoryID) {
     this.options.operationName = "GetCategoryInfo";
     this.options.param = "CategoryID";
     const url = urlObject.buildShoppingUrl(this.options);
-    console.log(url);
     return getRequest(url).then((data) => {
         return JSON.parse(data);
     }, console.error
