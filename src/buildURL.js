@@ -13,7 +13,6 @@ const buildURL = {
    * @private
    */
     buildSearchUrl(options) {
-        console.log(options);
         let base_url = `http://${options.baseSvcUrl}/services/search/FindingService/v1?`;
         base_url += "SECURITY-APPNAME=" + options.clientID;
         base_url += "&OPERATION-NAME=" + options.operationName;
@@ -21,7 +20,7 @@ const buildURL = {
         base_url += options.param ? "&" + options.param + "=" + options.name : '';
         base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
         base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';
-         base_url += options.pageNumber ? "&paginationInput.pageNumber=" + options.pageNumber: '';
+        base_url += options.pageNumber ? "&paginationInput.pageNumber=" + options.pageNumber : '';
 
         return base_url;
     },
@@ -34,7 +33,7 @@ const buildURL = {
    * @private
    */
     buildShoppingUrl(options) {
-        let base_url = `http://${options.baseUrl}/Shopping?`;
+        let base_url = `https://${options.baseUrl}/Shopping?`;
         base_url += "appid=" + options.clientID;
         base_url += "&callname=" + options.operationName;
         base_url += "&version=967&siteid=0&responseencoding=JSON&";

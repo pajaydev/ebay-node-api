@@ -4,6 +4,10 @@ const { getItem,
     getItemByLegacyId,
     getItemByItemGroup,
     searchItems } = require('./buy-api');
+const { getAllCategories,
+    getShippingCosts,
+    getItemStatus,
+    getUserDetails } = require('./shopping');
 const { getDefaultCategoryTreeId,
     getCategoryTree,
     getCategorySubtree,
@@ -96,7 +100,11 @@ Ebay.prototype = {
     getCategorySuggestions,
     getItemAspectsForCategory,
     getMostWatchedItems,
-    getSimilarItems
+    getSimilarItems,
+    getAllCategories,
+    getShippingCosts,
+    getItemStatus,
+    getUserDetails
 };
 
 module.exports = Ebay;
