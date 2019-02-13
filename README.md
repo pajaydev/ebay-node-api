@@ -29,6 +29,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
   * [Search Items Based on Price and Condition](#searchitemsbyfilter)
   * [Taxonomy Api(getDefaultCategoryTreeId, getCategoryTree, getCategorySubtree, getCategorySuggestions)](#taxonomyapi)
   * [Get Most Watched item, Get Most Similar Items](#merchandisingapi)
+  * [Get All Categories, GetUserDetails, GetShippingCost, GetItemStatus](#shoppingapi)
 * [Test](#test)
 * [Issues](#issues)
 * [Contribution](#contribution)
