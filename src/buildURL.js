@@ -1,3 +1,4 @@
+'use strict';
 /**
  * This method is used to build the url based on
  * the type of request.

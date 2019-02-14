@@ -1,4 +1,4 @@
-
+'use strict';
 // to make string uppercase.
 function upperCase(data) {
     if (!isString(data)) data = data.toString();

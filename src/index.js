@@ -1,4 +1,4 @@
-//let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+'use strict';
 const { getRequest, makeRequest, base64Encode } = require('./request');
 const { getItem,
     getItemByLegacyId,

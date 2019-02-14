@@ -21,7 +21,7 @@ describe("test building url methods", () => {
     });
 
     it("test Shopping url without selector", () => {
-        let expected_search_url = "http://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone"
+        let expected_search_url = "https://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone"
         let options = {
             name: "iphone",
             operationName: "demoShoppingName",
@@ -33,7 +33,7 @@ describe("test building url methods", () => {
     });
 
     it("test Shopping url including selector", () => {
-        let expected_search_url = "http://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone&IncludeSelector=true"
+        let expected_search_url = "https://open.api.ebay.com/Shopping?appid=testID&callname=demoShoppingName&version=967&siteid=0&responseencoding=JSON&keywords=iphone&IncludeSelector=true"
         let options = {
             name: "iphone",
             operationName: "demoShoppingName",
