@@ -1,9 +1,13 @@
-//let baseURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+'use strict';
 const { getRequest, makeRequest, base64Encode } = require('./request');
 const { getItem,
     getItemByLegacyId,
     getItemByItemGroup,
     searchItems } = require('./buy-api');
+const { getAllCategories,
+    getShippingCosts,
+    getItemStatus,
+    getUserDetails } = require('./shopping');
 const { getDefaultCategoryTreeId,
     getCategoryTree,
     getCategorySubtree,
@@ -60,36 +64,11 @@ Ebay.prototype = {
         )
     },
 
-    getAllCategories: function (categoryID) {
-        this.options.name = categoryID ? categoryID : -1;
-        this.options.operationName = "GetCategoryInfo";
-        this.options.param = "CategoryID";
-        const url = urlObject.buildShoppingUrl(this.options);
-        return getRequest(url).then((data) => {
-            return JSON.parse(data);
-        }, console.error
-        )
-    },
-
     getVersion: function () {
         this.options.operationName = "getVersion";
         const url = urlObject.buildSearchUrl(this.options);
-        console.log(url);
         return getRequest(url).then((data) => {
             return JSON.parse(data)["getVersionResponse"][0];
-        }, console.error
-        )
-    },
-
-    getUserDetails: function (userID) {
-        if (!userID) throw new Error("User ID is null or invalid");
-        this.options.operationName = "GetUserProfile";
-        this.options.param = "UserID";
-        this.options.name = userID;
-        this.options.includeSelector = this.options.details ? "Details" : null;
-        const url = urlObject.buildShoppingUrl(this.options);
-        return getRequest(url).then((data) => {
-            return JSON.parse(data);
         }, console.error
         )
     },
@@ -121,7 +100,11 @@ Ebay.prototype = {
     getCategorySuggestions,
     getItemAspectsForCategory,
     getMostWatchedItems,
-    getSimilarItems
+    getSimilarItems,
+    getAllCategories,
+    getShippingCosts,
+    getItemStatus,
+    getUserDetails
 };
 
 module.exports = Ebay;

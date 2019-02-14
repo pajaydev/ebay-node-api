@@ -1,3 +1,4 @@
+'use strict';
 let httpRequest = require("https");
 const qs = require("querystring");
 

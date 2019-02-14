@@ -1,4 +1,4 @@
-
+'use strict';
 const makeString = require('make-string');
 const { makeRequest } = require('./request');
 

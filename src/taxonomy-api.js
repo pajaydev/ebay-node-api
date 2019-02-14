@@ -1,3 +1,4 @@
+'use strict';
 const { makeRequest } = require('./request');
 const { upperCase } = require('./utils');
 
