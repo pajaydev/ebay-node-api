@@ -1,6 +1,6 @@
 {
   "name": "ebay-node-api",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/ajay2507/ebay-node-api",
@@ -14,7 +14,9 @@
     "eBay",
     "Shopping",
     "Searching",
-    "products"
+    "products",
+    "Browse",
+    "Category"
   ],
   "license": "MIT",
   "repository": {
