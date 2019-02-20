@@ -19,7 +19,6 @@ The intent is to simplify the request process by handling the tedious logic. It'
 * [Examples](#examples)
   * [Getting Access Token](#getaccesstoken)
   * [Fetch Items By Keyword](#fetchitemsbykeyword)
-  * [Get All Categories](#getallcategories)
   * [Get Items By Category](#getitemsbycategory)
   * [Get Single Item](#getitem)
   * [Get Item By Legacy Id](#getitembylegacyid)
@@ -106,21 +105,6 @@ ebay.findItemsByKeywords("iphone").then((data) => {
 });
 ```
 
-## GetAllCategories
-```javascript
-const Ebay = require("ebay-node-api");
-
-let ebay = new Ebay({
-    clientID: "-- Client App id ----",
-    details: "childCategories" //optional parameter
-});
-
-ebay.getAllCategories().then((data) => {
-    console.log(data); //extract data.CategoryArray
-}, (error) => {
-    console.log(error);
-})
-```
 ## GetItemsByCategory
 ```javascript
 let ebay = new Ebay({
@@ -282,6 +266,41 @@ ebay.getAccessToken()
             // JSON format of complete category sub tree.    
         });
     });
+```
+## ShoppingApi
+```javascript
+
+ebay.getAllCategories('1234').then((data) => {
+    console.log(data); //extract data.CategoryArray
+}, (error) => {
+    console.log(error);
+});
+
+// Get User Profile 
+//https://developer.ebay.com/devzone/shopping/docs/callref/GetUserProfile.html
+ebay.getUserDetails({ userId: "ajaykumapratha_0", details: true }).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+// Get Item Status
+//https://developer.ebay.com/devzone/shopping/docs/callref/GetItemStatus.html
+ebay.getItemStatus(["153265274986", "153265274986"]).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+//https://developer.ebay.com/devzone/shopping/docs/callref/GetShippingCosts.html
+ebay.getShippingCosts({
+    itemId: "153265274986", destCountryCode: 'US',
+    destPostalCode: '95128'
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
 ```
 
 ## Test
