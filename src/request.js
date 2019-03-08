@@ -28,6 +28,7 @@ const getRequest = (url) => {
 }
 
 const makeRequest = function postRequest(hostName, endpoint, methodName, data, token) {
+    let dataString = '';
     methodName == "POST" ? dataString = qs.stringify(data) : '';
     // console.log(endpoint);
     const options = {
