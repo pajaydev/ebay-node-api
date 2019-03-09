@@ -80,7 +80,9 @@ let ebay = new Ebay({
     clientID: "--Client Id----",
     clientSecret: '-- Client Secret --',
     body: {
-        grant_type: "client_credentials"
+        grant_type: "client_credentials",
+	//you may need to define the oauth scope
+	scope: 'https://api.ebay.com/oauth/api_scope'
     }
 });
 ebay.getAccessToken().then((data) => {
