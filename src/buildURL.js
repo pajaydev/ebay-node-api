@@ -14,7 +14,7 @@ const buildURL = {
    * @private
    */
     buildSearchUrl(options) {
-        let base_url = `http://${options.baseSvcUrl}/services/search/FindingService/v1?`;
+        let base_url = `https://${options.baseSvcUrl}/services/search/FindingService/v1?`;
         base_url += "SECURITY-APPNAME=" + options.clientID;
         base_url += "&OPERATION-NAME=" + options.operationName;
         base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
@@ -22,7 +22,7 @@ const buildURL = {
         base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
         base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';
         base_url += options.pageNumber ? "&paginationInput.pageNumber=" + options.pageNumber : '';
-
+        console.log(base_url);
         return base_url;
     },
 
