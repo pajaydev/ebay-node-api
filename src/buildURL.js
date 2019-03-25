@@ -22,7 +22,6 @@ const buildURL = {
         base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
         base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';
         base_url += options.pageNumber ? "&paginationInput.pageNumber=" + options.pageNumber : '';
-        console.log(base_url);
         return base_url;
     },
 
