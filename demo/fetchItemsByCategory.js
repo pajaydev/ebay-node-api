@@ -1,7 +1,8 @@
 const Ebay = require('../src/index');
+const { clientId } = require('./credentials');
 
 let ebay = new Ebay({
-    clientID: "-- Client APP ID ----",
+    clientID: clientId,
     limit: 6
 });
 ebay.findItemsByCategory(10181).then((data) => {
@@ -9,7 +10,3 @@ ebay.findItemsByCategory(10181).then((data) => {
 }, (error) => {
     console.log(error);
 });
-
-
-
-

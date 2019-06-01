@@ -14,15 +14,15 @@ const buildURL = {
    * @private
    */
     buildSearchUrl(options) {
-        let base_url = `https://${options.baseSvcUrl}/services/search/FindingService/v1?`;
-        base_url += "SECURITY-APPNAME=" + options.clientID;
-        base_url += "&OPERATION-NAME=" + options.operationName;
-        base_url += "&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON";
-        base_url += options.param ? "&" + options.param + "=" + options.name : '';
-        base_url += options.limit ? "&paginationInput.entriesPerPage=" + options.limit : '';
-        base_url += options.globalID ? "&GLOBAL-ID=" + options.globalID : '';
-        base_url += options.pageNumber ? "&paginationInput.pageNumber=" + options.pageNumber : '';
-        return base_url;
+        let baseUrl = `https://${options.baseSvcUrl}/services/search/FindingService/v1?`;
+        baseUrl += 'SECURITY-APPNAME=' + options.clientID;
+        baseUrl += '&OPERATION-NAME=' + options.operationName;
+        baseUrl += '&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON';
+        baseUrl += options.param ? '&' + options.param + '=' + options.name : '';
+        baseUrl += options.limit ? '&paginationInput.entriesPerPage=' + options.limit : '';
+        baseUrl += options.globalID ? '&GLOBAL-ID=' + options.globalID : '';
+        baseUrl += options.pageNumber ? '&paginationInput.pageNumber=' + options.pageNumber : '';
+        return baseUrl;
     },
 
     /**
@@ -33,15 +33,15 @@ const buildURL = {
    * @private
    */
     buildShoppingUrl(options) {
-        let base_url = `https://${options.baseUrl}/Shopping?`;
-        base_url += "appid=" + options.clientID;
-        base_url += "&callname=" + options.operationName;
-        base_url += "&version=967&siteid=0&responseencoding=JSON&";
-        base_url += options.param + "=" + options.name;
-        base_url += options.includeSelector ? "&IncludeSelector=" + options.includeSelector : '';
-        //base_url += "&GLOBAL-ID=" + oglobalID;
-        return base_url;
-    },
+        let baseUrl = `https://${options.baseUrl}/Shopping?`;
+        baseUrl += 'appid=' + options.clientID;
+        baseUrl += '&callname=' + options.operationName;
+        baseUrl += '&version=967&siteid=0&responseencoding=JSON&';
+        baseUrl += options.param + '=' + options.name;
+        baseUrl += options.includeSelector ? '&IncludeSelector=' + options.includeSelector : '';
+        //base_url += '&GLOBAL-ID=' + oglobalID;
+        return baseUrl;
+    }
 
 };
 

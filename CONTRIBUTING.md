@@ -16,5 +16,5 @@ Once you completed making the change, Please make sure to run the tests before y
 `npm run test` which will test your code.
 
 **Working on your first Pull Request?** 
-<a href="https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github" target="_blank">How to Contribute to an Open Source Project on GitHub</a>.
+<a href='https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github' target='_blank'>How to Contribute to an Open Source Project on GitHub</a>.
 Thanks to @kentcdodds for this amazing tutorial.

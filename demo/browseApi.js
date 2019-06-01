@@ -1,10 +1,12 @@
 const Ebay = require('../src/index');
-let access_token = "";
+const { clientId, clientSecret } = require('./credentials');
+
+let access_token = '';
 let ebay = new Ebay({
-    clientID: "-- Client ID -----",
-    clientSecret: '-- Client Secret---',
+    clientID: clientId,
+    clientSecret: clientSecret,
     body: {
-        grant_type: "client_credentials",
+        grant_type: 'client_credentials',
         scope: 'https://api.ebay.com/oauth/api_scope'
 
     }
@@ -26,7 +28,7 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.getItemByLegacyId({
-            "legacyItemId": 2628001 // Get Item Details Using a Legacy ID
+            'legacyItemId': 2628001 // Get Item Details Using a Legacy ID
         }).then((data) => {
             if (!data) console.log(data);
             // Data is in format of JSON
@@ -38,8 +40,8 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.getItemByLegacyId({
-            "legacyItemId": 2628001,
-            "legacyVariationSku": "V-00031-WHM"
+            'legacyItemId': 2628001,
+            'legacyVariationSku': 'V-00031-WHM'
         }).then((data) => {
             if (!data) console.log(data);
             // Data is in format of JSON
@@ -52,7 +54,7 @@ ebay.getAccessToken()
 // reference https://developer.ebay.com/api-docs/buy/browse/resources/item/methods/getItemsByItemGroup#uri.item_group_id
 ebay.getAccessToken()
     .then((data) => {
-        ebay.getItemByItemGroup("151915076499").then((data) => {
+        ebay.getItemByItemGroup('151915076499').then((data) => {
             // Data is in format of JSON
             // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
             console.log(data)

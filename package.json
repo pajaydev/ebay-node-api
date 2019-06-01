@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "homepage": "https://github.com/ajay2507/ebay-node-api",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint src/*.js",
+    "lint": "eslint src/*.js",
     "test": "mocha && npm run lint",
     "prepublish": "npm run test"
   },
@@ -23,8 +23,13 @@
     "type": "git",
     "url": "git@github.com:ajay2507/ebay-node-api.git"
   },
+  "eslintConfig": {
+    "extends": "ajay"
+  },
   "dependencies": {
-    "make-string": "^1.0.2"
+    "eslint-config-ajay": "^1.0.2",
+    "make-string": "^1.0.2",
+    "oauth-ebay": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",

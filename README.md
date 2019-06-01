@@ -48,9 +48,9 @@ npm install ebay-node-api
 let eBay = require('ebay-node-api')
 
 let ebay = new eBay({
-    clientID: "-- Client APP ID ----",
+    clientID: '-- Client APP ID ----',
     // options  - optional HTTP request timeout to apply to all requests.
-    env: "SANDBOX" // optional default = "PRODUCTION"
+    env: 'SANDBOX' // optional default = 'PRODUCTION'
 })
 ```
 Creates a new `Ebay` instance.
@@ -74,13 +74,13 @@ If you using Sandbox environment, make sure to provide `env` variable in options
 ## GetAccessToken
 
 ```javascript
-const Ebay = require("ebay-node-api");
+const Ebay = require('ebay-node-api');
 
 let ebay = new Ebay({
-    clientID: "--Client Id----",
+    clientID: '--Client Id----',
     clientSecret: '-- Client Secret --',
     body: {
-        grant_type: "client_credentials",
+        grant_type: 'client_credentials',
 	//you may need to define the oauth scope
 	scope: 'https://api.ebay.com/oauth/api_scope'
     }
@@ -94,13 +94,13 @@ ebay.getAccessToken().then((data) => {
 
 ## FetchItemsByKeyword
 ```javascript
-const Ebay = require("ebay-node-api");
+const Ebay = require('ebay-node-api');
 
 let ebay = new Ebay({
-    clientID: "-- Client APP ID ----",
+    clientID: '-- Client APP ID ----',
     limit: 6
 });
-ebay.findItemsByKeywords("iphone").then((data) => {
+ebay.findItemsByKeywords('iphone').then((data) => {
     console.log(data); // fetches top 6 results in form of JSON.
 }, (error) => {
     console.log(error);
@@ -110,7 +110,7 @@ ebay.findItemsByKeywords("iphone").then((data) => {
 ## GetItemsByCategory
 ```javascript
 let ebay = new Ebay({
-    clientID: "-- Client APP ID ----",
+    clientID: '-- Client APP ID ----',
     limit: 6
 });
 ebay.findItemsByCategory(10181).then((data) => {
@@ -138,8 +138,8 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.getItemByLegacyId({
-            "legacyItemId": 2628001 // Get Item Details Using a Legacy ID
-            "legacyVariationSku": "V-00031-WHM" // default null
+            'legacyItemId': 2628001 // Get Item Details Using a Legacy ID
+            'legacyVariationSku': 'V-00031-WHM' // default null
         }).then((data) => {
             if (!data) console.log(data);
             // Data is in format of JSON
@@ -153,7 +153,7 @@ ebay.getAccessToken()
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
-        ebay.getItemByItemGroup("151915076499").then((data) => {
+        ebay.getItemByItemGroup('151915076499').then((data) => {
             // Data is in format of JSON
             // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
             console.log(data)
@@ -168,8 +168,8 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "drone",
-            limit: "3"
+            keyword: 'drone',
+            limit: '3'
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -183,7 +183,7 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "drone",
+            keyword: 'drone',
             limit: 3,
             // filter: { maxDeliveryCost: 0 } old object based filter method
 		  filter: 'maxDeliveryCost:0' // new string based filter method. Format here: https://developer.ebay.com/api-docs/buy/static/ref-buy-browse-filters.html#conditionIds
@@ -201,9 +201,9 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "iphone",
+            keyword: 'iphone',
             limit: 3,
-            // filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" } old object based filter method
+            // filter: { price: '[300..800]', priceCurrency: 'USD', conditions: 'NEW' } old object based filter method
 		  filter: 'price:[300..800],priceCurrency:USD,conditions{NEW}' // new string based filter method. Format here: https://developer.ebay.com/api-docs/buy/static/ref-buy-browse-filters.html#conditionIds
         }).then((data) => {
             console.log(data);
@@ -221,7 +221,7 @@ ebay.getMostWatchedItems({
     categoryId: 267 // optional
 }).then((data) => {
     if (data.errorMessage) {
-        console.log("Error:" + data.errorMessage);
+        console.log('Error:' + data.errorMessage);
     }
     console.log(JSON.stringify(data));
 });
@@ -232,7 +232,7 @@ ebay.getSimilarItems({
     itemId=280254552262 // optional
 }).then((data) => {
     if (data.errorMessage) {
-        console.log("Error:" + data.errorMessage);
+        console.log('Error:' + data.errorMessage);
     }
     console.log(JSON.stringify(data));
     // JSON format of similar items.    
@@ -243,7 +243,7 @@ ebay.getSimilarItems({
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
-        ebay.getDefaultCategoryTreeId("EBAY_US").then((data) => {
+        ebay.getDefaultCategoryTreeId('EBAY_US').then((data) => {
             console.log(data);
             // for EN_US { categoryTreeId: '0', categoryTreeVersion: '119' }    
         });
@@ -258,7 +258,7 @@ ebay.getAccessToken()
             // JSON format of complete category sub tree.    
         });
 
-        ebay.getCategorySuggestions(0, "iphone").then((data) => {
+        ebay.getCategorySuggestions(0, 'iphone').then((data) => {
             console.log(data);
             // JSON format of category suggestions.    
         });
@@ -280,7 +280,7 @@ ebay.getAllCategories('1234').then((data) => {
 
 // Get User Profile 
 //https://developer.ebay.com/devzone/shopping/docs/callref/GetUserProfile.html
-ebay.getUserDetails({ userId: "ajaykumapratha_0", details: true }).then((data) => {
+ebay.getUserDetails({ userId: 'ajaykumapratha_0', details: true }).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
@@ -288,7 +288,7 @@ ebay.getUserDetails({ userId: "ajaykumapratha_0", details: true }).then((data) =
 
 // Get Item Status
 //https://developer.ebay.com/devzone/shopping/docs/callref/GetItemStatus.html
-ebay.getItemStatus(["153265274986", "153265274986"]).then((data) => {
+ebay.getItemStatus(['153265274986', '153265274986']).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
@@ -296,7 +296,7 @@ ebay.getItemStatus(["153265274986", "153265274986"]).then((data) => {
 
 //https://developer.ebay.com/devzone/shopping/docs/callref/GetShippingCosts.html
 ebay.getShippingCosts({
-    itemId: "153265274986", destCountryCode: 'US',
+    itemId: '153265274986', destCountryCode: 'US',
     destPostalCode: '95128'
 }).then((data) => {
     console.log(data);
