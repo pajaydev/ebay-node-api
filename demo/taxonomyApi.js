@@ -1,9 +1,11 @@
 const Ebay = require('../src/index');
+const { clientId, clientSecret } = require('./credentials');
+
 let ebay = new Ebay({
-    clientID: "--client id---",
-    clientSecret: '-- client secret---',
+    clientID: clientId,
+    clientSecret: clientSecret,
     body: {
-        grant_type: "client_credentials",
+        grant_type: 'client_credentials',
         scope: 'https://api.ebay.com/oauth/api_scope'
 
     }
@@ -12,7 +14,7 @@ let ebay = new Ebay({
 // reference https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getDefaultCategoryTreeId
 ebay.getAccessToken()
     .then((data) => {
-        ebay.getDefaultCategoryTreeId("EBAY_US").then((data) => {
+        ebay.getDefaultCategoryTreeId('EBAY_US').then((data) => {
             console.log(data);
             // for EN_US { categoryTreeId: '0', categoryTreeVersion: '119' }    
         });
@@ -27,7 +29,7 @@ ebay.getAccessToken()
             // JSON format of complete category sub tree.    
         });
 
-        ebay.getCategorySuggestions(0, "iphone").then((data) => {
+        ebay.getCategorySuggestions(0, 'iphone').then((data) => {
             console.log(data);
             // JSON format of category suggestions.    
         });

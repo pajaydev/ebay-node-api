@@ -1,7 +1,8 @@
 const Ebay = require('../src/index');
+const { clientId, clientSecret } = require('./credentials');
 
 let ebay = new Ebay({
-    clientID: "-- Client APP ID ----",
+    clientID: clientId,
     limit: 6
 });
 ebay.getVersion().then((data) => {

@@ -1,8 +1,8 @@
 const nock = require('nock');
 const eBay = require('../src/index');
-let expect = require("chai").expect;
+let expect = require('chai').expect;
 
-describe("Test find items by keyword method", () => {
+describe('Test find items by keyword method', () => {
 
     beforeEach(() => {
         nock('http://svcs.ebay.com')
@@ -17,24 +17,24 @@ describe("Test find items by keyword method", () => {
 
             })
             .reply(200, {
-                "access_token": "abcd"
+                'access_token': 'abcd'
             });
     });
 
-    it("test input parameter in findItemsByKeyword method", () => {
+    it('test input parameter in findItemsByKeyword method', () => {
         let ebay = new eBay({
-            clientID: "ClientId"
+            clientID: 'ClientId'
         })
-        expect(() => { ebay.findItemsByKeywords() }).to.throw("Keyword is missing, Keyword is required");
+        expect(() => { ebay.findItemsByKeywords() }).to.throw('Keyword is missing, Keyword is required');
     });
 
-    it("test get items from findItemsByKeyword method", () => {
+    it('test get items from findItemsByKeyword method', () => {
         let ebay = new eBay({
-            clientID: "ClientId",
+            clientID: 'ClientId',
         })
 
-        return ebay.findItemsByKeywords("iphone").then((response) => {
-            console.log("------" + response);
+        return ebay.findItemsByKeywords('iphone').then((response) => {
+            console.log('------' + response);
             //done();
         })
     })

@@ -11,9 +11,9 @@ const { MERCH_SRVC_NAME } = require('./constants');
   * @param {String} categoryId (optional)
   */
 const getMostWatchedItems = function (merchOptions) {
-    if (!this.options.clientID) throw new Error("Missing App id or client id");
+    if (!this.options.clientID) throw new Error('Missing App id or client id');
     let url = '';
-    if (merchOptions && merchOptions.categoryId != undefined) url = `&categoryId=${merchOptions.categoryId}`;
+    if (merchOptions && merchOptions.categoryId !== undefined) url = `&categoryId=${merchOptions.categoryId}`;
     if (merchOptions && merchOptions.maxResults) url = `&maxResults=${merchOptions.maxResults}`;
     return getRequest(`http://${this.options.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getMostWatchedItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.options.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`).then((result) => {
         return JSON.parse(result);
@@ -29,7 +29,7 @@ const getMostWatchedItems = function (merchOptions) {
   * @param {String} categoryId (optional)
   */
 const getSimilarItems = function (merchOptions) {
-    if (!this.options.clientID) throw new Error("Missing App id or client id");
+    if (!this.options.clientID) throw new Error('Missing App id or client id');
     let url = '';
     if (merchOptions && merchOptions.itemId) url = `&itemId=${merchOptions.itemId}`;
     if (merchOptions && merchOptions.maxResults) url = `${url}&maxResults=${merchOptions.maxResults}`;
@@ -43,4 +43,4 @@ const getSimilarItems = function (merchOptions) {
 module.exports = {
     getMostWatchedItems,
     getSimilarItems
-}
+};

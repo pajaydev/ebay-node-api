@@ -1,11 +1,10 @@
-const Ebay = require('../src/index');
+const EbayToken = require('oauth-ebay');
+const { clientId, clientSecret } = require('./credentials');
 
-let ebay = new Ebay({
-    clientID: "--Client Id----",
-    clientSecret: '-- Client Secret --',
-    body: {
-        grant_type: "client_credentials"
-    }
+let ebay = new EbayToken({
+    clientID: clientId,
+    clientSecret: clientSecret,
+    grantType: 'client_credentials'
 });
 ebay.getAccessToken().then((data) => {
     console.log(data);

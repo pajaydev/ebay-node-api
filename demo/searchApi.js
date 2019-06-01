@@ -1,9 +1,11 @@
 const Ebay = require('../src/index');
+const { clientId, clientSecret } = require('./credentials');
+
 let ebay = new Ebay({
-    clientID: "-- client id ---",
-    clientSecret: ' -- client secret -- ',
+    clientID: clientId,
+    clientSecret: clientSecret,
     body: {
-        grant_type: "client_credentials",
+        grant_type: 'client_credentials',
         scope: 'https://api.ebay.com/oauth/api_scope'
 
     }
@@ -14,8 +16,8 @@ let ebay = new Ebay({
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "drone",
-            limit: "3"
+            keyword: 'drone',
+            limit: '3'
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -29,7 +31,7 @@ ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
             categoryId: 2080,
-            limit: "3"
+            limit: '3'
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -43,8 +45,8 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "iphone",
-            fieldgroups: "ASPECT_REFINEMENTS"
+            keyword: 'iphone',
+            fieldgroups: 'ASPECT_REFINEMENTS'
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -58,7 +60,7 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "drone",
+            keyword: 'drone',
             limit: 3,
             filter: { maxDeliveryCost: 0 }
         }).then((data) => {
@@ -73,9 +75,9 @@ ebay.getAccessToken()
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
-            keyword: "iphone",
+            keyword: 'iphone',
             limit: 3,
-            filter: { price: "[300..800]", priceCurrency: "USD", conditions: "NEW" }
+            filter: { price: '[300..800]', priceCurrency: 'USD', conditions: 'NEW' }
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON
