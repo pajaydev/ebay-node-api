@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "eslint-config-ajay": "^1.0.2",
-    "lru-cache": "^5.1.1",
     "make-string": "^1.0.2",
     "oauth-ebay": "^1.0.0"
   },
