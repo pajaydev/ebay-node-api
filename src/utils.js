@@ -10,6 +10,11 @@ function isString(value) {
     return typeof value === 'string' || value instanceof String;
 };
 
+function encodeURLQuery(url) {
+    return encodeURIComponent(url).replace(/'/g, '%27').replace(/"/g, '%22');
+};
+
 module.exports = {
-    upperCase
+    upperCase,
+    encodeURLQuery
 };

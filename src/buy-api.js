@@ -1,6 +1,7 @@
 'use strict';
 const makeString = require('make-string');
 const { makeRequest } = require('./request');
+const { encodeURLQuery } = require('./utils');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error('Item Id is required');
@@ -47,15 +48,17 @@ const searchItems = function (searchConfig) {
     if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin) throw new Error('Error --> Keyword or category id is required in query param');
     if (!this.options.access_token) throw new Error('Error -->Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    let queryParam = searchConfig.keyword ? 'q=' + searchConfig.keyword : '';
+    let queryParam = searchConfig.keyword ? 'q=' + encodeURIComponent(searchConfig.keyword) : '';
     queryParam = queryParam + (searchConfig.gtin ? '&gtin=' + searchConfig.gtin : '');
     queryParam = queryParam + (searchConfig.categoryId ? '&category_ids=' + searchConfig.categoryId : '');
     queryParam = queryParam + (searchConfig.limit ? '&limit=' + searchConfig.limit : '');
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
-    if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURIComponent(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
+    if (searchConfig.filter !== undefined) queryParam = queryParam + '&' + encodeURLQuery('filter=' + makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
+    console.log(this.options.baseUrl + `/buy/browse/v1/item_summary/search?${(queryParam)}`);
+    //this.options.baseUrl, `/buy/browse/v1/item_summary/search?${encodeURI(queryParam)}
     return new Promise((resolve, reject) => {
-        makeRequest(this.options.baseUrl, `/buy/browse/v1/item_summary/search?${queryParam}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options.baseUrl, `/buy/browse/v1/item_summary/search?${(queryParam)}`, 'GET', this.options.body, auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);
