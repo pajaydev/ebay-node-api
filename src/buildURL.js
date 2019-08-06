@@ -19,6 +19,8 @@ const buildURL = {
         baseUrl += '&OPERATION-NAME=' + options.operationName;
         baseUrl += '&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON';
         baseUrl += options.param ? '&' + options.param + '=' + options.name : '';
+        baseUrl += options.sortOrder ? '&sortOrder=' + options.sortOrder : '';
+        baseUrl += '&outputSelector(0)=SellerInfo';
         baseUrl += options.limit ? '&paginationInput.entriesPerPage=' + options.limit : '';
         baseUrl += options.globalID ? '&GLOBAL-ID=' + options.globalID : '';
         baseUrl += options.pageNumber ? '&paginationInput.pageNumber=' + options.pageNumber : '';
