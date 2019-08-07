@@ -52,6 +52,7 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.gtin ? '&gtin=' + searchConfig.gtin : '');
     queryParam = queryParam + (searchConfig.categoryId ? '&category_ids=' + searchConfig.categoryId : '');
     queryParam = queryParam + (searchConfig.limit ? '&limit=' + searchConfig.limit : '');
+    queryParam = queryParam + (searchConfig.offset ? '&offset=' + searchConfig.offset : '');
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
     if (searchConfig.filter !== undefined) queryParam = queryParam + '&' + encodeURLQuery('filter=' + makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
