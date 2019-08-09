@@ -5,7 +5,7 @@ Ebay API Client for node js.
 The intent is to simplify the request process by handling the tedious logic. It's a thin wrapper around eBay Api.
 
 [![npm version](https://badge.fury.io/js/ebay-node-api.svg)](https://badge.fury.io/js/ebay-node-api)
-[![Build Status](https://travis-ci.org/ajay2507/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
+[![Build Status](https://travis-ci.org/pajaydev/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
 
 
 ## Table of Contents
@@ -312,14 +312,14 @@ All test files are present inside test folder. You can run using
 npm run test
 ```
 ## Issues:
-If you are facing any issues, you can create the issues [here](https://github.com/ajay2507/ebay-node-api/issues).
+If you are facing any issues, you can create the issues [here](https://github.com/pajaydev/ebay-node-api/issues).
 
 ## Contribution:
-Willing to share your idea or ready to contribute, check [here](https://github.com/ajay2507/ebay-node-api/blob/master/CONTRIBUTING.md)
+Willing to share your idea or ready to contribute, check [here](https://github.com/pajaydev/ebay-node-api/blob/master/CONTRIBUTING.md)
 
 ## License:
 MIT.
 
 ## Examples:
 I have mentioned the examples here
-https://github.com/ajay2507/ebay-node-api/tree/master/demo.
+https://github.com/pajaydev/ebay-node-api/tree/master/demo.
