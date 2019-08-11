@@ -12,7 +12,6 @@ const getRequest = (url) => {
                 body += data;
             });
             res.on('end', () => {
-                console.log(JSON.parse(body).errorMessage);
                 if (JSON.parse(body).errorMessage) {
                     reject(body);
                 }
