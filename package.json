@@ -6,7 +6,7 @@
   "homepage": "https://github.com/pajaydev/ebay-node-api",
   "scripts": {
     "lint": "eslint src/*.js",
-    "test": "mocha",
+    "test": "mocha && npm run lint",
     "prepublish": "npm run test"
   },
   "author": "Ajaykumar prathap",

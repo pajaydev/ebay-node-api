@@ -16,8 +16,7 @@ const { getDefaultCategoryTreeId,
 const { findItemsByKeywords,
     findItemsByCategory,
     findCompletedItems,
-    getVersion,
-     } = require('./findingApi');
+    getVersion } = require('./findingApi');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
 const PROD_ENV = 'PROD';

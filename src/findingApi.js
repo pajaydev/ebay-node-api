@@ -65,17 +65,18 @@ const constructAdditionalParams = (options) => {
             }
             else if (key === 'keywords' || key === 'categoryId' || key === 'sortOrder') {
                 params = `${params}${key}=${options[key]}&`;
-            } else {
+            }
+            else {
                 params = `${params}itemFilter(${count}).name=${key}&
                 itemFilter(${count}).value=${options[key]}&`;
-                count++;
+                count += 1;
             }
         }
     }
     // replace extra space
     params = params.replace(/\s/g, '');
     return params.substring(0, params.length - 1);
-}
+};
 
 module.exports = {
     findItemsByKeywords,
@@ -83,5 +84,4 @@ module.exports = {
     findCompletedItems,
     constructAdditionalParams,
     getVersion
-}
-
+};
