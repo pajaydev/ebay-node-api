@@ -1,5 +1,5 @@
 'use strict';
-const { getRequest, makeRequest, base64Encode } = require('./request');
+const { makeRequest, base64Encode } = require('./request');
 const { getItem,
     getItemByLegacyId,
     getItemByItemGroup,
@@ -13,11 +13,15 @@ const { getDefaultCategoryTreeId,
     getCategorySubtree,
     getCategorySuggestions,
     getItemAspectsForCategory } = require('./taxonomy-api');
+const { findItemsByKeywords,
+    findItemsByCategory,
+    findCompletedItems,
+    getVersion } = require('./findingApi');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
-const urlObject = require('./buildURL');
 const PROD_ENV = 'PROD';
 const SANDBOX_ENV = 'SANDBOX';
+
 function Ebay(options) {
 
     if (!options) throw new Error('Options is missing, please provide the input');
@@ -37,41 +41,6 @@ function Ebay(options) {
 
 Ebay.prototype = {
 
-    findItemsByKeywords: function (keyword) {
-        if (!keyword) throw new Error('Keyword is missing, Keyword is required');
-        this.options.name = keyword;
-        this.options.operationName = 'findItemsByKeywords';
-        this.options.param = 'keywords';
-        const url = urlObject.buildSearchUrl(this.options);
-        return getRequest(url).then((data) => {
-            return JSON.parse(data).findItemsByKeywordsResponse;
-
-        }, console.error
-        );
-    },
-
-    findItemsByCategory: function (categoryID) {
-        if (!categoryID) throw new Error('Category ID is null or invalid');
-        this.options.name = categoryID;
-        this.options.operationName = 'findItemsByCategory';
-        this.options.param = 'categoryId';
-        const url = urlObject.buildSearchUrl(this.options);
-        return getRequest(url).then((data) => {
-            return JSON.parse(data).findItemsByCategoryResponse;
-
-        }, console.error
-        );
-    },
-
-    getVersion: function () {
-        this.options.operationName = 'getVersion';
-        const url = urlObject.buildSearchUrl(this.options);
-        return getRequest(url).then((data) => {
-            return JSON.parse(data).getVersionResponse[0];
-        }, console.error
-        );
-    },
-
     setAccessToken: function (token) {
         this.options.access_token = token;
     },
@@ -89,6 +58,10 @@ Ebay.prototype = {
             return resultJSON;
         });
     },
+    findItemsByKeywords,
+    findItemsByCategory,
+    findCompletedItems,
+    getVersion,
     getItem,
     getItemByLegacyId,
     getItemByItemGroup,

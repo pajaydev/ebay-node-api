@@ -27,16 +27,4 @@ describe('Test find items by keyword method', () => {
         })
         expect(() => { ebay.findItemsByKeywords() }).to.throw('Keyword is missing, Keyword is required');
     });
-
-    it('test get items from findItemsByKeyword method', () => {
-        let ebay = new eBay({
-            clientID: 'ClientId',
-        })
-
-        return ebay.findItemsByKeywords('iphone').then((response) => {
-            console.log('------' + response);
-            //done();
-        })
-    })
-
-})
+});
