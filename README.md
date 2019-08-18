@@ -18,6 +18,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
 * [Usage](#usage)
 * [Examples](#examples)
   * [Getting Access Token](#getaccesstoken)
+  * [Finding Api(findItemsByKeywords, findItemsByCategory, findCompletedItems, getVersion)](#finding-api)
   * [Fetch Items By Keyword](#fetchitemsbykeyword)
   * [Get Items By Category](#getitemsbycategory)
   * [Get Single Item](#getitem)
@@ -71,7 +72,7 @@ If you using Sandbox environment, make sure to provide `env` variable in options
 
 ## Example
 
-## GetAccessToken
+### GetAccessToken
 
 ```javascript
 const Ebay = require('ebay-node-api');
@@ -92,35 +93,44 @@ ebay.getAccessToken().then((data) => {
 });
 ```
 
-## FetchItemsByKeyword
+### Finding Api
 ```javascript
-const Ebay = require('ebay-node-api');
-
-let ebay = new Ebay({
-    clientID: '-- Client APP ID ----',
-    limit: 6
-});
-ebay.findItemsByKeywords('iphone').then((data) => {
-    console.log(data); // fetches top 6 results in form of JSON.
-}, (error) => {
-    console.log(error);
-});
-```
-
-## GetItemsByCategory
-```javascript
-let ebay = new Ebay({
-    clientID: '-- Client APP ID ----',
-    limit: 6
-});
+//This call searches for items on eBay using specific eBay category ID numbers 
 ebay.findItemsByCategory(10181).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
 });
-```
 
-## GetItem
+//This call searches for items on eBay by a keyword query (keywords).
+ebay.findItemsByKeywords('iphone').then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+// This call searches for items whose listings are completed and are no longer available for sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ebay.findCompletedItems({
+    keywords: 'Garmin nuvi 1300 Automotive GPS Receiver',
+    categoryId: '156955',
+    sortOrder: 'PricePlusShippingLowest', //https://developer.ebay.com/devzone/finding/callref/extra/fndcmpltditms.rqst.srtordr.html
+    Condition: 3000,
+    SoldItemsOnly: true,
+    entriesPerPage: 2
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+ebay.getVersion().then((data) => {
+    console.log(data.version);
+}, (error) => {
+    console.log(error);
+});
+
+```
+### GetItem
 ```javascript
 // Get access token and pass it to this method
 ebay.getAccessToken()
@@ -133,7 +143,7 @@ ebay.getAccessToken()
     });
 ```
 
-## GetItemByLegacyId
+### GetItemByLegacyId
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
@@ -149,7 +159,7 @@ ebay.getAccessToken()
 ```
 
 
-## GetItemsByGroupId
+### GetItemsByGroupId
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
@@ -163,7 +173,7 @@ ebay.getAccessToken()
     });
 ```
 
-## SearchItemsByKeyword
+### SearchItemsByKeyword
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
@@ -178,7 +188,7 @@ ebay.getAccessToken()
     });
 ```
 
-## SearchItemsByFreeShipping
+### SearchItemsByFreeShipping
 ```javascript
 ebay.getAccessToken()
     .then((data) => {
@@ -195,7 +205,7 @@ ebay.getAccessToken()
     });
 ```
 
-## SearchItemsByFilter
+### SearchItemsByFilter
 ```javascript
 
 ebay.getAccessToken()
@@ -213,7 +223,7 @@ ebay.getAccessToken()
     });
 ```
 
-## MerchandisingApi
+### MerchandisingApi
 ```javascript
 
 ebay.getMostWatchedItems({
@@ -238,7 +248,7 @@ ebay.getSimilarItems({
     // JSON format of similar items.    
 });
 ```
-## TaxonomyApi
+### TaxonomyApi
 
 ```javascript
 ebay.getAccessToken()
@@ -269,7 +279,7 @@ ebay.getAccessToken()
         });
     });
 ```
-## ShoppingApi
+### ShoppingApi
 ```javascript
 
 ebay.getAllCategories('1234').then((data) => {
