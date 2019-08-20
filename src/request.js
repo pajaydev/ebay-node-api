@@ -64,7 +64,7 @@ const makeRequest = function postRequest(hostName, endpoint, methodName, data, t
 
 
 const base64Encode = (encodeData) => {
-    const buff = new Buffer(encodeData);
+    const buff = Buffer.from(encodeData);
     return buff.toString('base64');
 };
 
