@@ -55,7 +55,7 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.offset ? '&offset=' + searchConfig.offset : '');
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
-    if (searchConfig.filter !== undefined) queryParam = queryParam + '&' + encodeURLQuery('filter=' + makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
+    if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURLQuery(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
     console.log(this.options.baseUrl + `/buy/browse/v1/item_summary/search?${(queryParam)}`);
     //this.options.baseUrl, `/buy/browse/v1/item_summary/search?${encodeURI(queryParam)}
     return new Promise((resolve, reject) => {
