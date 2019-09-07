@@ -46,6 +46,19 @@ const findCompletedItems = function (options) {
     );
 };
 
+const findItemsByProduct = function (productId) {
+
+    if (!productId) throw new Error('ProductID is missing, ProductID is required');
+    this.options.name = productId;
+    this.options.operationName = 'findItemsByProduct';
+    this.options.param = 'productId';
+    const url = urlObject.buildSearchUrl(this.options);
+    return getRequest(url).then((data) => {
+        return JSON.parse(data).findItemsByKeywordsResponse;
+    }, console.error
+    );
+};
+
 const getVersion = function () {
     this.options.operationName = 'getVersion';
     const url = urlObject.buildSearchUrl(this.options);
@@ -78,10 +91,13 @@ const constructAdditionalParams = (options) => {
     return params.substring(0, params.length - 1);
 };
 
+
+
 module.exports = {
     findItemsByKeywords,
     findItemsByCategory,
     findCompletedItems,
+    findItemsByProduct,
     constructAdditionalParams,
     getVersion
 };
