@@ -1,7 +1,7 @@
 'use strict';
 const makeString = require('make-string');
 const { makeRequest } = require('./request');
-const { encodeURLQuery } = require('./utils');
+const { encodeURLQuery } = require('./common-utils');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error('Item Id is required');

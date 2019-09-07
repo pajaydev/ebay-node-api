@@ -1,6 +1,6 @@
 'use strict';
 const { makeRequest } = require('./request');
-const { upperCase } = require('./utils');
+const { upperCase } = require('./common-utils');
 
 /**
   * @method getDefaultCategoryTreeId {Function}
