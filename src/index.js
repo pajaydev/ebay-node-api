@@ -16,6 +16,7 @@ const { getDefaultCategoryTreeId,
 const { findItemsByKeywords,
     findItemsByCategory,
     findCompletedItems,
+    findItemsByProduct,
     getVersion } = require('./findingApi');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
@@ -61,6 +62,7 @@ Ebay.prototype = {
     findItemsByKeywords,
     findItemsByCategory,
     findCompletedItems,
+    findItemsByProduct,
     getVersion,
     getItem,
     getItemByLegacyId,
