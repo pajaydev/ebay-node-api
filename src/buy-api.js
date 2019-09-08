@@ -8,7 +8,7 @@ const getItem = function (itemId) {
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
     const id = encodeURIComponent(itemId);
-    return makeRequest(this.options.baseUrl, `/buy/browse/v1/item/${id}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/buy/browse/v1/item/${id}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -21,7 +21,7 @@ const getItemByLegacyId = function (legacyOptions) {
     let param = 'legacy_item_id=' + legacyOptions.legacyItemId;
     param += legacyOptions.legacyVariationSku ? '&legacy_variation_sku=' + legacyOptions.legacyVariationSku : '';
     return new Promise((resolve, reject) => {
-        makeRequest(this.options.baseUrl, `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options, `/buy/browse/v1/item/get_item_by_legacy_id?${param}`, 'GET', auth).then((result) => {
             return resolve(JSON.parse(result));
         }).then((error) => {
             return reject(error);
@@ -35,7 +35,7 @@ const getItemByItemGroup = function (itemGroupId) {
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
     return new Promise((resolve, reject) => {
-        makeRequest(this.options.baseUrl, `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options, `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);
@@ -56,10 +56,9 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
     if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURLQuery(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
-    console.log(this.options.baseUrl + `/buy/browse/v1/item_summary/search?${(queryParam)}`);
     //this.options.baseUrl, `/buy/browse/v1/item_summary/search?${encodeURI(queryParam)}
     return new Promise((resolve, reject) => {
-        makeRequest(this.options.baseUrl, `/buy/browse/v1/item_summary/search?${(queryParam)}`, 'GET', this.options.body, auth).then((result) => {
+        makeRequest(this.options, `/buy/browse/v1/item_summary/search?${(queryParam)}`, 'GET', auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);

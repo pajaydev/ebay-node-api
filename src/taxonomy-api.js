@@ -13,7 +13,7 @@ const getDefaultCategoryTreeId = function (marketPlaceId) {
     marketPlaceId = upperCase(marketPlaceId);
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    return makeRequest(this.options.baseUrl, `/commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=${marketPlaceId}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=${marketPlaceId}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -27,7 +27,7 @@ const getCategoryTree = function (categoryTreeId) {
     if (!categoryTreeId) categoryTreeId = 0;
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    return makeRequest(this.options.baseUrl, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -43,7 +43,7 @@ const getCategorySubtree = function (categoryTreeId, categoryId) {
     if (!categoryId) throw new Error('Missing Categor id \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategorySubtree#h2-samples');
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    return makeRequest(this.options.baseUrl, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_category_subtree?category_id=${categoryId}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_category_subtree?category_id=${categoryId}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -59,7 +59,7 @@ const getCategorySuggestions = function (categoryTreeId, keyword) {
     if (!keyword) throw new Error('Missing keyword \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategorySuggestions');
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    return makeRequest(this.options.baseUrl, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_category_suggestions?q=${keyword}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_category_suggestions?q=${keyword}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
@@ -74,7 +74,7 @@ const getItemAspectsForCategory = function (categoryTreeId, categoryId) {
     if (!categoryId) throw new Error('Missing Category id \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getItemAspectsForCategory#h2-samples');
     if (!this.options.access_token) throw new Error('Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.access_token;
-    return makeRequest(this.options.baseUrl, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_item_aspects_for_category?category_id=${categoryId}`, 'GET', this.options.body, auth).then((result) => {
+    return makeRequest(this.options, `/commerce/taxonomy/v1_beta/category_tree/${categoryTreeId}/get_item_aspects_for_category?category_id=${categoryId}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };

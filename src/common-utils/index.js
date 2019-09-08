@@ -5,7 +5,7 @@ function base64Encode(encodeData) {
     const buff = Buffer.from(encodeData);
     return buff.toString('base64');
 }
-let headers = {};
+
 module.exports = {
     setAccessToken: function (token) {
         this.options.access_token = token;
@@ -17,17 +17,14 @@ module.exports = {
         const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
         const self = this;
         const auth = 'Basic ' + encodedStr;
-        return makeRequest(this.options.baseUrl, '/identity/v1/oauth2/token', 'POST', this.options.body, auth).then((result) => {
+        return makeRequest(this.options, '/identity/v1/oauth2/token', 'POST', auth).then((result) => {
             const resultJSON = JSON.parse(result);
             self.setAccessToken(resultJSON.access_token);
             return resultJSON;
         });
     },
-    setHeaders(headerObj) {
-        headers = { ...headers, ...headerObj };
-    },
-    getHeaders() {
-        return headers;
+    setHeaders(self, headerObj) {
+        self.headers = Object.assign({}, self.headers, headerObj);
     },
     upperCase(data) {
         if (!isString(data)) data = data.toString();

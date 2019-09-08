@@ -51,8 +51,10 @@ let eBay = require('ebay-node-api')
 
 let ebay = new eBay({
     clientID: '-- Client APP ID ----',
-    // options  - optional HTTP request timeout to apply to all requests.
-    env: 'SANDBOX' // optional default = 'PRODUCTION'
+    env: 'SANDBOX', // optional default = 'PRODUCTION'
+    headers:{ // optional
+        'X-EBAY-C-MARKETPLACE-ID': 'EBAY_GB' // For Great Britain https://www.ebay.co.uk
+    }
 })
 ```
 Creates a new `Ebay` instance.
@@ -70,6 +72,7 @@ If you using Sandbox environment, make sure to provide `env` variable in options
 - `limit` - optional(`Number`) - fetch items functionality - Number that limits the number of data you need in response.
 - `details` - optional(`Boolean`) - Get User Details functionality - true, if you need details about the user.
 - `env` - optional(`String`) - Environment, default value is PRODUCTION.
+- `headers` - optional(`Object`) - Add custom request headers. For reference [Header Section](https://developer.ebay.com/api-docs/static/rest-request-components.html#HTTP)
 
 ## Example
 

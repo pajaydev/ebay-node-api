@@ -38,7 +38,6 @@ const findCompletedItems = function (options) {
     this.options.operationName = 'findCompletedItems';
     this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
-    console.log(url);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
