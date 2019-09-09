@@ -1,4 +1,6 @@
+sudo: false
 language: node_js
+cache: npm
 node_js:
-  - '6'
   - '8.10.0'
+  - '10'
