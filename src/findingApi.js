@@ -3,11 +3,23 @@
 const urlObject = require('./buildURL');
 const { getRequest } = require('./request');
 
-const findItemsByKeywords = function (keyword) {
-    if (!keyword) throw new Error('Keyword is missing, Keyword is required');
-    this.options.name = keyword;
+const findItemsByKeywords = function (options) {
+    if (!options || !options.keywords) {
+      throw new Error('Keyword is missing, Keyword is required');
+    }
+
     this.options.operationName = 'findItemsByKeywords';
     this.options.param = 'keywords';
+
+    if (!options.keywords) {
+      this.options.name = options;
+    } else {
+      this.options.name = encodeURIComponent(options.keywords);
+      this.options.sortOrder = options.sortOrder;
+      this.options.pageNumber = options.pageNumber;
+      this.options.limit = options.limit;
+    }
+
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
