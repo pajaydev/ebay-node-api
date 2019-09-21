@@ -19,7 +19,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
 * [Usage](#usage)
 * [Examples](#examples)
   * [Getting Access Token](#getaccesstoken)
-  * [Finding Api(findItemsByKeywords, findItemsByCategory, findCompletedItems, getVersion)](#finding-api)
+  * [Finding Api(findItemsByKeywords, findItemsByCategory, findCompletedItems, findItemsByProduct, getVersion)](#finding-api)
   * [Fetch Items By Keyword](#fetchitemsbykeyword)
   * [Get Items By Category](#getitemsbycategory)
   * [Get Single Item](#getitem)
@@ -133,6 +133,15 @@ ebay.findCompletedItems({
     Condition: 3000,
     SoldItemsOnly: true,
     entriesPerPage: 2
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+// https://developer.ebay.com/DevZone/finding/CallRef/findItemsByProduct.html#findItemsByProduct
+ebay.findItemsByProduct({
+    productId: 53039031
 }).then((data) => {
     console.log(data);
 }, (error) => {
