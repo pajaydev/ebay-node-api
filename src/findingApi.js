@@ -4,13 +4,12 @@ const urlObject = require('./buildURL');
 const { getRequest } = require('./request');
 
 const findItemsByKeywords = function (options) {
-    if (!options || !options.keywords) {
+    if (!options) {
         throw new Error('Keyword is missing, Keyword is required');
     }
-
     this.options.operationName = 'findItemsByKeywords';
     this.options.param = 'keywords';
-
+    // support only keyword string.
     if (!options.keywords) {
         this.options.name = options;
     }
@@ -42,6 +41,11 @@ const findItemsByCategory = function (categoryID) {
     );
 };
 
+/**
+ * searches for items whose listings are completed and are no longer available for
+ * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * @param {Object} options
+ */
 const findCompletedItems = function (options) {
     if (!options) throw new Error('Keyword or category ID are required.');
     if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
@@ -58,11 +62,30 @@ const findCompletedItems = function (options) {
     );
 };
 
+
 const getVersion = function () {
     this.options.operationName = 'getVersion';
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
+    }, console.error
+    );
+};
+
+/**
+ * Searches for items on eBay using specific eBay product values.
+ * @param {Object} options
+ */
+const findItemsByProduct = function (options) {
+    if (!options) throw new Error('Please enter the Valid input.');
+    if (!options.productId) throw new Error('Product ID is required.');
+    this.options.operationName = 'findItemsByProduct';
+    this.options.additionalParam = constructAdditionalParams(options);
+    let url = urlObject.buildSearchUrl(this.options);
+    url = `${url}&productId.@type=ReferenceID`;
+    return getRequest(url).then((data) => {
+        return JSON.parse(data).findItemsByProductResponse;
+
     }, console.error
     );
 };
@@ -75,7 +98,7 @@ const constructAdditionalParams = (options) => {
             if (key === 'entriesPerPage' || key === 'pageNumber') {
                 params = `${params}paginationInput.${key}=${options[key]}&`;
             }
-            else if (key === 'keywords' || key === 'categoryId' || key === 'sortOrder') {
+            else if (key === 'keywords' || key === 'categoryId' || key === 'productId' || key === 'sortOrder') {
                 params = `${params}${key}=${options[key]}&`;
             }
             else {
@@ -95,5 +118,6 @@ module.exports = {
     findItemsByCategory,
     findCompletedItems,
     constructAdditionalParams,
+    findItemsByProduct,
     getVersion
 };

@@ -35,6 +35,17 @@ ebay.findCompletedItems({
     console.log(error);
 });
 
+// This call searches for items on eBay using specific eBay product values.
+// https://developer.ebay.com/DevZone/finding/CallRef/findItemsByProduct.html#findItemsByProduct
+ebay.findItemsByProduct({
+    productId: 53039031,
+    entriesPerPage: 2
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
 ebay.getVersion().then((data) => {
     console.log(data.version);
 }, (error) => {
