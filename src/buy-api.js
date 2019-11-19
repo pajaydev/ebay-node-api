@@ -1,7 +1,8 @@
 'use strict';
+const fs = require('fs');
 const makeString = require('make-string');
 const { makeRequest } = require('./request');
-const { encodeURLQuery } = require('./common-utils');
+const { encodeURLQuery, base64Encode } = require('./common-utils');
 
 const getItem = function (itemId) {
     if (!itemId) throw new Error('Item Id is required');
@@ -66,9 +67,26 @@ const searchItems = function (searchConfig) {
     });
 };
 
+const searchByImage = function (searchConfig) {
+    if (!searchConfig) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter to search by image');
+    if (!this.options.access_token) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
+    if (searchConfig.imgPath || searchConfig.base64Image) throw new Error('REQUIRED_PARAMS --> imgPath or base64Image is required');
+    const auth = 'Bearer ' + this.options.access_token;
+    this.options.data = JSON.stringify({ image: base64Encode(fs.readFileSync(searchConfig.imgPath)) });
+    this.options.contentType = 'application/json';
+    console.log(makeString(searchConfig));
+    return new Promise((resolve, reject) => {
+        makeRequest(this.options, `/buy/browse/v1/item_summary/search_by_image`, 'POST', auth).then((result) => {
+            resolve(result);
+        }).then((error) => {
+            reject(error);
+        });
+    });
+}
 module.exports = {
     getItem,
     getItemByLegacyId,
     getItemByItemGroup,
-    searchItems
+    searchItems,
+    searchByImage
 };

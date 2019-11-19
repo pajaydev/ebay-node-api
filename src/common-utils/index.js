@@ -1,8 +1,8 @@
 'use strict';
 const { makeRequest } = require('../request');
 
-function base64Encode(encodeData) {
-    const buff = Buffer.from(encodeData);
+const base64Encode = (encodeData) => {
+    const buff = Buffer.from(encodeData);;
     return buff.toString('base64');
 }
 
@@ -14,6 +14,7 @@ module.exports = {
         if (!this.options.clientID) throw new Error('Missing Client ID');
         if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
         if (!this.options.body) throw new Error('Missing Body, required Grant type');
+        console.log(this);
         const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
         const self = this;
         const auth = 'Basic ' + encodedStr;
@@ -49,5 +50,5 @@ module.exports = {
     encodeURLQuery(url) {
         return encodeURIComponent(url).replace(/'/g, '%27').replace(/"/g, '%22');
     },
-
+    base64Encode
 };

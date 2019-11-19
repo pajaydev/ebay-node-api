@@ -84,3 +84,17 @@ ebay.getAccessToken()
             // To check the format of Data, Go to this url https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-ReturnItemsBasedonPriceandCondition-7.
         })
     });
+
+
+// Search items by Image, this is in experimental mode.
+ebay.getAccessToken()
+    .then((data) => {
+        console.log
+        ebay.searchByImage({
+            imgPath: 'demo/shoe.jpg' //  igmPath or base64Image
+        }).then((data) => {
+            console.log(data);
+            //Data is in format of JSON
+            // To check the format of Data, Go to this url (https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-SearchforItemsbyKeyword-0)
+        })
+    });

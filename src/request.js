@@ -27,13 +27,17 @@ const getRequest = (url) => {
 
 const makeRequest = function postRequest(self, endpoint, methodName, token) {
     let dataString = '';
-    methodName === 'POST' ? dataString = qs.stringify(self.body) : '';
+    if (self.data) {
+        dataString = self.data
+    } else {
+        methodName === 'POST' ? dataString = qs.stringify(self.body) : '';
+    }
     const options = {
         'hostname': self.baseUrl,
         'path': endpoint,
         'method': methodName || 'GET',
         'headers': {
-            'content-type': methodName === 'POST' ? 'application/x-www-form-urlencoded' : 'application/json',
+            'content-type': self.contentType || (methodName === 'POST' ? 'application/x-www-form-urlencoded' : 'application/json'),
             'authorization': token,
             'cache-control': 'no-cache',
             ...self.headers
