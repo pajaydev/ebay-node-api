@@ -14,10 +14,10 @@ module.exports = {
         if (!this.options.clientID) throw new Error('Missing Client ID');
         if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
         if (!this.options.body) throw new Error('Missing Body, required Grant type');
-        console.log(this);
         const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
         const self = this;
         const auth = 'Basic ' + encodedStr;
+        this.options.contentType = 'application/x-www-form-urlencoded';
         return makeRequest(this.options, '/identity/v1/oauth2/token', 'POST', auth).then((result) => {
             const resultJSON = JSON.parse(result);
             self.setAccessToken(resultJSON.access_token);

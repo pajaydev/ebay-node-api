@@ -1,5 +1,5 @@
 const Ebay = require('../src/index');
-const { clientId, clientSecret } = require('./credentials');
+const { clientId, clientSecret } = require('./credentials/index');
 
 let ebay = new Ebay({
     clientID: clientId,

@@ -1,5 +1,6 @@
 const Ebay = require('../src/index');
 const { clientId, clientSecret } = require('./credentials');
+const makeString = require('make-string');
 
 let ebay = new Ebay({
     clientID: clientId,
@@ -12,7 +13,7 @@ let ebay = new Ebay({
 });
 
 
-//Search for Items by Keyword.
+// //Search for Items by Keyword.
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -26,7 +27,7 @@ ebay.getAccessToken()
     });
 
 
-// Search for Items by Category.
+// // Search for Items by Category.
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -41,7 +42,7 @@ ebay.getAccessToken()
 
 
 
-// Retrieve the Item Aspects by Keyword Search.
+// // Retrieve the Item Aspects by Keyword Search.
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -55,8 +56,8 @@ ebay.getAccessToken()
     });
 
 
-// Return Items with Free Shipping.
-// Pass params inside filter object to filter items.
+// // Return Items with Free Shipping.
+// // Pass params inside filter object to filter items.
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -86,12 +87,15 @@ ebay.getAccessToken()
     });
 
 
-// Search items by Image, this is in experimental mode.
+// // Search items by Image, this is in experimental mode.
+// https://developer.ebay.com/api-docs/buy/browse/resources/search_by_image/methods/searchByImage
 ebay.getAccessToken()
     .then((data) => {
         console.log
         ebay.searchByImage({
-            imgPath: 'demo/shoe.jpg' //  igmPath or base64Image
+            imgPath: 'demo/shoe.jpg',
+            limit: 3,
+            sort: '-price' //  igmPath or base64Image
         }).then((data) => {
             console.log(data);
             //Data is in format of JSON

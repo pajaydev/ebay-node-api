@@ -1,5 +1,5 @@
 const EbayToken = require('oauth-ebay');
-const { clientId, clientSecret } = require('./credentials');
+const { clientId, clientSecret } = require('./credentials/index');
 
 let ebay = new EbayToken({
     clientID: clientId,

@@ -539,9 +539,10 @@ lolex@^2.2.0, lolex@^2.3.2:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
 
-make-string@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/make-string/-/make-string-1.0.2.tgz#e88970b637e09e9e98ceb71b6298fa942b3a753c"
+make-string@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/make-string/-/make-string-1.0.3.tgz#069334a6b26107072ff33a251c7d8b7b2355b8ec"
+  integrity sha512-qpC9vH1GPDr1VEAIL1jicyoR77SjSuFPE5QYm/lKEFA/br21jKpAehGVZ11i23ai7UhfFGpJ1Hukw6EPi81Rvg==
 
 mimic-fn@^1.0.0:
   version "1.2.0"
