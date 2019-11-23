@@ -1,8 +1,5 @@
 'use strict';
-const { getItem,
-    getItemByLegacyId,
-    getItemByItemGroup,
-    searchItems } = require('./buy-api');
+const ebayBuyApi = require('./buy-api');
 const { getAllCategories,
     getShippingCosts,
     getItemStatus,
@@ -20,8 +17,8 @@ const { findItemsByKeywords,
 const { setAccessToken,
     getAccessToken,
     setHeaders,
-    getHeaders,
-    isEmptyObj } = require('./common-utils');
+    getHeaders
+} = require('./common-utils');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
 const PROD_ENV = 'PROD';
@@ -66,10 +63,6 @@ Ebay.prototype = {
     findCompletedItems,
     findItemsByProduct,
     getVersion,
-    getItem,
-    getItemByLegacyId,
-    getItemByItemGroup,
-    searchItems,
     getDefaultCategoryTreeId,
     getCategoryTree,
     getCategorySubtree,
@@ -80,7 +73,8 @@ Ebay.prototype = {
     getAllCategories,
     getShippingCosts,
     getItemStatus,
-    getUserDetails
+    getUserDetails,
+    ...ebayBuyApi
 };
 
 module.exports = Ebay;

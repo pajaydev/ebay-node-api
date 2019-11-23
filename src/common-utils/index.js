@@ -1,8 +1,8 @@
 'use strict';
 const { makeRequest } = require('../request');
 
-function base64Encode(encodeData) {
-    const buff = Buffer.from(encodeData);
+const base64Encode = (encodeData) => {
+    const buff = Buffer.from(encodeData);;
     return buff.toString('base64');
 }
 
@@ -17,6 +17,7 @@ module.exports = {
         const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
         const self = this;
         const auth = 'Basic ' + encodedStr;
+        this.options.contentType = 'application/x-www-form-urlencoded';
         return makeRequest(this.options, '/identity/v1/oauth2/token', 'POST', auth).then((result) => {
             const resultJSON = JSON.parse(result);
             self.setAccessToken(resultJSON.access_token);
@@ -49,5 +50,5 @@ module.exports = {
     encodeURLQuery(url) {
         return encodeURIComponent(url).replace(/'/g, '%27').replace(/"/g, '%22');
     },
-
+    base64Encode
 };
