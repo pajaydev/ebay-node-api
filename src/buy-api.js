@@ -61,6 +61,7 @@ const searchItems = function (searchConfig) {
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
     if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURLQuery(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
     this.options.contentType = 'application/json';
+    queryParam = queryParam + (searchConfig.aspect_filter ? '&aspect_filter='+ encodeURIComponent(searchConfig.aspect_filters) : '');
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `/buy/browse/v1/item_summary/search?${(queryParam)}`, 'GET', auth).then((result) => {
             resolve(result);
