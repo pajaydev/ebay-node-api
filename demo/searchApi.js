@@ -13,7 +13,7 @@ let ebay = new Ebay({
 });
 
 
-// //Search for Items by Keyword.
+// // //Search for Items by Keyword.
 ebay.getAccessToken()
     .then((data) => {
         ebay.searchItems({
@@ -63,7 +63,8 @@ ebay.getAccessToken()
         ebay.searchItems({
             keyword: 'drone',
             limit: 3,
-            filter: { maxDeliveryCost: 0 }
+            filter: { maxDeliveryCost: 0 },
+            aspect_filter: { categoryId: 179697, conditionDistributions: '{NEW}' } // docs to provide aspect_filter https://developer.ebay.com/api-docs/buy/browse/resources/item_summary/methods/search#h2-input
         }).then((data) => {
             console.log(data);
             // Data is in format of JSON

@@ -5,7 +5,7 @@ const { getRequest } = require('./request');
 
 const findItemsByKeywords = function (options) {
     if (!options) {
-        throw new Error('Keyword is missing, Keyword is required');
+        throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
     }
     this.options.operationName = 'findItemsByKeywords';
     this.options.param = 'keywords';
@@ -13,13 +13,7 @@ const findItemsByKeywords = function (options) {
     if (!options.keywords) {
         this.options.name = options;
     }
-    else {
-        this.options.name = encodeURIComponent(options.keywords);
-        this.options.sortOrder = options.sortOrder;
-        this.options.pageNumber = options.pageNumber;
-        this.options.limit = options.limit;
-    }
-
+    this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
@@ -29,7 +23,7 @@ const findItemsByKeywords = function (options) {
 };
 
 const findItemsByCategory = function (categoryID) {
-    if (!categoryID) throw new Error('Category ID is null or invalid');
+    if (!categoryID) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
     this.options.name = categoryID;
     this.options.operationName = 'findItemsByCategory';
     this.options.param = 'categoryId';
@@ -47,7 +41,7 @@ const findItemsByCategory = function (categoryID) {
  * @param {Object} options
  */
 const findCompletedItems = function (options) {
-    if (!options) throw new Error('Keyword or category ID are required.');
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword or category ID are required.');
     if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
@@ -77,8 +71,8 @@ const getVersion = function () {
  * @param {Object} options
  */
 const findItemsByProduct = function (options) {
-    if (!options) throw new Error('Please enter the Valid input.');
-    if (!options.productId) throw new Error('Product ID is required.');
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
+    if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
     this.options.operationName = 'findItemsByProduct';
     this.options.additionalParam = constructAdditionalParams(options);
     let url = urlObject.buildSearchUrl(this.options);
@@ -90,6 +84,12 @@ const findItemsByProduct = function (options) {
     );
 };
 
+
+/**
+ * Constructs query param based on some logic to support filter and aspect_filter params.
+ * output will be keywords=iphone&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=SoldItemsOnly&itemFilter(2).value=true
+ * @param {Object} options
+ */
 const constructAdditionalParams = (options) => {
     let params = '';
     let count = 0;
