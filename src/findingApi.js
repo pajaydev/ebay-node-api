@@ -101,6 +101,12 @@ const constructAdditionalParams = (options) => {
             else if (key === 'keywords' || key === 'categoryId' || key === 'productId' || key === 'sortOrder') {
                 params = `${params}${key}=${options[key]}&`;
             }
+            else if (key === 'affiliate') {
+                const innerParams = options[key];
+                for (let innerKey in innerParams) {
+                    params = `${params}${key}.${innerKey}=${innerParams[innerKey]}&`;
+                }
+            }
             else {
                 params = `${params}itemFilter(${count}).name=${key}&
                 itemFilter(${count}).value=${options[key]}&`;
