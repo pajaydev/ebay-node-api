@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+'use strict';
 const Ebay = require('../src/index');
 const { clientId } = require('./credentials/index');
 
@@ -17,7 +19,11 @@ ebay.findItemsByKeywords({
     keywords: 'iphone',
     sortOrder: 'PricePlusShippingLowest', //https://developer.ebay.com/devzone/finding/callref/extra/fndcmpltditms.rqst.srtordr.html
     Condition: 3000,
-    SoldItemsOnly: false
+    SoldItemsOnly: false,
+    affiliate: {
+        networkId: 9,
+        trackingId: 1234567890
+    }
 }).then((data) => {
     console.log(data);
 }, (error) => {
@@ -28,7 +34,6 @@ ebay.findItemsByKeywords({
 /* This call searches for items whose listings are completed and are no longer available for
 sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
 Keyword queries search the title and subtitle of the item; they do not search descriptions. */
-
 ebay.findCompletedItems({
     keywords: 'Garmin nuvi 1300 Automotive GPS Receiver',
     categoryId: '156955',

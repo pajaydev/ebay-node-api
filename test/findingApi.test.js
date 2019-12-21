@@ -35,6 +35,30 @@ describe('test ebay finding Api', () => {
             expect(constructAdditionalParams(emptyOptions)).to.be.equal('');
         });
 
+        it('test constructAdditionalParams with affiliate params', () => {
+            let expected_param_with_affiliate = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&affiliate.trackingId=1234567899&affiliate.networkId=123';
+            let expected_param = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
+            const options = {
+                keywords: 'iphone',
+                categoryId: '111',
+                sortOrder: 'PricePlusShippingLowest',
+                affiliate: {
+                    trackingId: 1234567899,
+                    networkId: 123
+                }
+            };
+
+            const optionsWithNoAffiliate = {
+                keywords: 'iphone',
+                categoryId: '111',
+                sortOrder: 'PricePlusShippingLowest'
+            };
+            const emptyOptions = {};
+            expect(constructAdditionalParams(options)).to.be.equal(expected_param_with_affiliate);
+            expect(constructAdditionalParams(optionsWithNoAffiliate)).to.be.equal(expected_param);
+            expect(constructAdditionalParams(emptyOptions)).to.be.equal('');
+        });
+
         it('test constructAdditionalParams with additional params', () => {
             let expected_param = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true';
             let expected_pag_param = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&paginationInput.entriesPerPage=2';
