@@ -9,11 +9,7 @@ const { getDefaultCategoryTreeId,
     getCategorySubtree,
     getCategorySuggestions,
     getItemAspectsForCategory } = require('./taxonomy-api');
-const { findItemsByKeywords,
-    findItemsByCategory,
-    findCompletedItems,
-    findItemsByProduct,
-    getVersion } = require('./findingApi');
+const ebayFindingApi = require('./findingApi');
 const { setAccessToken,
     getAccessToken,
     setHeaders,
@@ -58,11 +54,6 @@ Ebay.prototype = {
     getAccessToken,
     setHeaders,
     getHeaders,
-    findItemsByKeywords,
-    findItemsByCategory,
-    findCompletedItems,
-    findItemsByProduct,
-    getVersion,
     getDefaultCategoryTreeId,
     getCategoryTree,
     getCategorySubtree,
@@ -74,7 +65,8 @@ Ebay.prototype = {
     getShippingCosts,
     getItemStatus,
     getUserDetails,
-    ...ebayBuyApi
+    ...ebayBuyApi,
+    ...ebayFindingApi
 };
 
 module.exports = Ebay;

@@ -47,11 +47,22 @@ ebay.findCompletedItems({
     console.log(error);
 });
 
-// This call searches for items on eBay using specific eBay product values.
+// // This call searches for items on eBay using specific eBay product values.
 // https://developer.ebay.com/DevZone/finding/CallRef/findItemsByProduct.html#findItemsByProduct
 ebay.findItemsByProduct({
     productId: 53039031,
     entriesPerPage: 2
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
+
+// Searches items on eBay by category or keyword or both.
+ebay.findItemsAdvanced({
+    entriesPerPage: 2,
+    keywords: 'ipad',
+    ExpeditedShippingType: 'OneDayShipping'
 }).then((data) => {
     console.log(data);
 }, (error) => {

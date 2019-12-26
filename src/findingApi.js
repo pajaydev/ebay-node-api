@@ -2,12 +2,16 @@
 
 const urlObject = require('./buildURL');
 const { getRequest } = require('./request');
+const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
+const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
+const FIND_COMPLETED_ITEMS = 'findCompletedItems';
+const FIND_ITEMS_ADV = 'findItemsAdvanced';
 
 const findItemsByKeywords = function (options) {
     if (!options) {
         throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
     }
-    this.options.operationName = 'findItemsByKeywords';
+    this.options.operationName = FIND_ITEMS_BY_KEYWORD;
     this.options.param = 'keywords';
     // support only keyword string.
     if (!options.keywords) {
@@ -25,7 +29,7 @@ const findItemsByKeywords = function (options) {
 const findItemsByCategory = function (categoryID) {
     if (!categoryID) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
     this.options.name = categoryID;
-    this.options.operationName = 'findItemsByCategory';
+    this.options.operationName = FIND_ITEMS_BY_CATEGORY;
     this.options.param = 'categoryId';
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
@@ -46,12 +50,32 @@ const findCompletedItems = function (options) {
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
-    this.options.operationName = 'findCompletedItems';
+    this.options.operationName = FIND_COMPLETED_ITEMS;
     this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
+    }, console.error
+    );
+};
+
+
+/**
+ * searches for items whose listings are completed and are no longer available for
+ * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * @param {Object} options
+ */
+const findItemsAdvanced = function (options) {
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> check here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
+    if (options.keywords) {
+        options.keywords = encodeURIComponent(options.keywords);
+    }
+    this.options.operationName = FIND_ITEMS_ADV;
+    this.options.additionalParam = constructAdditionalParams(options);
+    const url = urlObject.buildSearchUrl(this.options);
+    return getRequest(url).then((data) => {
+        return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error
     );
 };
@@ -126,5 +150,6 @@ module.exports = {
     findCompletedItems,
     constructAdditionalParams,
     findItemsByProduct,
+    findItemsAdvanced,
     getVersion
 };
