@@ -67,8 +67,7 @@ const findCompletedItems = function (options) {
  * @param {Object} options
  */
 const findItemsAdvanced = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword or category ID are required.');
-    if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> check here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
