@@ -73,6 +73,7 @@ If you using Sandbox environment, make sure to provide `env` variable in options
 - `details` - optional(`Boolean`) - Get User Details functionality - true, if you need details about the user.
 - `env` - optional(`String`) - Environment, default value is PRODUCTION.
 - `headers` - optional(`Object`) - Add custom request headers. For reference [Header Section](https://developer.ebay.com/api-docs/static/rest-request-components.html#HTTP)
+- `countryCode` - optional(`String`) - sets the GLOBAL-ID parameter which specifies the eBay site to use for searches. [Possible IDs](https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html)
 
 ## Example
 
