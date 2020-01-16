@@ -153,7 +153,7 @@ ebay.findItemsByProduct({
 ebay.findItemsAdvanced({
     entriesPerPage: 2,
     keywords: 'ipad',
-    ExpeditedShippingType: 'OneDayShipping'
+    ExpeditedShippingType: 'OneDayShipping' //Filtering results with item filters see: https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Request.itemFilter
 }).then((data) => {
     console.log(data);
 }, (error) => {
