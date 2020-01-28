@@ -1,12 +1,15 @@
 {
   "name": "ebay-node-api",
-  "version": "2.7.6",
+  "version": "2.7.7",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
   "scripts": {
     "lint": "eslint src/*.js",
     "test": "mocha && npm run lint",
+    "docs": "docsify init ./docs",
+    "serve-docs": "docsify serve docs",
+    "publish": "gh-pages --dist docs --dotfiles --message 'chore: Publish docs'",
     "prepublish": "npm run test"
   },
   "author": "Ajaykumar prathap",
@@ -35,7 +38,9 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "documentation": "^12.1.4",
     "eslint": "^5.8.0",
+    "gh-pages": "^2.2.0",
     "mocha": "^5.0.1",
     "nock": "^9.2.3",
     "sinon": "^4.4.5"
