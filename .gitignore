@@ -4,4 +4,3 @@ npm-debug.log
 .gitcredentials
 **/credentials/
 .DS_Store
-package-lock.json
