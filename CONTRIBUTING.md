@@ -10,6 +10,9 @@ Thanks for being willing to contribute!
 4. Create a branch for your PR
 5. Try to include test cases for your code
 
+## Edit Documentation
+1. Documentation is powered by [docsify]() to REAME.md file in docs folder.
+
 ## Commit and Push
 
 Once you completed making the change, Please make sure to run the tests before you commit your changes. You can run

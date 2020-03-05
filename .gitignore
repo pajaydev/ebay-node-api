@@ -3,3 +3,5 @@ npm-debug.log
 .vscode/
 .gitcredentials
 **/credentials/
+.DS_Store
+package-lock.json
