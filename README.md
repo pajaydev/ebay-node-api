@@ -13,7 +13,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
 
 ## 📒 Table of Contents
 
-* [Installation](# installation)
+* [Installation](#installation)
 * [Usage](#usage)
 * [Starter Guide](#starter-guide)
 * [Test](#test)
