@@ -9,6 +9,8 @@ The intent is to simplify the request process by handling the tedious logic. It'
 [![Build Status](https://travis-ci.org/pajaydev/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
 
 
+**Documentation:** [https://pajaydev.github.io/ebay-node-api](https://pajaydev.github.io/ebay-node-api)
+
 ## 📒 Table of Contents
 
 * [Installation](# installation)
