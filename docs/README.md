@@ -1,4 +1,4 @@
-# Ebay API Node.js
+# **Ebay API Node.js**
 
 Ebay API Client for node js.
 
@@ -9,13 +9,13 @@ The intent is to simplify the request process by handling the tedious logic. It'
 [![Build Status](https://travis-ci.org/pajaydev/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
 
 
-## 🚚 Installation
+# 🚚**Installation**
 
 ```shell
 npm install ebay-node-api
 ```
 
-## ⚡️ Usage:
+# ⚡️**Usage**
 
 ```javascript
 let eBay = require('ebay-node-api')
@@ -46,7 +46,7 @@ If you using Sandbox environment, make sure to provide `env` variable in options
 - `headers` - optional(`Object`) - Add custom request headers. For reference [Header Section](https://developer.ebay.com/api-docs/static/rest-request-components.html#HTTP)
 - `countryCode` - optional(`String`) - sets the GLOBAL-ID parameter which specifies the eBay site to use for searches. [Possible IDs](https://developer.ebay.com/DevZone/merchandising/docs/Concepts/SiteIDToGlobalID.html)
 
-## API
+## **Examples**
 
 ### GetAccessToken
 
@@ -350,21 +350,21 @@ ebay.getShippingCosts({
 });
 ```
 
-## Test
+## **Test**
 All test files are present inside test folder. You can run using
 
 ```javascript
 npm run test
 ```
-## Issues:
+## **Issues**
 If you are facing any issues, you can create the issues [here](https://github.com/pajaydev/ebay-node-api/issues).
 
-## 👍 Contribution:
+## 👍 **Contribution**
 Show your ❤️ and support by giving a ⭐. Willing to share your idea or ready to contribute, check [here](https://github.com/pajaydev/ebay-node-api/blob/master/CONTRIBUTING.md)
 
-## 📝 License:
+## 📝 **License**
 MIT.
 
-## Examples:
+## Demo:
 I have mentioned the examples here
 https://github.com/pajaydev/ebay-node-api/tree/master/demo.
