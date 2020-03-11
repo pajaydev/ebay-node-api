@@ -14,13 +14,8 @@ const findItemsByKeywords = function (options) {
     this.options.operationName = FIND_ITEMS_BY_KEYWORD;
     this.options.param = 'keywords';
     // support only keyword string.
-    if (!options.keywords) {
-        this.options.name = encodeURIComponent(options);
-    }
-    else {
-        options.keywords = encodeURIComponent(options.keywords);
-    }
-
+    if (!options.keywords) options = { keywords: options };
+    options.keywords = encodeURIComponent(options.keywords);
     this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
