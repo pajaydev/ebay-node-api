@@ -4,7 +4,7 @@ const qs = require('querystring');
 
 const getRequest = (url) => {
     if (url.includes('http://')) httpRequest = require('http');
-    return new Promise(function (resolve, reject) {
+    return new Promise(((resolve, reject) => {
         httpRequest.get(url, res => {
             res.setEncoding('utf8');
             let body = '';
@@ -22,7 +22,7 @@ const getRequest = (url) => {
 
             });
         });
-    });
+    }));
 };
 
 const makeRequest = function postRequest(self, endpoint, methodName, token) {
@@ -44,7 +44,7 @@ const makeRequest = function postRequest(self, endpoint, methodName, token) {
             ...self.headers
         }
     };
-    return new Promise(function (resolve, reject) {
+    return new Promise(((resolve, reject) => {
         const req = httpRequest.request(options, res => {
             res.setEncoding('utf8');
             let body = '';
@@ -64,7 +64,7 @@ const makeRequest = function postRequest(self, endpoint, methodName, token) {
         //console.log('request ' + dataString);
         if (methodName === 'POST') req.write(dataString);
         req.end();
-    });
+    }));
 };
 
 
