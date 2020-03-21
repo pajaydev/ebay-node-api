@@ -12,20 +12,20 @@ describe('test ebay finding Api', () => {
             let ebay = new eBay({
                 clientID: 'ClientId'
             });
-            expect(() => { ebay.findItemsByCategory() }).to.throw('Category ID is null or invalid');
+            expect(() => { ebay.findItemsByCategory(); }).to.throw('Category ID is null or invalid');
         });
 
         it('test findCompletedItemswith required params', () => {
             let ebay = new eBay({
                 clientID: 'ClientId'
             });
-            expect(() => { ebay.findCompletedItems('') }).to.throw('Keyword or category ID are required.');
+            expect(() => { ebay.findCompletedItems(''); }).to.throw('Keyword or category ID are required.');
         });
     });
 
     describe('test constructAdditionalParams', () => {
         it('test constructAdditionalParams with required params', () => {
-            let expected_param = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest'
+            let expected_param = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
             const options = {
                 keywords: 'iphone',
                 categoryId: '111',
@@ -88,7 +88,7 @@ describe('test ebay finding Api', () => {
             let ebay = new eBay({
                 clientID: 'ABCD'
             });
-            nockFindingApi.get('/services/search/FindingService/v1?SECURITY-APPNAME=ABCD&OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&paginationInput.entriesPerPage=2&keywords=ipad&itemFilter(0).name=ExpeditedShippingType&itemFilter(0).value=OneDayShipping&outputSelector(0)=SellerInfo&GLOBAL-ID=EBAY-US')
+            nockFindingApi.get('/services/search/FindingService/v1?SECURITY-APPNAME=ABCD&OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&paginationInput.entriesPerPage=2&keywords=ipad&itemFilter(0).name=ExpeditedShippingType&itemFilter(0).value=OneDayShipping&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLLarge&GLOBAL-ID=EBAY-US')
                 .reply(200, { "findItemsAdvancedResponse": [{ "ack": ["Success"] }] });
             return ebay.findItemsAdvanced({
                 entriesPerPage: 2,
@@ -100,5 +100,5 @@ describe('test ebay finding Api', () => {
                 console.log(error);
             });
         });
-    })
+    });
 });
