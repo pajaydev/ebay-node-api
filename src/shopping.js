@@ -11,7 +11,7 @@ const getAllCategories = function (categoryID) {
     const url = urlObject.buildShoppingUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data);
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -25,7 +25,7 @@ const getUserDetails = function (input) {
     const url = urlObject.buildShoppingUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data);
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -37,7 +37,7 @@ const getItemStatus = function (itemIds) {
     const url = urlObject.buildShoppingUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data);
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -54,7 +54,7 @@ const getShippingCosts = function (input) {
     url = url + params;
     return getRequest(url).then((data) => {
         return JSON.parse(data);
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
