@@ -20,8 +20,7 @@ const findItemsByKeywords = function (options) {
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
-
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -33,8 +32,7 @@ const findItemsByCategory = function (categoryID) {
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
-
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -55,7 +53,7 @@ const findCompletedItems = function (options) {
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -75,7 +73,7 @@ const findItemsAdvanced = function (options) {
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -85,7 +83,7 @@ const getVersion = function () {
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 
@@ -104,7 +102,7 @@ const findItemsByProduct = function (options) {
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
 
-    }, console.error
+    }, console.error // eslint-disable-line no-console
     );
 };
 

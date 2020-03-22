@@ -17,7 +17,7 @@ const getMostWatchedItems = function (merchOptions) {
     return getRequest(`http://${this.options.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getMostWatchedItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.options.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`).then((result) => {
         return JSON.parse(result);
     }).catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line no-console
     });
 };
 
@@ -30,11 +30,10 @@ const getMostWatchedItems = function (merchOptions) {
 const getSimilarItems = function (merchOptions) {
     if (!this.options.clientID) throw new Error('Missing App id or client id');
     const url = parseObj(merchOptions);
-    console.log(`http://${this.options.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getSimilarItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.options.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`);
     return getRequest(`http://${this.options.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getSimilarItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.options.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`).then((result) => {
         return JSON.parse(result);
     }).catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line no-console
     });
 };
 
