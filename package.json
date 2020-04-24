@@ -32,7 +32,7 @@
     "extends": "ajay"
   },
   "dependencies": {
-    "eslint-config-ajay": "^1.0.2",
+    "eslint-config-ajay": "^1.0.6",
     "make-string": "^1.0.3",
     "oauth-ebay": "^1.0.0"
   },
