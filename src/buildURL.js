@@ -38,14 +38,12 @@ const buildURL = {
    * @return {String} url
    * @private
    */
-    buildShoppingUrl(options) {
+    buildShoppingUrl(options, operationName) {
         let baseUrl = `https://${options.baseUrl}/Shopping?`;
-        baseUrl += 'appid=' + options.clientID;
-        baseUrl += '&callname=' + options.operationName;
-        baseUrl += '&version=967&siteid=0&responseencoding=JSON&';
-        baseUrl += options.param + '=' + options.name;
+        baseUrl += `appid=${options.clientID}`;
+        baseUrl += `&callname=${operationName}`;
+        baseUrl += `&version=967&siteid=${options.siteId || 0}&responseencoding=JSON`;
         baseUrl += options.includeSelector ? '&IncludeSelector=' + options.includeSelector : '';
-        //base_url += '&GLOBAL-ID=' + oglobalID;
         return baseUrl;
     }
 

@@ -24,6 +24,9 @@ module.exports = {
             return resultJSON;
         });
     },
+    setSiteId: function (siteId) {
+        this.options.siteId = siteId;
+    },
     setHeaders(self, headerObj) {
         self.headers = Object.assign({}, self.headers, headerObj);
     },
