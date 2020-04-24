@@ -1,6 +1,6 @@
 {
   "name": "ebay-node-api",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
