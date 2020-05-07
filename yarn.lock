@@ -1862,9 +1862,10 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-config-ajay@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-config-ajay/-/eslint-config-ajay-1.0.3.tgz#3d5a2016469ae17eab7e4ce951f520faaeb75075"
+eslint-config-ajay@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/eslint-config-ajay/-/eslint-config-ajay-1.0.6.tgz#c741e63ca92b004006e7cdbae9d93185fdf102ba"
+  integrity sha512-guK8sw0qFnuSbAwFy6SL407gzmAAhKGtwizJ4tsXmE9nVK7NXkeJSQsW8CVBM3RBrM91tgWlUZ3hNU9OHkbmPA==
   dependencies:
     eslint "^5.16.0"
 

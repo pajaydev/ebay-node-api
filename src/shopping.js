@@ -5,62 +5,88 @@ const urlObject = require('./buildURL');
 const makeString = require('make-string');
 
 const getAllCategories = function (categoryID) {
-    this.options.name = categoryID ? categoryID : -1;
-    this.options.operationName = 'GetCategoryInfo';
-    this.options.param = 'CategoryID';
-    const url = urlObject.buildShoppingUrl(this.options);
-    return getRequest(url).then((data) => {
+    const requestURL = `${urlObject.buildShoppingUrl(this.options, 'GetCategoryInfo')}&${stringifyUrl({ 'CategoryID': categoryID || -1 })}`;
+    console.log(requestURL);
+    return getRequest(requestURL).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
     );
 };
 
 const getUserDetails = function (input) {
-    if (!input || typeof input !== 'object') throw new Error('Invalid input');
-    if (!input.userId) throw new Error('Invalid Input, UserId is required');
-    this.options.operationName = 'GetUserProfile';
-    this.options.param = 'UserID';
-    this.options.name = input.userId;
-    this.options.includeSelector = input.details ? 'Details' : null;
-    const url = urlObject.buildShoppingUrl(this.options);
-    return getRequest(url).then((data) => {
+    if (!input || typeof input !== 'object') throw new Error('invalid_request_error -> Invalid input');
+    if (!input.userId) throw new Error('invalid_request_error -> userId is null or invalid');
+    const requestUrl = `${urlObject.buildShoppingUrl(this.options, 'GetUserProfile')}&${stringifyUrl(input)}`;
+    console.log(requestUrl);
+    return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
     );
 };
 
 const getItemStatus = function (itemIds) {
-    if (!itemIds) throw new Error('User ID is null or invalid');
-    this.options.operationName = 'GetItemStatus';
-    this.options.param = 'ItemID';
-    this.options.name = makeString(itemIds, { braces: 'false', quotes: 'no' });
-    const url = urlObject.buildShoppingUrl(this.options);
-    return getRequest(url).then((data) => {
+    if (!itemIds) throw new Error('invalid_request_error -> Item ID is null or invalid');
+    const paramsObj = {
+        'ItemID': makeString(itemIds, { braces: 'false', quotes: 'no' })
+    };
+    const requestUrl = `${urlObject.buildShoppingUrl(this.options, 'GetItemStatus')}&${stringifyUrl(paramsObj)}`;
+    console.log(requestUrl);
+    return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
     );
 };
 
 const getShippingCosts = function (input) {
-    if (!input || typeof input !== 'object') throw new Error('Invalid input');
-    if (!input.itemId) throw new Error('Item ID is null or invalid');
-    this.options.operationName = 'GetShippingCosts';
-    this.options.param = 'ItemID';
-    this.options.name = input.itemId;
-    const countryCodeParam = input.destCountryCode ? '&DestinationCountryCode=' + input.destCountryCode : '';
-    const postalCodeParam = input.destPostalCode ? '&DestinationPostalCode=' + input.destPostalCode : '';
-    const params = countryCodeParam + postalCodeParam;
-    let url = urlObject.buildShoppingUrl(this.options);
-    url = url + params;
+    if (!input || typeof input !== 'object') throw new Error('invalid_request_error -> Invalid input');
+    if (!input.itemId) throw new Error('invalid_request_error -> Item id is null or invalid');
+    const url = `${urlObject.buildShoppingUrl(this.options, 'GetShippingCosts')}&${stringifyUrl(input)} `;
+    console.log(url);
     return getRequest(url).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
     );
 };
 
+/**
+  * @method getMultipleItems {Function}
+  * Retrieves publicly visible details about for one or more listings on eBay.
+  * @param {Object} options (required)
+  */
+const getMultipleItems = function (options) {
+    if (!options || !options.itemId) throw new Error('invalid_request_error -> Item ID is null or invalid');
+    const requestUrl = `${urlObject.buildShoppingUrl(this.options, 'GetMultipleItems')}&${stringifyUrl({ 'itemId': makeString(options.itemId, { braces: 'false', quotes: 'no' }) })}`;
+    console.log(requestUrl);
+    return getRequest(requestUrl).then((data) => {
+        return JSON.parse(data);
+    }, console.error // eslint-disable-line no-console
+    );
+};
+
+
+/**
+  * @method getSingleItem {Function}
+  * Retrieves publicly visible details about one listing on eBay.
+  * @param {String} itemId (required)
+  */
+const getSingleItem = function (itemId) {
+    if (!itemId) throw new Error('invalid_request_error -> Item ID is null or invalid');
+    const requestUrl = `${urlObject.buildShoppingUrl(this.options, 'GetSingleItem')}&${stringifyUrl({ 'ItemID': itemId })} `;
+    return getRequest(requestUrl).then((data) => {
+        return JSON.parse(data);
+    }, console.error // eslint-disable-line no-console
+    );
+};
+
+const stringifyUrl = (obj) => {
+    return makeString(obj, { braces: 'false', assignment: '=', quotes: 'no', seperator: '&' });
+};
+
 module.exports = {
     getAllCategories,
     getUserDetails,
     getItemStatus,
-    getShippingCosts
+    getShippingCosts,
+    getSingleItem,
+    getMultipleItems
 };

@@ -1,9 +1,6 @@
 'use strict';
 const ebayBuyApi = require('./buy-api');
-const { getAllCategories,
-    getShippingCosts,
-    getItemStatus,
-    getUserDetails } = require('./shopping');
+const shoppingApi = require('./shopping');
 const { getDefaultCategoryTreeId,
     getCategoryTree,
     getCategorySubtree,
@@ -47,6 +44,7 @@ function Ebay(options) {
     this.options = options;
     setHeaders(this, options.headers);
     this.options.globalID = options.countryCode || 'EBAY-US';
+    this.options.siteId = options.siteId || '0';
 }
 
 Ebay.prototype = {
@@ -61,10 +59,7 @@ Ebay.prototype = {
     getItemAspectsForCategory,
     getMostWatchedItems,
     getSimilarItems,
-    getAllCategories,
-    getShippingCosts,
-    getItemStatus,
-    getUserDetails,
+    ...shoppingApi,
     ...ebayBuyApi,
     ...ebayFindingApi
 };

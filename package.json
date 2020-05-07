@@ -1,11 +1,11 @@
 {
   "name": "ebay-node-api",
-  "version": "2.8.1",
+  "version": "2.8.3",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
   "scripts": {
-    "lint": "eslint src/*.js",
+    "lint": "eslint src/*.js test/*.js",
     "test": "mocha && npm run lint",
     "docs": "docsify init ./docs",
     "serve-docs": "docsify serve docs",
@@ -32,7 +32,7 @@
     "extends": "ajay"
   },
   "dependencies": {
-    "eslint-config-ajay": "^1.0.2",
+    "eslint-config-ajay": "^1.0.6",
     "make-string": "^1.0.3",
     "oauth-ebay": "^1.0.0"
   },
