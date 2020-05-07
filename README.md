@@ -6,7 +6,7 @@ The intent is to simplify the request process by handling the tedious logic. It'
 
 [![npm version](https://badge.fury.io/js/ebay-node-api.svg)](https://badge.fury.io/js/ebay-node-api)
 [![Downloads](https://img.shields.io/npm/dt/ebay-node-api.svg)](https://img.shields.io/npm/dt/ebay-node-api.svg)
-[![Build Status](https://travis-ci.org/pajaydev/ebay-node-api.svg?branch=master)](https://travis-ci.org/pajaydev/ebay-node-api)
+[![Build Status](https://travis-ci.org/pajaydev/ebay-node-api.svg?branch=master)](https://travis-ci.org/ajay2507/ebay-node-api)
 
 
 # 🚚**Installation**
@@ -308,21 +308,6 @@ ebay.getAccessToken()
     });
 ```
 ### ShoppingApi
-
-#### GetSingleItem
-```javascript
-ebay.getSingleItem('153265274986').then((data) => {
-    console.log(data);
-});
-```
-
-#### GetMultipleItems
-```javascript
-ebay.getMultipleItems({ itemId: ['153265274986', '153265274986'] }).then((data) => {
-    console.log(data);
-});
-```
-
 #### GetAllCategories
 ```javascript
 
