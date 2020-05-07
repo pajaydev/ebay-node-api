@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
   "scripts": {
-    "lint": "eslint src/*.js",
+    "lint": "eslint src/*.js test/*.js",
     "test": "mocha && npm run lint",
     "docs": "docsify init ./docs",
     "serve-docs": "docsify serve docs",

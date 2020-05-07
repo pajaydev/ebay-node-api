@@ -1,5 +1,5 @@
 const nock = require('nock');
-const eBay = require('../src/index');
+const Ebay = require('../src/index');
 let expect = require('chai').expect;
 
 describe('Test find items by keyword method', () => {
@@ -22,9 +22,9 @@ describe('Test find items by keyword method', () => {
     });
 
     it('test input parameter in findItemsByKeyword method', () => {
-        let ebay = new eBay({
+        let ebay = new Ebay({
             clientID: 'ClientId'
-        })
-        expect(() => { ebay.findItemsByKeywords() }).to.throw('Keyword is missing, Keyword is required');
+        });
+        expect(() => { ebay.findItemsByKeywords(); }).to.throw('Keyword is missing, Keyword is required');
     });
 });
