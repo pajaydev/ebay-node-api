@@ -7,7 +7,7 @@ describe('test building url methods', () => {
 
 
     it('test search url', () => {
-        let expectedSearchUrl = 'https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&keywords=iphone&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLLarge&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US';
+        let expectedSearchUrl = 'https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=testID&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&keywords=iphone&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLLarge&outputSelector(2)=PictureURLSuperSize&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US';
         let options = {
             name: 'iphone',
             operationName: 'findItemsByKeywords',
