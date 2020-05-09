@@ -322,7 +322,7 @@ ebay.getAllCategories('1234').then((data) => {
 Get User Profile
 ```javascript
 //https://developer.ebay.com/devzone/shopping/docs/callref/GetUserProfile.html
-ebay.getUserDetails({ userId: 'ajaykumapratha_0', details: true }).then((data) => {
+ebay.getUserDetails({ userId: 'ajaykumapratha_0', includeSelector: true }).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
