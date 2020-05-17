@@ -6,11 +6,18 @@ const base64Encode = (encodeData) => {
     return buff.toString('base64');
 }
 
+
+
+
+
+
+
 module.exports = {
     setAccessToken: function (token) {
         this.options.access_token = token;
     },
-    getAccessToken: function () {
+    _getAccessToken: function () {
+        console.log("Enter to generate the token");
         if (!this.options.clientID) throw new Error('Missing Client ID');
         if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
         if (!this.options.body) throw new Error('Missing Body, required Grant type');
