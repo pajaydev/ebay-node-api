@@ -11,7 +11,7 @@ const { MERCH_SRVC_NAME } = require('./constants');
   * Add interest and excitement for buyers by showing them what other people are watching.
   * @param {String} categoryId (optional)
   */
-const getMostWatchedItems = merchOptions => {
+const getMostWatchedItems = function (merchOptions) {
     if (!this.credentials.clientID) throw new Error('Missing App id or client id');
     const url = urlParseObj(merchOptions);
     return getRequest(`http://${this.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getMostWatchedItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.credentials.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`).then((result) => {
@@ -27,7 +27,7 @@ const getMostWatchedItems = merchOptions => {
   * Gets similar Items based on the Item id provided.
   * @param {String} categoryId (optional)
   */
-const getSimilarItems = merchOptions => {
+const getSimilarItems = function (merchOptions) {
     if (!this.credentials.clientID) throw new Error('Missing App id or client id');
     const url = urlParseObj(merchOptions);
     return getRequest(`http://${this.baseSvcUrl}/${MERCH_SRVC_NAME}?OPERATION-NAME=getSimilarItems&SERVICE-NAME=${MERCH_SRVC_NAME}&SERVICE-VERSION=1.1.0&CONSUMER-ID=${this.credentials.clientID}&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD${url}`).then((result) => {

@@ -5,7 +5,7 @@ const qs = require('querystring');
 const { makeRequest } = require('./request');
 const { base64Encode, encodeURLQuery } = require('./utils')
 
-const getItemById = itemId => {
+const getItemById = function (itemId) {
     if (!itemId) throw new Error('Item Id is required');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     const auth = 'Bearer ' + this.appAccessToken;
@@ -22,7 +22,7 @@ const getItemById = itemId => {
     });
 };
 
-const getItemByLegacyId = legacyOptions => {
+const getItemByLegacyId = function (legacyOptions) {
     if (!legacyOptions) throw new Error('Error Required input to get Items By LegacyID');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     if (!legacyOptions.legacyItemId) throw new Error('Error Legacy Item Id is required');
@@ -41,7 +41,7 @@ const getItemByLegacyId = legacyOptions => {
     });
 };
 
-const getItemByItemGroup = itemGroupId => {
+const getItemByItemGroup = function (itemGroupId) {
     if (typeof itemGroupId === 'object') throw new Error('Expecting String or number (Item group id)');
     if (!itemGroupId) throw new Error('Error Item Group ID is required');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
@@ -58,7 +58,7 @@ const getItemByItemGroup = itemGroupId => {
     });
 };
 
-const searchItems = searchConfig => {
+const searchItems = function (searchConfig) {
     if (!searchConfig) throw new Error('Missing or invalid input parameter to search');
     if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin) throw new Error('Error --> Keyword or category id is required in query param');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
@@ -84,7 +84,7 @@ const searchItems = searchConfig => {
     });
 };
 
-const searchByImage = searchConfig => {
+const searchByImage = function (searchConfig) {
     if (!searchConfig) throw new Error('Missing or invalid input parameter to search by image');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     if (!searchConfig.imgPath && !searchConfig.base64Image) throw new Error('imgPath or base64Image is required');

@@ -4,7 +4,7 @@ const { getRequest } = require('./request');
 const { buildShoppingUrl } = require('./utils');
 const makeString = require('make-string');
 
-const getAllCategories = categoryID => {
+const getAllCategories = function (categoryID) {
     const requestURL = `${buildShoppingUrl(this, 'GetCategoryInfo')}&${stringifyUrl({ 'CategoryID': categoryID || -1 })}`;
     return getRequest(requestURL).then((data) => {
         return JSON.parse(data);
@@ -12,7 +12,7 @@ const getAllCategories = categoryID => {
     );
 };
 
-const getUserDetails = input => {
+const getUserDetails = function (input) {
     if (!input || typeof input !== 'object') throw new Error('Input param is required');
     if (!input.userId) throw new Error('userId is required');
     input.includeSelector = input.includeSelector ? input.includeSelector : 'Details';
@@ -23,7 +23,7 @@ const getUserDetails = input => {
     );
 };
 
-const getItemStatus = itemIds => {
+const getItemStatus = function (itemIds) {
     if (!itemIds) throw new Error('Item ID param is required');
     const paramsObj = {
         'ItemID': makeString(itemIds, { braces: 'false', quotes: 'no' })
@@ -35,7 +35,7 @@ const getItemStatus = itemIds => {
     );
 };
 
-const getShippingCosts = input => {
+const getShippingCosts = function (input) {
     if (!input || typeof input !== 'object') throw new Error('iInput param is required');
     if (!input.itemId) throw new Error('Item ID param is required');
     const url = `${buildShoppingUrl(this, 'GetShippingCosts')}&${stringifyUrl(input)} `;
@@ -50,7 +50,7 @@ const getShippingCosts = input => {
   * Retrieves publicly visible details about for one or more listings on eBay.
   * @param {Object} options (required)
   */
-const getMultipleItems = options => {
+const getMultipleItems = function (options) {
     if (!options || !options.itemId) throw new Error('Item ID param is required');
     const requestUrl = `${buildShoppingUrl(this, 'GetMultipleItems')}&${stringifyUrl({ 'itemId': makeString(options.itemId, { braces: 'false', quotes: 'no' }) })}`;
     return getRequest(requestUrl).then((data) => {
@@ -65,7 +65,7 @@ const getMultipleItems = options => {
   * Retrieves publicly visible details about one listing on eBay.
   * @param {String} itemId (required)
   */
-const getSingleItem = itemId => {
+const getSingleItem = function (itemId) {
     if (!itemId) throw new Error('invalid_request_error -> Item ID is null or invalid');
     const requestUrl = `${buildShoppingUrl(this, 'GetSingleItem')}&${stringifyUrl({ 'ItemID': itemId })} `;
     return getRequest(requestUrl).then((data) => {
@@ -74,7 +74,7 @@ const getSingleItem = itemId => {
     );
 };
 
-const stringifyUrl = (obj) => {
+const stringifyUrl = function (obj) {
     return makeString(obj, { braces: 'false', assignment: '=', quotes: 'no', seperator: '&' });
 };
 

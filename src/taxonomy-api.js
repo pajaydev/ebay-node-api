@@ -26,7 +26,7 @@ const getDefaultCategoryTreeId = marketPlaceId => {
   * @param {Integer} categoryTreeId = default = 0
   */
 
-const getCategoryTree = categoryTreeId => {
+const getCategoryTree = function (categoryTreeId) {
     if (!categoryTreeId) categoryTreeId = 0;
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');
     let config = {
@@ -44,7 +44,7 @@ const getCategoryTree = categoryTreeId => {
   * @param {String} categoryTreeId = The unique identifier of the eBay category tree from which a category subtree is being requested.
   */
 
-const getCategorySubtree = (categoryTreeId, categoryId) => {
+const getCategorySubtree = function (categoryTreeId, categoryId) {
     if (!categoryTreeId) categoryTreeId = 0;
     if (!categoryId) throw new Error('Missing Categor id \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategorySubtree#h2-samples');
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');
@@ -63,7 +63,7 @@ const getCategorySubtree = (categoryTreeId, categoryId) => {
   * @param {String} keyword = input string to get CategorySuggestions.
   */
 
-const getCategorySuggestions = (categoryTreeId, keyword) => {
+const getCategorySuggestions = function (categoryTreeId, keyword) {
     if (!categoryTreeId) categoryTreeId = 0;
     if (!keyword) throw new Error('Missing keyword \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getCategorySuggestions');
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');
@@ -81,7 +81,7 @@ const getCategorySuggestions = (categoryTreeId, keyword) => {
   * @param {String} categoryId = identifier of the category at the top of the subtree.
   * @param {String} keyword = input string to get CategorySuggestions.
   */
-const getItemAspectsForCategory = (categoryTreeId, categoryId) => {
+const getItemAspectsForCategory = function (categoryTreeId, categoryId) {
     if (!categoryTreeId) categoryTreeId = 0;
     if (!categoryId) throw new Error('Missing Category id \n Refer documentation here https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getItemAspectsForCategory#h2-samples');
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');

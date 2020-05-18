@@ -68,11 +68,10 @@ function Ebay(options) {
 */
 const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
     if (!this.credentials) throw new Error('Credentials are required');
-    this.grantType = 'client_credentials';
-    this.scope = Array.isArray(scopes) ? scopes.join('%20') : scopes;
+    scopes = Array.isArray(scopes) ? scopes.join('%20') : scopes;
     const data = qs.stringify({
-        grant_type: this.grantType,
-        scope: this.scope
+        grant_type: 'client_credentials',
+        scope: scopes
     });
     const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
@@ -86,7 +85,7 @@ const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
  * @param state custom state value
  * @return userConsentUrl
 */
-const getUserAuthorizationUrl = (scopes, state = None) => {
+const getUserAuthorizationUrl = function (scopes, state = None) {
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
     if (!this.credentials.redirectUri) throw new Error('redirect_uri is required for redirection after sign in\nkindly check here https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html');
@@ -106,7 +105,7 @@ const getUserAuthorizationUrl = (scopes, state = None) => {
  * @param code code generated from browser using the method generateUserAuthorizationUrl.
  * @return accessToken object.
 */
-const getAccessTokenByCode = code => {
+const getAccessTokenByCode = function (code) {
     if (!code) throw new Error('Authorization code is required');
     if (!this.credentials) throw new Error('Credentials are required');
     const data = qs.stringify({
@@ -126,7 +125,7 @@ const getAccessTokenByCode = code => {
  * @param scopes array of scopes for the access token
  * @return accessToken object
 */
-const getAccessTokenByRefresh = (refreshToken = None, scopes) => {
+const getAccessTokenByRefresh = function (refreshToken = None, scopes) {
     refreshToken = refreshToken ? refreshToken : this.refreshToken;
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
@@ -150,7 +149,7 @@ const getAccessTokenByRefresh = (refreshToken = None, scopes) => {
  * @param accessToken User Access token
  * @param refreshToken Refresh token
 */
-const setUserAccessTokens = (accessToken, refreshToken) => {
+const setUserAccessTokens = function (accessToken, refreshToken) {
     this.refreshToken = refreshToken;
     this.userAccessToken = accessToken;
 }
@@ -160,13 +159,19 @@ const setUserAccessTokens = (accessToken, refreshToken) => {
  * 
  * @param accessToken User Access token
 */
-const setAppAccessToken = accessToken => {
+const setAppAccessToken = function (accessToken) {
     this.appAccessToken = accessToken;
 }
 
-const getRefreshToken = () => this.refreshToken;
-const getUserAccessToken = () => this.userAccessToken;
-const getAppAccessToken = () => this.appAccessToken;
+const getRefreshToken = function () {
+    return this.refreshToken;
+} 
+const getUserAccessToken = function () {
+    return this.userAccessToken;
+}
+const getAppAccessToken = function () {
+    return this.appAccessToken;
+}
 
 Ebay.prototype = {
     getApplicationToken,

@@ -29,8 +29,7 @@ const makeRequest = (self, customOptions, endpoint, methodName, token) => {
     let dataString = '';
     if (customOptions.data) {
         dataString = customOptions.data;
-    }
-    else {
+    } else {
         methodName === 'POST' ? dataString = qs.stringify(customOptions.body) : '';
     }
     const options = {
@@ -69,7 +68,7 @@ const makeRequest = (self, customOptions, endpoint, methodName, token) => {
 
 const postRequest = (self, contentType, data, endpoint, authToken) => {
     return new Promise((resolve, reject) => {
-        const req = https.request({
+        const req = httpRequest.request({
             hostname: self.baseUrl,
             path: endpoint,
             method: 'POST',
@@ -77,13 +76,13 @@ const postRequest = (self, contentType, data, endpoint, authToken) => {
                 'Content-Type': contentType,
                 'authorization': authToken,
                 ...self.headers
-            }, 
+            },
         });
-        req.on('response', (response) => {
+        req.on('response', (res) => {
             let body = '';
-            response.setEncoding('utf8');
-            response.on('data', (chunk) => body += chunk); // eslint-disable-line 
-            response.on('end', () => {
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => body += chunk); // eslint-disable-line 
+            res.on('end', () => {
                 if (body.error) {
                     reject(body);
                 }
@@ -95,6 +94,7 @@ const postRequest = (self, contentType, data, endpoint, authToken) => {
             reject(error);
         });
         req.end(data);
+        console.log(req.body);
     });
 };
 

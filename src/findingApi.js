@@ -7,7 +7,7 @@ const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
 const FIND_ITEMS_ADV = 'findItemsAdvanced';
 
-const findItemsByKeywords = options => {
+const findItemsByKeywords = function (options) {
     if (!options) {
         throw new Error('Keyword param is required');
     }
@@ -26,7 +26,7 @@ const findItemsByKeywords = options => {
     );
 };
 
-const findItemsByCategory = categoryID => {
+const findItemsByCategory = function (categoryID) {
     if (!categoryID) throw new Error('Category ID is required');
     let config = {
         name: categoryID,
@@ -45,7 +45,7 @@ const findItemsByCategory = categoryID => {
  * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
-const findCompletedItems = options => {
+const findCompletedItems = function (options) {
     if (!options || options.keywords || options.categoryId) throw new Error('Keyword or category ID is required');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
@@ -68,7 +68,7 @@ const findCompletedItems = options => {
  * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
-const findItemsAdvanced = options => {
+const findItemsAdvanced = function (options) {
     if (!options) throw new Error('Options param is required\nCheck here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
@@ -99,7 +99,7 @@ const getVersion = function () {
  * Searches for items on eBay using specific eBay product values.
  * @param {Object} options
  */
-const findItemsByProduct = options => {
+const findItemsByProduct = function (options) {
     if (!options) throw new Error('Options param is required');
     if (!options.productId) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
@@ -122,7 +122,7 @@ const findItemsByProduct = options => {
  * output will be keywords=iphone&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=SoldItemsOnly&itemFilter(2).value=true
  * @param {Object} options
  */
-const constructAdditionalParams = (options) => {
+const constructAdditionalParams = function (options) {
     let params = '';
     let count = 0;
     for (let key in options) {
