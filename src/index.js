@@ -64,7 +64,7 @@ function Ebay(options) {
 * Generates an application access token for client credentials grant flow
 *
 * @param scopes array of scopes for the access token
-* @return accessToken object
+* @return appAccessToken object
 */
 const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
     if (!this.credentials) throw new Error('Credentials are required');
@@ -73,9 +73,11 @@ const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
         grant_type: 'client_credentials',
         scope: scopes
     });
-    const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
+    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
-    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth);
+    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
+        return JSON.parse(result);
+    });
 }
 
 /**
@@ -103,7 +105,7 @@ const getUserAuthorizationUrl = function (scopes, state = None) {
  * 
  * @param environment Environment (production/sandbox).
  * @param code code generated from browser using the method generateUserAuthorizationUrl.
- * @return accessToken object.
+ * @return userAccessToken object.
 */
 const getAccessTokenByCode = function (code) {
     if (!code) throw new Error('Authorization code is required');
@@ -115,7 +117,9 @@ const getAccessTokenByCode = function (code) {
     });
     const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
-    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth);
+    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
+        return JSON.parse(result);
+    });;
 }
 
 /**
@@ -123,7 +127,7 @@ const getAccessTokenByCode = function (code) {
  * 
  * @param refreshToken refresh token, defaults to pre-assigned refresh token
  * @param scopes array of scopes for the access token
- * @return accessToken object
+ * @return userAccessToken object
 */
 const getAccessTokenByRefresh = function (refreshToken = None, scopes) {
     refreshToken = refreshToken ? refreshToken : this.refreshToken;
@@ -140,27 +144,30 @@ const getAccessTokenByRefresh = function (refreshToken = None, scopes) {
     });
     const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
-    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth);
+    return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
+        return JSON.parse(result);
+    });
 }
 
 /**
  * Assign user access token and refresh token returned from authorization grant workflow (i.e getAccessTokenByCode)
  * 
- * @param accessToken User Access token
- * @param refreshToken Refresh token
+ * @param userAccessToken userAccessToken obj returned from getAccessTokenByCode or getAccessTokenByRefresh
 */
-const setUserAccessTokens = function (accessToken, refreshToken) {
-    this.refreshToken = refreshToken;
-    this.userAccessToken = accessToken;
+const setUserAccessTokens = function (userAccessToken) {
+    if (!userAccessToken.token_type == 'User Access Token') throw new Error('userAccessToken is either missing or invalid');
+    this.refreshToken = userAccessToken.refresh_token;
+    this.userAccessToken = userAccessToken.access_token;
 }
 
 /**
  * Assign application access token returned from client credentials workflow (i.e getApplicationToken)
  * 
- * @param accessToken User Access token
+ * @param appAccessToken userAccessToken obj returned from getApplicationToken
 */
-const setAppAccessToken = function (accessToken) {
-    this.appAccessToken = accessToken;
+const setAppAccessToken = function (appAccessToken) {
+    if (!appAccessToken.token_type == 'Application Access Token') throw new Error('appAccessToken is either missing or invalid');
+    this.appAccessToken = appAccessToken.access_token;
 }
 
 const getRefreshToken = function () {

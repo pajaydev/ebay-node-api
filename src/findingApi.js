@@ -19,7 +19,7 @@ const findItemsByKeywords = function (options) {
     if (!options.keywords) config = { keywords: options };
     config.keywords = encodeURIComponent(options.keywords);
     config.additionalParam = constructAdditionalParams(options);
-    const url = buildSearchUrl(config);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
     }, console.error // eslint-disable-line no-console
@@ -33,7 +33,7 @@ const findItemsByCategory = function (categoryID) {
         operationName: FIND_ITEMS_BY_CATEGORY,
         param: 'categoryId'
     }
-    const url = buildSearchUrl(config);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
     }, console.error // eslint-disable-line no-console
@@ -54,7 +54,7 @@ const findCompletedItems = function (options) {
         operationName: FIND_COMPLETED_ITEMS,
         additionalParam: constructAdditionalParams(options),
     }
-    const url = buildSearchUrl(config);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
@@ -77,7 +77,7 @@ const findItemsAdvanced = function (options) {
         operationName: FIND_ITEMS_ADV,
         additionalParam: constructAdditionalParams(options),
     }
-    const url = buildSearchUrl(config);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error // eslint-disable-line no-console
@@ -88,7 +88,7 @@ const getVersion = function () {
     let config = {
         operationName: 'getVersion',
     }
-    const url = buildSearchUrl(config);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
     }, console.error // eslint-disable-line no-console
@@ -107,7 +107,7 @@ const findItemsByProduct = function (options) {
         operationName: 'findItemsByProduct',
         additionalParam: constructAdditionalParams(options)
     }
-    let url = buildSearchUrl(config);
+    let url = buildSearchUrl(this, config);
     url = `${url}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;

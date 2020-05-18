@@ -94,7 +94,6 @@ const postRequest = (self, contentType, data, endpoint, authToken) => {
             reject(error);
         });
         req.end(data);
-        console.log(req.body);
     });
 };
 
