@@ -1,35 +1,39 @@
 'use strict';
 
-const urlObject = require('./buildURL');
+const { buildSearchUrl } = require('./utils')
 const { getRequest } = require('./request');
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
 const FIND_ITEMS_ADV = 'findItemsAdvanced';
 
-const findItemsByKeywords = function (options) {
+const findItemsByKeywords = options => {
     if (!options) {
-        throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
+        throw new Error('Keyword param is required');
     }
-    this.options.operationName = FIND_ITEMS_BY_KEYWORD;
-    this.options.param = 'keywords';
+    let config = {
+        operationName: FIND_ITEMS_BY_KEYWORD,
+        param: 'keywords'
+    };
     // support only keyword string.
-    if (!options.keywords) options = { keywords: options };
-    options.keywords = encodeURIComponent(options.keywords);
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
+    if (!options.keywords) config = { keywords: options };
+    config.keywords = encodeURIComponent(options.keywords);
+    config.additionalParam = constructAdditionalParams(options);
+    const url = buildSearchUrl(config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
     }, console.error // eslint-disable-line no-console
     );
 };
 
-const findItemsByCategory = function (categoryID) {
-    if (!categoryID) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
-    this.options.name = categoryID;
-    this.options.operationName = FIND_ITEMS_BY_CATEGORY;
-    this.options.param = 'categoryId';
-    const url = urlObject.buildSearchUrl(this.options);
+const findItemsByCategory = categoryID => {
+    if (!categoryID) throw new Error('Category ID is required');
+    let config = {
+        name: categoryID,
+        operationName: FIND_ITEMS_BY_CATEGORY,
+        param: 'categoryId'
+    }
+    const url = buildSearchUrl(config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
     }, console.error // eslint-disable-line no-console
@@ -41,15 +45,16 @@ const findItemsByCategory = function (categoryID) {
  * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
-const findCompletedItems = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword or category ID are required.');
-    if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
+const findCompletedItems = options => {
+    if (!options || options.keywords || options.categoryId) throw new Error('Keyword or category ID is required');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
-    this.options.operationName = FIND_COMPLETED_ITEMS;
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: FIND_COMPLETED_ITEMS,
+        additionalParam: constructAdditionalParams(options),
+    }
+    const url = buildSearchUrl(config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
@@ -63,24 +68,27 @@ const findCompletedItems = function (options) {
  * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
-const findItemsAdvanced = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> check here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
+const findItemsAdvanced = options => {
+    if (!options) throw new Error('Options param is required\nCheck here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
-    this.options.operationName = FIND_ITEMS_ADV;
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: FIND_ITEMS_ADV,
+        additionalParam: constructAdditionalParams(options),
+    }
+    const url = buildSearchUrl(config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error // eslint-disable-line no-console
     );
 };
 
-
 const getVersion = function () {
-    this.options.operationName = 'getVersion';
-    const url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: 'getVersion',
+    }
+    const url = buildSearchUrl(config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
     }, console.error // eslint-disable-line no-console
@@ -91,13 +99,15 @@ const getVersion = function () {
  * Searches for items on eBay using specific eBay product values.
  * @param {Object} options
  */
-const findItemsByProduct = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
-    if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
+const findItemsByProduct = options => {
+    if (!options) throw new Error('Options param is required');
+    if (!options.productId) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
-    this.options.operationName = 'findItemsByProduct';
-    this.options.additionalParam = constructAdditionalParams(options);
-    let url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: 'findItemsByProduct',
+        additionalParam: constructAdditionalParams(options)
+    }
+    let url = buildSearchUrl(config);
     url = `${url}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
