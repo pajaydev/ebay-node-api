@@ -5,7 +5,7 @@ const { buildShoppingUrl } = require('./utils');
 const makeString = require('make-string');
 
 const getAllCategories = function (categoryID) {
-    const requestURL = `${buildShoppingUrl(this, 'GetCategoryInfo')}&${stringifyUrl({ 'CategoryID': categoryID || -1 })}`;
+    const requestURL = `${urlObject.buildShoppingUrl(this, 'GetCategoryInfo')}&${stringifyUrl({ 'CategoryID': categoryID || -1 })}`;
     return getRequest(requestURL).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
@@ -13,10 +13,10 @@ const getAllCategories = function (categoryID) {
 };
 
 const getUserDetails = function (input) {
-    if (!input || typeof input !== 'object') throw new Error('Input param is required');
-    if (!input.userId) throw new Error('userId is required');
+    if (!input || typeof input !== 'object') throw new Error('invalid_request_error -> Invalid input');
+    if (!input.userId) throw new Error('invalid_request_error -> userId is null or invalid');
     input.includeSelector = input.includeSelector ? input.includeSelector : 'Details';
-    const requestUrl = `${buildShoppingUrl(this, 'GetUserProfile')}&${stringifyUrl(input)}`;
+    const requestUrl = `${urlObject.buildShoppingUrl(this, 'GetUserProfile')}&${stringifyUrl(input)}`;
     return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
@@ -28,7 +28,7 @@ const getItemStatus = function (itemIds) {
     const paramsObj = {
         'ItemID': makeString(itemIds, { braces: 'false', quotes: 'no' })
     };
-    const requestUrl = `${buildShoppingUrl(this, 'GetItemStatus')}&${stringifyUrl(paramsObj)}`;
+    const requestUrl = `${urlObject.buildShoppingUrl(this, 'GetItemStatus')}&${stringifyUrl(paramsObj)}`;
     return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
@@ -36,9 +36,9 @@ const getItemStatus = function (itemIds) {
 };
 
 const getShippingCosts = function (input) {
-    if (!input || typeof input !== 'object') throw new Error('iInput param is required');
-    if (!input.itemId) throw new Error('Item ID param is required');
-    const url = `${buildShoppingUrl(this, 'GetShippingCosts')}&${stringifyUrl(input)} `;
+    if (!input || typeof input !== 'object') throw new Error('invalid_request_error -> Invalid input');
+    if (!input.itemId) throw new Error('invalid_request_error -> Item id is null or invalid');
+    const url = `${urlObject.buildShoppingUrl(this, 'GetShippingCosts')}&${stringifyUrl(input)} `;
     return getRequest(url).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
@@ -51,8 +51,8 @@ const getShippingCosts = function (input) {
   * @param {Object} options (required)
   */
 const getMultipleItems = function (options) {
-    if (!options || !options.itemId) throw new Error('Item ID param is required');
-    const requestUrl = `${buildShoppingUrl(this, 'GetMultipleItems')}&${stringifyUrl({ 'itemId': makeString(options.itemId, { braces: 'false', quotes: 'no' }) })}`;
+    if (!options || !options.itemId) throw new Error('invalid_request_error -> Item ID is null or invalid');
+    const requestUrl = `${urlObject.buildShoppingUrl(this, 'GetMultipleItems')}&${stringifyUrl({ 'itemId': makeString(options.itemId, { braces: 'false', quotes: 'no' }) })}`;
     return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
