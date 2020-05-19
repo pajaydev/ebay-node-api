@@ -5,10 +5,10 @@
  * the type of request.
  */
 module.exports = {
-    buildSearchUrl: (self, options) => {
+    buildSearchUrl: (self, options, operationName) => {
         let url = `https://${self.baseSvcUrl}/services/search/FindingService/v1?`;
         url += 'SECURITY-APPNAME=' + self.credentials.clientID;
-        url += '&OPERATION-NAME=' + options.operationName;
+        url += '&OPERATION-NAME=' + operationName;
         url += '&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON';
         url += options.param ? '&' + options.param + '=' + options.name : '';
         url += options.additionalParam ? '&' + options.additionalParam : '';
@@ -16,15 +16,16 @@ module.exports = {
         url += '&outputSelector(0)=SellerInfo';
         url += '&outputSelector(1)=PictureURLLarge';
         url += options.limit ? '&paginationInput.entriesPerPage=' + options.limit : '';
-        url += this.globalID ? '&GLOBAL-ID=' + self.globalID : '';
+        url += self.globalID ? '&GLOBAL-ID=' + self.globalID : '';
         url += options.pageNumber ? '&paginationInput.pageNumber=' + options.pageNumber : '';
         return url;
     },
-    buildShoppingUrl: (self, operationName) => {
+    buildShoppingUrl: (self, operationName, includeSelector = null) => {
         let url = `https://${self.baseUrl}/Shopping?`;
         url += `appid=${self.credentials.clientID}`;
         url += `&callname=${operationName}`;
-        url += `&version=967&siteid=${self.siteId || 0}&responseencoding=JSON`;
+        url += `&version=967&siteid=${self.siteID || 0}&responseencoding=JSON`;
+        url += includeSelector ? '&IncludeSelector=' + includeSelector : '';
         return url;
     }
 };

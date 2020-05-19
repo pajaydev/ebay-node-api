@@ -27,7 +27,7 @@ const SANDBOX_ENV = 'SANDBOX';
  *
  * @param {Object} options configuration options - required
  * @param {String} options.clientID eBay Client/App ID - required
- * @param {String} options.clientSecret eBay Secret/Cert Id - required
+ * @param {String} options.clientSecret eBay Secret/Cert ID - required for user access tokens
  * @param {String} options.redirectUri redirect URI after user gives consent - required for authorization code flow
  * @param {String} options.headers HTTP request headers
  * @param {String} options.environment eBay API Environment, defaults to PROD (Production)
@@ -38,13 +38,15 @@ const SANDBOX_ENV = 'SANDBOX';
 
 function Ebay(options) {
     if (!options) throw new Error('Options is missing, please provide the input');
-    if (!options.clientID || !options.clientSecret) throw Error('Client ID/Secret Id is Missing\nCheck documentation to get them http://developer.ebay.com/DevZone/account/');
+    if (!options.clientID) throw Error('Client ID is Missing\nCheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
     if (!(this instanceof Ebay)) return new Ebay(options);
     if (options.environment === SANDBOX_ENV) {
+        this.environment = SANDBOX_ENV;
         this.baseUrl = SANDBOX_BASE_URL;
         this.baseSvcUrl = BASE_SANDBX_SVC_URL;
         this.oauthEndpoint = SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT;
     } else {
+        this.environment = PROD_ENV;
         this.baseUrl = PROD_BASE_URL;
         this.baseSvcUrl = BASE_SVC_URL;
         this.oauthEndpoint = PROD_OAUTHENVIRONMENT_WEBENDPOINT;
@@ -57,7 +59,7 @@ function Ebay(options) {
     // Set the headers
     this.headers = options.headers;
     this.globalID = options.countryCode || 'EBAY-US';
-    this.siteId = getSiteId(this.globalID);
+    this.siteID = getSiteId(this.globalID);
 }
 
 /**
@@ -87,12 +89,12 @@ const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
  * @param state custom state value
  * @return userConsentUrl
 */
-const getUserAuthorizationUrl = function (scopes, state = None) {
+const getUserAuthorizationUrl = function (scopes, state = null) {
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
     if (!this.credentials.redirectUri) throw new Error('redirect_uri is required for redirection after sign in\nkindly check here https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html');
     let scopesParam = Array.isArray(scopes) ? scopes.join('%20') : scopes;
-    let queryParam = `client_id=${this.credentials.clientId}`;
+    let queryParam = `client_id=${this.credentials.clientID}`;
     queryParam = `${queryParam}&redirect_uri=${this.credentials.redirectUri}`;
     queryParam = `${queryParam}&response_type=code`;
     queryParam = `${queryParam}&scope=${scopesParam}`;
@@ -115,7 +117,7 @@ const getAccessTokenByCode = function (code) {
         grant_type: 'authorization_code',
         redirect_uri: this.credentials.redirectUri
     });
-    const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
+    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
@@ -129,7 +131,7 @@ const getAccessTokenByCode = function (code) {
  * @param scopes array of scopes for the access token
  * @return userAccessToken object
 */
-const getAccessTokenByRefresh = function (refreshToken = None, scopes) {
+const getAccessTokenByRefresh = function (refreshToken = null, scopes) {
     refreshToken = refreshToken ? refreshToken : this.refreshToken;
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
@@ -142,7 +144,7 @@ const getAccessTokenByRefresh = function (refreshToken = None, scopes) {
         grant_type: 'refresh_token',
         scope: scopesParam
     });
-    const encodedStr = base64Encode(`${this.credentials.clientId}:${this.credentials.clientSecret}`);
+    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);

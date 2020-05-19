@@ -9,7 +9,7 @@ const FIND_ITEMS_ADV = 'findItemsAdvanced';
 
 const findItemsByKeywords = function (options) {
     if (!options) {
-        throw new Error('Keyword param is required');
+        throw new Error('Keyword is required');
     }
     let config = {
         operationName: FIND_ITEMS_BY_KEYWORD,
@@ -42,11 +42,11 @@ const findItemsByCategory = function (categoryID) {
 
 /**
  * searches for items whose listings are completed and are no longer available for
- * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * sale by category (using categoryD), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
 const findCompletedItems = function (options) {
-    if (!options || options.keywords || options.categoryId) throw new Error('Keyword or category ID is required');
+    if (!options || options.keywords || options.categoryID) throw new Error('Keyword or category ID is required');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
@@ -65,11 +65,11 @@ const findCompletedItems = function (options) {
 
 /**
  * searches for items whose listings are completed and are no longer available for
- * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * sale by category (using categoryID), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
 const findItemsAdvanced = function (options) {
-    if (!options) throw new Error('Options param is required\nCheck here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
+    if (!options) throw new Error('Options is required\nCheck here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
@@ -100,8 +100,8 @@ const getVersion = function () {
  * @param {Object} options
  */
 const findItemsByProduct = function (options) {
-    if (!options) throw new Error('Options param is required');
-    if (!options.productId) throw new Error('Product ID is required.');
+    if (!options) throw new Error('Options is required');
+    if (!options.productID) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
     let config = {
         operationName: 'findItemsByProduct',
@@ -130,13 +130,16 @@ const constructAdditionalParams = function (options) {
             if (key === 'entriesPerPage' || key === 'pageNumber') {
                 params = `${params}paginationInput.${key}=${options[key]}&`;
             }
-            else if (key === 'keywords' || key === 'categoryId' || key === 'productId' || key === 'sortOrder') {
+            else if (key === 'keywords' || key === 'sortOrder') {
                 params = `${params}${key}=${options[key]}&`;
+            }
+            else if (key === 'categoryID' || key === 'productID') {
+                params = `${params}${key.replace(/ID$/, 'Id')}=${options[key]}&`;
             }
             else if (key === 'affiliate') {
                 const innerParams = options[key];
                 for (let innerKey in innerParams) {
-                    params = `${params}${key}.${innerKey}=${innerParams[innerKey]}&`;
+                    params = `${params}${key}.${innerKey.replace(/ID$/, 'Id')}=${innerParams[innerKey]}&`;
                 }
             }
             else {

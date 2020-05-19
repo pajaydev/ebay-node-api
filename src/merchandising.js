@@ -9,7 +9,7 @@ const { MERCH_SRVC_NAME } = require('./constants');
 /**
   * @method getMostWatchedItems {Function}
   * Add interest and excitement for buyers by showing them what other people are watching.
-  * @param {String} categoryId (optional)
+  * @param {String} categoryID (optional)
   */
 const getMostWatchedItems = function (merchOptions) {
     if (!this.credentials.clientID) throw new Error('Missing App id or client id');
@@ -25,7 +25,7 @@ const getMostWatchedItems = function (merchOptions) {
 /**
   * @method getSimilarItems {Function}
   * Gets similar Items based on the Item id provided.
-  * @param {String} categoryId (optional)
+  * @param {String} categoryID (optional)
   */
 const getSimilarItems = function (merchOptions) {
     if (!this.credentials.clientID) throw new Error('Missing App id or client id');

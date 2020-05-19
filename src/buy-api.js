@@ -5,11 +5,11 @@ const qs = require('querystring');
 const { makeRequest } = require('./request');
 const { base64Encode, encodeURLQuery } = require('./utils')
 
-const getItemById = function (itemId) {
-    if (!itemId) throw new Error('Item Id is required');
+const getItemById = function (itemID) {
+    if (!itemID) throw new Error('Item ID is required');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     const auth = 'Bearer ' + this.appAccessToken;
-    const id = encodeURIComponent(itemId);
+    const id = encodeURIComponent(itemID);
     let config = {
         contentType: 'application/json'
     };
@@ -25,9 +25,9 @@ const getItemById = function (itemId) {
 const getItemByLegacyId = function (legacyOptions) {
     if (!legacyOptions) throw new Error('Error Required input to get Items By LegacyID');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
-    if (!legacyOptions.legacyItemId) throw new Error('Error Legacy Item Id is required');
+    if (!legacyOptions.legacyItemID) throw new Error('Error Legacy Item ID is required');
     const auth = 'Bearer ' + this.appAccessToken;
-    let param = 'legacy_item_id=' + legacyOptions.legacyItemId;
+    let param = 'legacy_item_id=' + legacyOptions.legacyItemID;
     param += legacyOptions.legacyVariationSku ? '&legacy_variation_sku=' + legacyOptions.legacyVariationSku : '';
     let config = {
         contentType: 'application/json'
@@ -41,16 +41,16 @@ const getItemByLegacyId = function (legacyOptions) {
     });
 };
 
-const getItemByItemGroup = function (itemGroupId) {
-    if (typeof itemGroupId === 'object') throw new Error('Expecting String or number (Item group id)');
-    if (!itemGroupId) throw new Error('Error Item Group ID is required');
+const getItemByItemGroup = function (itemGroupID) {
+    if (typeof itemGroupID === 'object') throw new Error('Expecting String or number (Item group id)');
+    if (!itemGroupID) throw new Error('Error Item Group ID is required');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     const auth = 'Bearer ' + this.appAccessToken;
     let config = {
         contentType: 'application/json'
     };
     return new Promise((resolve, reject) => {
-        makeRequest(this, config, `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupId}`, 'GET', auth).then((result) => {
+        makeRequest(this, config, `/buy/browse/v1/item/get_items_by_item_group?item_group_id=${itemGroupID}`, 'GET', auth).then((result) => {
             resolve(result);
         }).then((error) => {
             reject(error);
@@ -60,12 +60,12 @@ const getItemByItemGroup = function (itemGroupId) {
 
 const searchItems = function (searchConfig) {
     if (!searchConfig) throw new Error('Missing or invalid input parameter to search');
-    if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin) throw new Error('Error --> Keyword or category id is required in query param');
+    if (!searchConfig.keyword && !searchConfig.categoryID && !searchConfig.gtin) throw new Error('Error --> Keyword or category id is required in query param');
     if (!this.appAccessToken) throw new Error('Missing Application Access token, Generate access token');
     const auth = 'Bearer ' + this.appAccessToken;
     let queryParam = searchConfig.keyword ? 'q=' + encodeURIComponent(searchConfig.keyword) : '';
     queryParam = queryParam + (searchConfig.gtin ? '&gtin=' + searchConfig.gtin : '');
-    queryParam = queryParam + (searchConfig.categoryId ? '&category_ids=' + searchConfig.categoryId : '');
+    queryParam = queryParam + (searchConfig.categoryId ? '&category_ids=' + searchConfig.categoryID : '');
     queryParam = queryParam + (searchConfig.limit ? '&limit=' + searchConfig.limit : '');
     queryParam = queryParam + (searchConfig.offset ? '&offset=' + searchConfig.offset : '');
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');

@@ -13,14 +13,14 @@ describe('test ebay finding Api', () => {
             let ebay = new Ebay({
                 clientID: 'ClientId'
             });
-            expect(() => { ebay.findItemsByCategory(); }).to.throw('Category ID is null or invalid');
+            expect(() => { ebay.findItemsByCategory(); }).to.throw('Category ID is required');
         });
 
         it('test findCompletedItemswith required params', () => {
             let ebay = new Ebay({
                 clientID: 'ClientId'
             });
-            expect(() => { ebay.findCompletedItems(''); }).to.throw('Keyword or category ID are required.');
+            expect(() => { ebay.findCompletedItems(''); }).to.throw('Keyword or category ID is required');
         });
     });
 
@@ -29,7 +29,7 @@ describe('test ebay finding Api', () => {
             let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
             const options = {
                 keywords: 'iphone',
-                categoryId: '111',
+                categoryID: '111',
                 sortOrder: 'PricePlusShippingLowest'
             };
             const emptyOptions = {};
@@ -42,17 +42,17 @@ describe('test ebay finding Api', () => {
             let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
             const options = {
                 keywords: 'iphone',
-                categoryId: '111',
+                categoryID: '111',
                 sortOrder: 'PricePlusShippingLowest',
                 affiliate: {
-                    trackingId: 1234567899,
-                    networkId: 123
+                    trackingID: 1234567899,
+                    networkID: 123
                 }
             };
 
             const optionsWithNoAffiliate = {
                 keywords: 'iphone',
-                categoryId: '111',
+                categoryID: '111',
                 sortOrder: 'PricePlusShippingLowest'
             };
             const emptyOptions = {};
@@ -66,14 +66,14 @@ describe('test ebay finding Api', () => {
             let expectedPaginationParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&paginationInput.entriesPerPage=2';
             const options = {
                 keywords: 'iphone',
-                categoryId: '111',
+                categoryID: '111',
                 sortOrder: 'PricePlusShippingLowest',
                 Condition: 3000,
                 SoldItemsOnly: true
             };
             const optionsWithPagination = {
                 keywords: 'iphone',
-                categoryId: '111',
+                categoryID: '111',
                 sortOrder: 'PricePlusShippingLowest',
                 Condition: 3000,
                 SoldItemsOnly: true,

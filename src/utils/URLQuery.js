@@ -11,7 +11,8 @@ module.exports = {
     urlParseObj: (options, url = '') => {
         if (options) {
             for (let key in options) {
-                url = `${url}&${key}=${options[key]}`;
+                // The regex turns keys like categoryID to categoryId for the param
+                url = `${url}&${key.replace(/ID$/, 'Id')}=${options[key]}`;
             }
         }
         return url;
