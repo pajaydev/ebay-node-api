@@ -1,17 +1,9 @@
 'use strict';
 const ebayBuyApi = require('./buy-api');
 const shoppingApi = require('./shopping');
-const { getDefaultCategoryTreeId,
-    getCategoryTree,
-    getCategorySubtree,
-    getCategorySuggestions,
-    getItemAspectsForCategory } = require('./taxonomy-api');
-const ebayFindingApi = require('./findingApi');
-const { setAccessToken,
-    _getAccessToken,
-    setHeaders,
-    getHeaders
-} = require('./common-utils');
+const taxonomyApi = require('./taxonomy-api');
+const ebayFindingApi = require('./finding');
+const commonUtils = require('./common-utils');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const { PROD_BASE_URL, SANDBOX_BASE_URL, BASE_SANDBX_SVC_URL, BASE_SVC_URL } = require('./constants');
 const PROD_ENV = 'PROD';
@@ -29,8 +21,6 @@ const SANDBOX_ENV = 'SANDBOX';
  * @public
  */
 
-
-
 function Ebay(options) {
     if (!options) throw new Error('Options is missing, please provide the input');
     if (!options.clientID) throw Error('Client ID is Missing\ncheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
@@ -44,26 +34,18 @@ function Ebay(options) {
         options.baseSvcUrl = BASE_SANDBX_SVC_URL;
     }
     this.options = options;
-    setHeaders(this, options.headers);
+    commonUtils.setHeaders(this, options.headers);
     this.options.globalID = options.countryCode || 'EBAY-US';
     this.options.siteId = options.siteId || '0';
-    this.getAccessToken = memoize(this._getAccessToken, { maxAge: 7200, key: this.clientID });
 }
 
 Ebay.prototype = {
-    setAccessToken,
-    _getAccessToken,
-    setHeaders,
-    getHeaders,
-    getDefaultCategoryTreeId,
-    getCategoryTree,
-    getCategorySubtree,
-    getCategorySuggestions,
-    getItemAspectsForCategory,
     getMostWatchedItems,
     getSimilarItems,
+    ...commonUtils,
     ...shoppingApi,
     ...ebayBuyApi,
+    ...taxonomyApi,
     ...ebayFindingApi
 };
 
