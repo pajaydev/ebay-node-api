@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const nock = require('nock');
 const Ebay = require('../src/index');
-const { constructAdditionalParams } = require('../src/findingApi');
+const { constructAdditionalParams } = require('../src/utils');
 const nockFindingApi = nock('https://svcs.ebay.com/');
 
 describe('test ebay finding Api', () => {
