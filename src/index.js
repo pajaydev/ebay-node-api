@@ -32,7 +32,7 @@ const SANDBOX_ENV = 'SANDBOX';
  */
 
 function Ebay(options) {
-    if (!options) throw new Error('Options is missing, please provide the input');
+    if (!options) throw new Error('Options is required');
     if (!options.clientID) throw Error('Client ID is Missing\nCheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
     if (!(this instanceof Ebay)) return new Ebay(options);
     if (options.environment === SANDBOX_ENV) {
@@ -160,7 +160,7 @@ const setUserAccessTokens = function (userAccessToken) {
 /**
  * Assign application access token returned from client credentials workflow (i.e getApplicationToken)
  * 
- * @param appAccessToken userAccessToken obj returned from getApplicationToken
+ * @param appAccessToken appAccessToken obj returned from getApplicationToken
 */
 const setAppAccessToken = function (appAccessToken) {
     if (!appAccessToken.token_type == 'Application Access Token') throw new Error('appAccessToken is either missing or invalid');
