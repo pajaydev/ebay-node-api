@@ -30,7 +30,6 @@ const SANDBOX_ENV = 'SANDBOX';
  * @constructor
  * @public
  */
-
 function Ebay(options) {
     if (!options) throw new Error('Options is required');
     if (!options.clientID) throw Error('Client ID is Missing\nCheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
@@ -90,10 +89,10 @@ const getUserAuthorizationUrl = function (scopes, state = null) {
     if (!this.credentials.redirectUri) throw new Error('redirect_uri is required for redirection after sign in\nkindly check here https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html');
     let scopesParam = Array.isArray(scopes) ? scopes.join('%20') : scopes;
     let queryParam = `client_id=${this.credentials.clientID}`;
-    queryParam = `${queryParam}&redirect_uri=${this.credentials.redirectUri}`;
-    queryParam = `${queryParam}&response_type=code`;
-    queryParam = `${queryParam}&scope=${scopesParam}`;
-    queryParam = state ? `${queryParam}&state=${state}` : queryParam;
+    queryParam += `&redirect_uri=${this.credentials.redirectUri}`;
+    queryParam += `&response_type=code`;
+    queryParam += `&scope=${scopesParam}`;
+    queryParam += state ? `&state=${state}` : '';
     return `${this.oauthEndpoint}?${queryParam}`;
 }
 
