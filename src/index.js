@@ -3,15 +3,10 @@
 const qs = require('querystring');
 const ebayBuyApi = require('./buy-api');
 const shoppingApi = require('./shopping');
-const { getDefaultCategoryTreeId,
-    getCategoryTree,
-    getCategorySubtree,
-    getCategorySuggestions,
-    getItemAspectsForCategory 
-} = require('./taxonomy-api');
+const taxonomyApi = require('./taxonomy-api');
 const ebayFindingApi = require('./findingApi');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
-const { getSiteId, base64Encode } = require('./utils');
+const utils = require('./utils');
 const { postRequest } = require('./request');
 const { PROD_OAUTHENVIRONMENT_WEBENDPOINT,
         SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT,
@@ -59,7 +54,7 @@ function Ebay(options) {
     // Set the headers
     this.headers = options.headers;
     this.globalID = options.countryCode || 'EBAY-US';
-    this.siteID = getSiteId(this.globalID);
+    this.siteID = utils.getSiteId(this.globalID);
 }
 
 /**
@@ -75,7 +70,7 @@ const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
         grant_type: 'client_credentials',
         scope: scopes
     });
-    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
+    const encodedStr = utils.base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
@@ -117,7 +112,7 @@ const getAccessTokenByCode = function (code) {
         grant_type: 'authorization_code',
         redirect_uri: this.credentials.redirectUri
     });
-    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
+    const encodedStr = utils.base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
@@ -144,7 +139,7 @@ const getAccessTokenByRefresh = function (refreshToken = null, scopes) {
         grant_type: 'refresh_token',
         scope: scopesParam
     });
-    const encodedStr = base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
+    const encodedStr = utils.base64Encode(`${this.credentials.clientID}:${this.credentials.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
@@ -192,15 +187,12 @@ Ebay.prototype = {
     getRefreshToken,
     getUserAccessToken,
     getAppAccessToken,
-    getDefaultCategoryTreeId,
-    getCategoryTree,
-    getCategorySubtree,
-    getCategorySuggestions,
-    getItemAspectsForCategory,
     getMostWatchedItems,
     getSimilarItems,
+    ...utils,
     ...shoppingApi,
     ...ebayBuyApi,
+    ...taxonomyApi,
     ...ebayFindingApi
 };
 

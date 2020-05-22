@@ -1,11 +1,13 @@
 'use strict';
 
-const { buildSearchUrl } = require('./utils')
+const { buildSearchUrl, constructAdditionalParams } = require('./utils')
 const { getRequest } = require('./request');
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
+const FIND_ITEMS_PROD = 'findItemsByProduct';
 const FIND_ITEMS_ADV = 'findItemsAdvanced';
+const FIND_EBAY_STORE = 'findItemsInEbayStores';
 
 const findItemsByKeywords = function (options) {
     if (!options) {
@@ -104,7 +106,7 @@ const findItemsByProduct = function (options) {
     if (!options.productID) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
     let config = {
-        operationName: 'findItemsByProduct',
+        operationName: FIND_ITEMS_PROD,
         additionalParam: constructAdditionalParams(options)
     }
     let url = buildSearchUrl(this, config);
@@ -116,50 +118,27 @@ const findItemsByProduct = function (options) {
     );
 };
 
-
-/**
- * Constructs query param based on some logic to support filter and aspect_filter params.
- * output will be keywords=iphone&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=SoldItemsOnly&itemFilter(2).value=true
- * @param {Object} options
- */
-const constructAdditionalParams = function (options) {
-    let params = '';
-    let count = 0;
-    for (let key in options) {
-        if (options.hasOwnProperty(key)) {
-            if (key === 'entriesPerPage' || key === 'pageNumber') {
-                params = `${params}paginationInput.${key}=${options[key]}&`;
-            }
-            else if (key === 'keywords' || key === 'sortOrder') {
-                params = `${params}${key}=${options[key]}&`;
-            }
-            else if (key === 'categoryID' || key === 'productID') {
-                params = `${params}${key.replace(/ID$/, 'Id')}=${options[key]}&`;
-            }
-            else if (key === 'affiliate') {
-                const innerParams = options[key];
-                for (let innerKey in innerParams) {
-                    params = `${params}${key}.${innerKey.replace(/ID$/, 'Id')}=${innerParams[innerKey]}&`;
-                }
-            }
-            else {
-                params = `${params}itemFilter(${count}).name=${key}&
-                itemFilter(${count}).value=${options[key]}&`;
-                count += 1;
-            }
-        }
+const findItemsIneBayStores = function (options) {
+    if (!options) throw new Error('Options is required');
+    if (!options.storeName) throw new Error('Store name is required.');
+    let type = options.type ? options.type : 'ReferenceID';
+    let config = {
+        operationName: FIND_EBAY_STORE,
+        additionalParam: constructAdditionalParams(options)
     }
-    // replace extra space
-    params = params.replace(/\s/g, '');
-    return params.substring(0, params.length - 1);
+    return getRequest(buildSearchUrl(this, config)).then((data) => {
+        return JSON.parse(data).findItemsIneBayStoresResponse;
+
+    }, console.error // eslint-disable-line no-console
+    );
 };
 
 module.exports = {
     findItemsByKeywords,
     findItemsByCategory,
     findCompletedItems,
-    constructAdditionalParams,
     findItemsByProduct,
     findItemsAdvanced,
+    findItemsIneBayStores,
     getVersion
 };

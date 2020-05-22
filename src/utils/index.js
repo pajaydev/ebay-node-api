@@ -8,7 +8,7 @@ const {
     isEmptyObj,
 } = require('./general');
 const { buildSearchUrl, buildShoppingUrl } = require('./buildURL');
-const { urlParseObj, encodeURLQuery } = require('./URLQuery');
+const { urlParseObj, encodeURLQuery, constructAdditionalParams } = require('./URLQuery');
 
 module.exports = {
     base64Encode,
@@ -19,5 +19,6 @@ module.exports = {
     buildSearchUrl,
     buildShoppingUrl,
     urlParseObj,
-    encodeURLQuery
+    encodeURLQuery,
+    constructAdditionalParams
 };
