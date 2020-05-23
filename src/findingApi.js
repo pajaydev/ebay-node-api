@@ -121,7 +121,6 @@ const findItemsByProduct = function (options) {
 const findItemsIneBayStores = function (options) {
     if (!options) throw new Error('Options is required');
     if (!options.storeName) throw new Error('Store name is required.');
-    let type = options.type ? options.type : 'ReferenceID';
     let config = {
         operationName: FIND_EBAY_STORE,
         additionalParam: constructAdditionalParams(options)
