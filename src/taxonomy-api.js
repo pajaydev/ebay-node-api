@@ -3,12 +3,12 @@ const { makeRequest } = require('./request');
 const { upperCase } = require('./utils');
 
 /**
-  * @method getDefaultcategoryTreeID {Function}
+  * @method getDefaultcategoryTreeId {Function}
   * @param {String} marketPlaceId = default = EBAY_US
   */
 
 const DEFAULT_CATEGORY_TREE = 'EBAY_US';
-const getDefaultCategoryTreeId = marketPlaceId => {
+const getDefaultCategoryTreeId = function (marketPlaceId) {
     if (!marketPlaceId) marketPlaceId = DEFAULT_CATEGORY_TREE;
     marketPlaceId = upperCase(marketPlaceId);
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');
