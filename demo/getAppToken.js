@@ -8,23 +8,20 @@ let ebay = new Ebay({
 
 ebay.getApplicationToken()
     .then((data) => {
-        console.log("generate tokensss");
         console.log(data);
+        if (!data.error) {
+            ebay.setAppAccessToken(data);
+            console.log(`App token: ${ebay.appAccessToken}`);
+        }
     });
-
-console.log("++++++++++++++++++++");
-
-ebay.getApplicationToken()
-    .then((data) => {
-        console.log("generate tokensss");
-        console.log(data);
-    });
-
 
 setTimeout(() => {
     ebay.getApplicationToken()
         .then((data) => {
-            console.log("generate tokensss");
             console.log(data);
+            if (!data.error) {
+                ebay.setAppAccessToken(data);
+                console.log(`App token: ${ebay.appAccessToken}`);
+            }
         });
 }, 7200);
