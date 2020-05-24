@@ -107,7 +107,7 @@ const getUserAuthorizationUrl = function (scopes = DEFAULT_API_SCOPE, state = nu
  * @param code code generated from browser using the method generateUserAuthorizationUrl.
  * @return userAccessToken object.
 */
-const getAccessTokenByCode = function (code) {
+const getUserTokenByCode = function (code) {
     if (!code) throw new Error('Authorization code is required');
     if (!this.credentials) throw new Error('Credentials are required');
     const data = qs.stringify({
@@ -154,7 +154,7 @@ const getAccessTokenByRefresh = function (refreshToken = null, scopes) {
  * 
  * @param userAccessToken userAccessToken obj returned from getAccessTokenByCode or getAccessTokenByRefresh
 */
-const setUserAccessTokens = function (userAccessToken) {
+const setUserAccessToken = function (userAccessToken) {
     if (!userAccessToken.token_type == 'User Access Token') throw new Error('userAccessToken is either missing or invalid');
     this.refreshToken = userAccessToken.refresh_token;
     this.userAccessToken = userAccessToken.access_token;
@@ -170,26 +170,13 @@ const setAppAccessToken = function (appAccessToken) {
     this.appAccessToken = appAccessToken.access_token;
 }
 
-const getRefreshToken = function () {
-    return this.refreshToken;
-} 
-const getUserAccessToken = function () {
-    return this.userAccessToken;
-}
-const getAppAccessToken = function () {
-    return this.appAccessToken;
-}
-
 Ebay.prototype = {
     getApplicationToken,
     getUserAuthorizationUrl,
-    getAccessTokenByCode,
+    getAccessTokenByCode: getUserTokenByCode,
     getAccessTokenByRefresh,
     setAppAccessToken,
-    setUserAccessTokens,
-    getRefreshToken,
-    getUserAccessToken,
-    getAppAccessToken,
+    setUserAccessToken,
     getMostWatchedItems,
     getSimilarItems,
     ...utils,
