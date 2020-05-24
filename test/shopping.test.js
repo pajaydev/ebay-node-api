@@ -37,7 +37,7 @@ describe('test shopping api', () => {
                 clientID: 'ABCXXX123'
             });
             nock('https://api.ebay.com')
-                .get('/Shopping?appid=ABCXXX123&callname=GetMultipleItems&version=967&siteid=0&responseencoding=JSON&itemId=12345,4567')
+                .get('/Shopping?appid=ABCXXX123&callname=GetMultipleItems&version=967&siteid=0&responseencoding=JSON&itemID=12345,4567')
                 .reply(200, { getMultipleItems: true });
             ebay.getMultipleItems({ itemID: ['12345', '4567'] }).then((data) => {
                 expect(data).to.deep.equal({ getMultipleItems: true });
@@ -49,7 +49,7 @@ describe('test shopping api', () => {
                 clientID: 'ABCXXX123'
             });
             nock('https://api.ebay.com')
-                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=Details')
+                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&IncludeSelector=Details&userID=test')
                 .reply(200, { getUserDetails: true });
             ebay.getUserDetails({ userID: 'test' }).then((data) => {
                 expect(data).to.deep.equal({ getUserDetails: true });
@@ -61,7 +61,7 @@ describe('test shopping api', () => {
                 clientID: 'ABCXXX123'
             });
             nock('https://api.ebay.com')
-                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=sample')
+                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&IncludeSelector=sample&userID=test')
                 .reply(200, { getUserDetailsWithIncludeSelector: true });
             ebay.getUserDetails({ userID: 'test', includeSelector: 'sample' }).then((data) => {
                 expect(data).to.deep.equal({ getUserDetailsWithIncludeSelector: true });
@@ -73,10 +73,10 @@ describe('test shopping api', () => {
                 clientID: 'ABCXXX123'
             });
             nock('https://api.ebay.com')
-                .get('/Shopping?appid=ABCXXX123&callname=GetShippingCosts&version=967&siteid=0&responseencoding=JSON&itemId=153265274986&destinationCountryCode=US&destinationPostalCode=95128')
+                .get('/Shopping?appid=ABCXXX123&callname=GetShippingCosts&version=967&siteid=0&responseencoding=JSON&itemID=153265274986&destinationCountryCode=US&destinationPostalCode=95128')
                 .reply(200, { getShippingCosts: true });
             ebay.getShippingCosts({
-                itemId: '153265274986', destinationCountryCode: 'US',
+                itemID: '153265274986', destinationCountryCode: 'US',
                 destinationPostalCode: '95128'
             }).then((data) => {
                 expect(data).to.deep.equal({ getShippingCosts: true });
