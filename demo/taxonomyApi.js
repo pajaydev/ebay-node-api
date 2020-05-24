@@ -4,15 +4,10 @@ const { clientId, clientSecret } = require('./credentials');
 let ebay = new Ebay({
     clientID: clientId,
     clientSecret: clientSecret,
-    body: {
-        grant_type: 'client_credentials',
-        scope: 'https://api.ebay.com/oauth/api_scope'
-
-    }
 });
 
 // reference https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getDefaultCategoryTreeId
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.getDefaultCategoryTreeId('EBAY_US').then((data) => {
             console.log(data);

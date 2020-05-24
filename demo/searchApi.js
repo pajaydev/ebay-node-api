@@ -14,7 +14,7 @@ let ebay = new Ebay({
 
 
 // // //Search for Items by Keyword.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.searchItems({
             keyword: 'drone',
@@ -28,7 +28,7 @@ ebay.getAccessToken()
 
 
 // // Search for Items by Category.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.searchItems({
             categoryId: 2080,
@@ -43,7 +43,7 @@ ebay.getAccessToken()
 
 
 // // Retrieve the Item Aspects by Keyword Search.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.searchItems({
             keyword: 'iphone',
@@ -58,7 +58,7 @@ ebay.getAccessToken()
 
 // // Return Items with Free Shipping.
 // // Pass params inside filter object to filter items.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.searchItems({
             keyword: 'drone',
@@ -74,7 +74,7 @@ ebay.getAccessToken()
 
 
 // Return Items Based on Price and Condition.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.searchItems({
             keyword: 'iphone',
@@ -90,7 +90,7 @@ ebay.getAccessToken()
 
 // // Search items by Image, this is in experimental mode.
 // https://developer.ebay.com/api-docs/buy/browse/resources/search_by_image/methods/searchByImage
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         console.log
         ebay.searchByImage({

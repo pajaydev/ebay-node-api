@@ -5,15 +5,10 @@ let access_token = '';
 let ebay = new Ebay({
     clientID: clientId,
     clientSecret: clientSecret,
-    body: {
-        grant_type: 'client_credentials',
-        scope: 'https://api.ebay.com/oauth/api_scope'
-
-    }
 });
 
 // Getting access token and calling getItem method.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.getItem('v1|202117468662|0').then((data) => {
             console.log(data);
@@ -25,7 +20,7 @@ ebay.getAccessToken()
 
 // Reference ebay developer page https://developer.ebay.com/api-docs/buy/browse/resources/item/methods/getItemByLegacyId#_samples
 // Getting access token and calling getItemByLegacyId method.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.getItemByLegacyId({
             'legacyItemId': 2628001 // Get Item Details Using a Legacy ID
@@ -37,7 +32,7 @@ ebay.getAccessToken()
     });
 
 //Get Item Details Using a Legacy ID and SKU  
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.getItemByLegacyId({
             'legacyItemId': 2628001,
@@ -52,7 +47,7 @@ ebay.getAccessToken()
 
 //retrieves the details of the individual items in an item group
 // reference https://developer.ebay.com/api-docs/buy/browse/resources/item/methods/getItemsByItemGroup#uri.item_group_id
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         ebay.getItemByItemGroup('151915076499').then((data) => {
             // Data is in format of JSON
@@ -62,7 +57,3 @@ ebay.getAccessToken()
             console.log(error);
         });
     });
-
-
-
-

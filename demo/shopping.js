@@ -16,7 +16,7 @@ ebay.getAllCategories('1234').then((data) => {
 
 // // Get User Profile 
 // // https://developer.ebay.com/devzone/shopping/docs/callref/GetUserProfile.html
-ebay.getUserDetails({ userId: 'ajaykumapratha_0', includeSelector: 'Details' }).then((data) => {
+ebay.getUserDetails({ userID: 'ajaykumapratha_0', includeSelector: 'Details' }).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
@@ -46,6 +46,6 @@ ebay.getSingleItem('153265274986').then((data) => {
     console.log(data);
 });
 
-ebay.getMultipleItems({ itemId: ['153265274986', '153265274986'] }).then((data) => {
+ebay.getMultipleItems({ itemID: ['153265274986', '153265274986'] }).then((data) => {
     console.log(data);
 });

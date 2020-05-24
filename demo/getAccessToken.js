@@ -4,17 +4,9 @@ const { clientId, clientSecret } = require('./credentials/index');
 let ebay = new Ebay({
     clientID: clientId,
     clientSecret: clientSecret,
-    body: {
-        grant_type: 'client_credentials',
-        scope: 'https://api.ebay.com/oauth/api_scope'
-
-    }
 });
 
-//console.log(ebay.getAccessToken());
-
-// // //Search for Items by Keyword.
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         console.log("generate tokensss");
         console.log(data);
@@ -22,7 +14,7 @@ ebay.getAccessToken()
 
 console.log("++++++++++++++++++++");
 
-ebay.getAccessToken()
+ebay.getApplicationToken()
     .then((data) => {
         console.log("generate tokensss");
         console.log(data);
@@ -30,7 +22,7 @@ ebay.getAccessToken()
 
 
 setTimeout(() => {
-    ebay.getAccessToken()
+    ebay.getApplicationToken()
         .then((data) => {
             console.log("generate tokensss");
             console.log(data);
