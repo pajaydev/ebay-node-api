@@ -9,6 +9,7 @@ let ebay = new Ebay({
 // reference https://developer.ebay.com/api-docs/commerce/taxonomy/resources/category_tree/methods/getDefaultCategoryTreeId
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.getDefaultCategoryTreeId('EBAY_US').then((data) => {
             console.log(data);
             // for EN_US { categoryTreeId: '0', categoryTreeVersion: '119' }    

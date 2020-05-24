@@ -10,6 +10,7 @@ let ebay = new Ebay({
 // Getting access token and calling getItem method.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.getItem('v1|202117468662|0').then((data) => {
             console.log(data);
             // Data is in format of JSON
@@ -22,6 +23,7 @@ ebay.getApplicationToken()
 // Getting access token and calling getItemByLegacyId method.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.getItemByLegacyId({
             'legacyItemId': 2628001 // Get Item Details Using a Legacy ID
         }).then((data) => {
@@ -34,6 +36,7 @@ ebay.getApplicationToken()
 //Get Item Details Using a Legacy ID and SKU  
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.getItemByLegacyId({
             'legacyItemId': 2628001,
             'legacyVariationSku': 'V-00031-WHM'
@@ -49,6 +52,7 @@ ebay.getApplicationToken()
 // reference https://developer.ebay.com/api-docs/buy/browse/resources/item/methods/getItemsByItemGroup#uri.item_group_id
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.getItemByItemGroup('151915076499').then((data) => {
             // Data is in format of JSON
             // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)

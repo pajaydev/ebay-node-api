@@ -8,5 +8,5 @@ module.exports = {
     BASE_SVC_URL: 'svcs.ebay.com',
     BASE_SANDBX_SVC_URL: 'svcs.sandbox.ebay.com',
     MERCH_SRVC_NAME: 'MerchandisingService',
-    CLIENT_CRED_SCOPE: 'https://api.ebay.com/oauth/api_scope'
+    DEFAULT_API_SCOPE: 'https://api.ebay.com/oauth/api_scope'
 };

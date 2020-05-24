@@ -12,7 +12,7 @@ const { PROD_OAUTHENVIRONMENT_WEBENDPOINT,
         SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT,
         PROD_BASE_URL, SANDBOX_BASE_URL,
         BASE_SANDBX_SVC_URL,
-        BASE_SVC_URL, CLIENT_CRED_SCOPE
+        BASE_SVC_URL, DEFAULT_API_SCOPE
 } = require('./constants');
 const PROD_ENV = 'PROD';
 const SANDBOX_ENV = 'SANDBOX';
@@ -50,6 +50,10 @@ function Ebay(options) {
         clientID: options.clientID,
         clientSecret: options.clientSecret
     };
+    if (options.redirectUri) {
+        // Assign the redirectUri if provided
+        this.credentials.redirectUri = options.redirectUri;
+    }
     // Set the headers
     this.headers = options.headers;
     this.globalID = options.countryCode || 'EBAY-US';
@@ -62,7 +66,7 @@ function Ebay(options) {
 * @param scopes array of scopes for the access token
 * @return appAccessToken object
 */
-const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
+const getApplicationToken = function (scopes = DEFAULT_API_SCOPE) {
     if (!this.credentials) throw new Error('Credentials are required');
     scopes = Array.isArray(scopes) ? scopes.join('%20') : scopes;
     const data = qs.stringify({
@@ -83,7 +87,7 @@ const getApplicationToken = function (scopes = CLIENT_CRED_SCOPE) {
  * @param state custom state value
  * @return userConsentUrl
 */
-const getUserAuthorizationUrl = function (scopes, state = null) {
+const getUserAuthorizationUrl = function (scopes = DEFAULT_API_SCOPE, state = null) {
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
     if (!this.credentials.redirectUri) throw new Error('redirect_uri is required for redirection after sign in\nkindly check here https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html');

@@ -1,6 +1,5 @@
 const Ebay = require('../src/index');
 const { clientId, clientSecret } = require('./credentials');
-const makeString = require('make-string');
 
 let ebay = new Ebay({
     clientID: clientId,
@@ -16,6 +15,7 @@ let ebay = new Ebay({
 // // //Search for Items by Keyword.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.searchItems({
             keyword: 'drone',
             limit: '3'
@@ -30,6 +30,7 @@ ebay.getApplicationToken()
 // // Search for Items by Category.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.searchItems({
             categoryId: 2080,
             limit: '3'
@@ -45,6 +46,7 @@ ebay.getApplicationToken()
 // // Retrieve the Item Aspects by Keyword Search.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.searchItems({
             keyword: 'iphone',
             fieldgroups: 'ASPECT_REFINEMENTS'
@@ -60,6 +62,7 @@ ebay.getApplicationToken()
 // // Pass params inside filter object to filter items.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.searchItems({
             keyword: 'drone',
             limit: 3,
@@ -76,6 +79,7 @@ ebay.getApplicationToken()
 // Return Items Based on Price and Condition.
 ebay.getApplicationToken()
     .then((data) => {
+        ebay.setAppAccessToken(data);
         ebay.searchItems({
             keyword: 'iphone',
             limit: 3,
@@ -92,7 +96,7 @@ ebay.getApplicationToken()
 // https://developer.ebay.com/api-docs/buy/browse/resources/search_by_image/methods/searchByImage
 ebay.getApplicationToken()
     .then((data) => {
-        console.log
+        ebay.setAppAccessToken(data);
         ebay.searchByImage({
             imgPath: 'demo/shoe.jpg',
             limit: 3,
