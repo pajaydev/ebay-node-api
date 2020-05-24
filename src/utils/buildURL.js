@@ -25,7 +25,7 @@ module.exports = {
         url += `appid=${self.credentials.clientID}`;
         url += `&callname=${operationName}`;
         url += `&version=967&siteid=${self.siteID || 0}&responseencoding=JSON`;
-        url += includeSelector ? '&IncludeSelector=' + includeSelector : '';
+        url += includeSelector ? `&IncludeSelector=${includeSelector}` : '';
         return url;
     }
 };
