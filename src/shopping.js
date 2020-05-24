@@ -15,8 +15,10 @@ const getAllCategories = function (categoryID) {
 const getUserDetails = function (input) {
     if (!input || typeof input !== 'object') throw new Error('Invalid input');
     if (!input.userID) throw new Error('User ID is required');
-    input.includeSelector = input.includeSelector ? input.includeSelector : 'Details';
-    const requestUrl = `${buildShoppingUrl(this, 'GetUserProfile', input.includeSelector)}&${stringifyUrl(input)}`;
+    let includeSelector = input.includeSelector ? input.includeSelector : 'Details';
+    // Remove the includeSelector property so it doesn't get added twice due to stringifyUrl
+    delete input.includeSelector;
+    const requestUrl = `${buildShoppingUrl(this, 'GetUserProfile', includeSelector)}&${stringifyUrl(input)}`;
     return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
@@ -52,7 +54,7 @@ const getShippingCosts = function (input) {
   */
 const getMultipleItems = function (options) {
     if (!options || !options.itemID) throw new Error('Item ID is required');
-    const requestUrl = `${buildShoppingUrl(this, 'GetMultipleItems')}&${stringifyUrl({ 'itemId': makeString(options.itemID, { braces: 'false', quotes: 'no' }) })}`;
+    const requestUrl = `${buildShoppingUrl(this, 'GetMultipleItems')}&${stringifyUrl({ 'itemID': makeString(options.itemID, { braces: 'false', quotes: 'no' }) })}`;
     return getRequest(requestUrl).then((data) => {
         return JSON.parse(data);
     }, console.error // eslint-disable-line no-console
