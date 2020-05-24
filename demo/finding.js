@@ -74,3 +74,12 @@ ebay.getVersion().then((data) => {
 }, (error) => {
     console.log(error);
 });
+
+
+// Find ebay stores here https://www.ebay.com/sns
+// https://developer.ebay.com/devzone/finding/callref/findItemsIneBayStores.html
+ebay.findItemsIneBayStores({storeName: 'Battery Gallery'}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
