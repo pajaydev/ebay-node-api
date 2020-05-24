@@ -1,25 +1,27 @@
 'use strict';
 
-const urlObject = require('./buildURL');
+const { buildSearchUrl, constructAdditionalParams } = require('./utils')
 const { getRequest } = require('./request');
-const { constructAdditionalParams } = require('./utils');
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
+const FIND_ITEMS_PROD = 'findItemsByProduct';
 const FIND_ITEMS_ADV = 'findItemsAdvanced';
-const FIND_EBAY_STORES = 'findItemsIneBayStores';
+const FIND_EBAY_STORE = 'findItemsInEbayStores';
 
 const findItemsByKeywords = function (options) {
     if (!options) {
-        throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
+        throw new Error('Keyword is required');
     }
-    this.options.operationName = FIND_ITEMS_BY_KEYWORD;
-    this.options.param = 'keywords';
+    let config = {
+        operationName: FIND_ITEMS_BY_KEYWORD,
+        param: 'keywords'
+    };
     // support only keyword string.
-    if (!options.keywords) options = { keywords: options };
-    options.keywords = encodeURIComponent(options.keywords);
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
+    if (!options.keywords) config = { keywords: options };
+    config.keywords = encodeURIComponent(options.keywords);
+    config.additionalParam = constructAdditionalParams(options);
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
     }, console.error // eslint-disable-line no-console
@@ -27,11 +29,13 @@ const findItemsByKeywords = function (options) {
 };
 
 const findItemsByCategory = function (categoryID) {
-    if (!categoryID) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
-    this.options.name = categoryID;
-    this.options.operationName = FIND_ITEMS_BY_CATEGORY;
-    this.options.param = 'categoryId';
-    const url = urlObject.buildSearchUrl(this.options);
+    if (!categoryID) throw new Error('Category ID is required');
+    let config = {
+        name: categoryID,
+        operationName: FIND_ITEMS_BY_CATEGORY,
+        param: 'categoryId'
+    }
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
     }, console.error // eslint-disable-line no-console
@@ -40,18 +44,19 @@ const findItemsByCategory = function (categoryID) {
 
 /**
  * searches for items whose listings are completed and are no longer available for
- * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * sale by category (using categoryD), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
 const findCompletedItems = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword or category ID are required.');
-    if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
+    if (!options || options.keywords || options.categoryID) throw new Error('Keyword or category ID is required');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
-    this.options.operationName = FIND_COMPLETED_ITEMS;
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: FIND_COMPLETED_ITEMS,
+        additionalParam: constructAdditionalParams(options),
+    }
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
@@ -62,28 +67,30 @@ const findCompletedItems = function (options) {
 
 /**
  * searches for items whose listings are completed and are no longer available for
- * sale by category (using categoryId), by keywords (using keywords), or a combination of the two.
+ * sale by category (using categoryID), by keywords (using keywords), or a combination of the two.
  * @param {Object} options
  */
 const findItemsAdvanced = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> check here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
+    if (!options) throw new Error('Options is required\nCheck here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
-    this.options.operationName = FIND_ITEMS_ADV;
-    this.options.additionalParam = constructAdditionalParams(options);
-    const url = urlObject.buildSearchUrl(this.options);
-    console.log(url);
+    let config = {
+        operationName: FIND_ITEMS_ADV,
+        additionalParam: constructAdditionalParams(options),
+    }
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error // eslint-disable-line no-console
     );
 };
 
-
 const getVersion = function () {
-    this.options.operationName = 'getVersion';
-    const url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: 'getVersion',
+    }
+    const url = buildSearchUrl(this, config);
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
     }, console.error // eslint-disable-line no-console
@@ -95,14 +102,15 @@ const getVersion = function () {
  * @param {Object} options
  */
 const findItemsByProduct = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
-    if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
+    if (!options) throw new Error('Options is required');
+    if (!options.productID) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
-    this.options.operationName = 'findItemsByProduct';
-    this.options.additionalParam = constructAdditionalParams(options);
-    let url = urlObject.buildSearchUrl(this.options);
+    let config = {
+        operationName: FIND_ITEMS_PROD,
+        additionalParam: constructAdditionalParams(options)
+    }
+    let url = buildSearchUrl(this, config);
     url = `${url}&productId.@type=${type}`;
-    console.log(url);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
 
@@ -111,12 +119,13 @@ const findItemsByProduct = function (options) {
 };
 
 const findItemsIneBayStores = function (options) {
-    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
-    if (!options.storeName) throw new Error('INVALID_REQUEST_PARMS --> Store name is required.');
-    this.options.operationName = FIND_EBAY_STORES;
-    this.options.additionalParam = constructAdditionalParams(options);
-    console.log(urlObject.buildSearchUrl(this.options));
-    return getRequest(urlObject.buildSearchUrl(this.options)).then((data) => {
+    if (!options) throw new Error('Options is required');
+    if (!options.storeName) throw new Error('Store name is required.');
+    let config = {
+        operationName: FIND_EBAY_STORE,
+        additionalParam: constructAdditionalParams(options)
+    }
+    return getRequest(buildSearchUrl(this, config)).then((data) => {
         return JSON.parse(data).findItemsIneBayStoresResponse;
 
     }, console.error // eslint-disable-line no-console
