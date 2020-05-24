@@ -25,6 +25,6 @@ describe('Test find items by keyword method', () => {
         let ebay = new Ebay({
             clientID: 'ClientId'
         });
-        expect(() => { ebay.findItemsByKeywords(); }).to.throw('Keyword is missing, Keyword is required');
+        expect(() => { ebay.findItemsByKeywords(); }).to.throw('Keyword is required');
     });
 });

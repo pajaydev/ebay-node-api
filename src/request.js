@@ -25,20 +25,19 @@ const getRequest = (url) => {
     }));
 };
 
-const makeRequest = function postRequest(self, endpoint, methodName, token) {
+const makeRequest = (self, customOptions, endpoint, methodName, token) => {
     let dataString = '';
-    if (self.data) {
-        dataString = self.data;
-    }
-    else {
-        methodName === 'POST' ? dataString = qs.stringify(self.body) : '';
+    if (customOptions.data) {
+        dataString = customOptions.data;
+    } else {
+        methodName === 'POST' ? dataString = qs.stringify(customOptions.body) : '';
     }
     const options = {
         'hostname': self.baseUrl,
         'path': endpoint,
-        'method': methodName || 'GET',
+        'method': methodName,
         'headers': {
-            'content-type': self.contentType ? self.contentType : 'application/json',
+            'content-type': customOptions.contentType,
             'authorization': token,
             'cache-control': 'no-cache',
             ...self.headers
@@ -67,10 +66,35 @@ const makeRequest = function postRequest(self, endpoint, methodName, token) {
     }));
 };
 
+const postRequest = (self, contentType, data, endpoint, authToken) => {
+    return new Promise((resolve, reject) => {
+        const req = httpRequest.request({
+            hostname: self.baseUrl,
+            path: endpoint,
+            method: 'POST',
+            headers: {
+                'Content-Type': contentType,
+                'authorization': authToken,
+                ...self.headers
+            },
+        });
+        req.on('response', (res) => {
+            let body = '';
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => body += chunk); // eslint-disable-line 
+            res.on('end', () => {
+                if (body.error) {
+                    reject(body);
+                }
+                resolve(body);
+            });
+        });
 
-const base64Encode = (encodeData) => {
-    const buff = Buffer.from(encodeData);
-    return buff.toString('base64');
+        req.on('error', (error) => {
+            reject(error);
+        });
+        req.end(data);
+    });
 };
 
-module.exports = { getRequest, makeRequest, base64Encode };
+module.exports = { getRequest, postRequest, makeRequest };

@@ -10,13 +10,13 @@ describe('test shopping api', () => {
             let ebay = new Ebay({
                 clientID: 'ClientId'
             });
-            expect(() => { ebay.getSingleItem(); }).to.throw('invalid_request_error -> Item ID is null or invalid');
-            expect(() => { ebay.getMultipleItems(); }).to.throw('invalid_request_error -> Item ID is null or invalid');
-            expect(() => { ebay.getMultipleItems([]); }).to.throw('invalid_request_error -> Item ID is null or invalid');
-            expect(() => { ebay.getShippingCosts(); }).to.throw('invalid_request_error -> Invalid input');
-            expect(() => { ebay.getUserDetails(); }).to.throw('invalid_request_error -> Invalid input');
+            expect(() => { ebay.getSingleItem(); }).to.throw('Item ID is required');
+            expect(() => { ebay.getMultipleItems(); }).to.throw('Item ID is required');
+            expect(() => { ebay.getMultipleItems([]); }).to.throw('Item ID is required');
+            expect(() => { ebay.getShippingCosts(); }).to.throw('Invalid input');
+            expect(() => { ebay.getUserDetails(); }).to.throw('Invalid input');
             expect(() => { ebay.getAllCategories(); }).to.be.not.throw;
-            expect(() => { ebay.getItemStatus(); }).to.throw('invalid_request_error -> Item ID is null or invalid');
+            expect(() => { ebay.getItemStatus(); }).to.throw('Item ID is required');
         });
     });
     describe('test shopping api calls', () => {
@@ -39,7 +39,7 @@ describe('test shopping api', () => {
             nock('https://api.ebay.com')
                 .get('/Shopping?appid=ABCXXX123&callname=GetMultipleItems&version=967&siteid=0&responseencoding=JSON&itemId=12345,4567')
                 .reply(200, { getMultipleItems: true });
-            ebay.getMultipleItems({ itemId: ['12345', '4567'] }).then((data) => {
+            ebay.getMultipleItems({ itemID: ['12345', '4567'] }).then((data) => {
                 expect(data).to.deep.equal({ getMultipleItems: true });
             });
         });
@@ -51,7 +51,7 @@ describe('test shopping api', () => {
             nock('https://api.ebay.com')
                 .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=Details')
                 .reply(200, { getUserDetails: true });
-            ebay.getUserDetails({ userId: 'test' }).then((data) => {
+            ebay.getUserDetails({ userID: 'test' }).then((data) => {
                 expect(data).to.deep.equal({ getUserDetails: true });
             });
         });
@@ -63,7 +63,7 @@ describe('test shopping api', () => {
             nock('https://api.ebay.com')
                 .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=sample')
                 .reply(200, { getUserDetailsWithIncludeSelector: true });
-            ebay.getUserDetails({ userId: 'test', includeSelector: 'sample' }).then((data) => {
+            ebay.getUserDetails({ userID: 'test', includeSelector: 'sample' }).then((data) => {
                 expect(data).to.deep.equal({ getUserDetailsWithIncludeSelector: true });
             });
         });

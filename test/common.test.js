@@ -1,7 +1,7 @@
 'use strict';
 const expect = require('chai').expect;
 const should = require('chai').should();
-const { parseObj } = require('../src/common-utils/index');
+const { urlParseObj } = require('../src/utils');
 
 describe('test common util methods', () => {
     it('test parse object to query params', () => {
@@ -12,8 +12,8 @@ describe('test common util methods', () => {
             sortOrder: 'PricePlusShippingLowest'
         };
         const emptyOptions = {};
-        expect(parseObj(options)).to.be.equal(expectedParam);
-        expect(parseObj(emptyOptions)).to.be.equal('');
-        expect(parseObj(options, 'userName=ebay')).to.be.equal(`userName=ebay${expectedParam}`);
+        expect(urlParseObj(options)).to.be.equal(expectedParam);
+        expect(urlParseObj(emptyOptions)).to.be.equal('');
+        expect(urlParseObj(options, 'userName=ebay')).to.be.equal(`userName=ebay${expectedParam}`);
     });
 });

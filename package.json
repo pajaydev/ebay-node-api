@@ -1,6 +1,6 @@
 {
   "name": "ebay-node-api",
-  "version": "2.8.5",
+  "version": "2.8.7",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
@@ -37,13 +37,13 @@
     "oauth-ebay": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "docsify": "^4.10.2",
+    "chai": "^4.2.0",
+    "docsify": "^4.11.3",
     "documentation": "^12.1.4",
     "eslint": "^5.8.0",
     "gh-pages": "^2.2.0",
-    "mocha": "^5.0.1",
-    "nock": "^9.2.3",
-    "sinon": "^4.4.5"
+    "mocha": "^5.2.0",
+    "nock": "^9.6.1",
+    "sinon": "^4.5.0"
   }
 }

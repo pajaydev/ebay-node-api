@@ -2,7 +2,7 @@
 
 const urlObject = require('./buildURL');
 const { getRequest } = require('./request');
-const utils = require('./common-utils/index');
+const { constructAdditionalParams } = require('./utils');
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
@@ -18,7 +18,7 @@ const findItemsByKeywords = function (options) {
     // support only keyword string.
     if (!options.keywords) options = { keywords: options };
     options.keywords = encodeURIComponent(options.keywords);
-    this.options.additionalParam = utils.constructAdditionalParams(options);
+    this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
@@ -50,7 +50,7 @@ const findCompletedItems = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     this.options.operationName = FIND_COMPLETED_ITEMS;
-    this.options.additionalParam = utils.constructAdditionalParams(options);
+    this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
@@ -71,7 +71,7 @@ const findItemsAdvanced = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     this.options.operationName = FIND_ITEMS_ADV;
-    this.options.additionalParam = utils.constructAdditionalParams(options);
+    this.options.additionalParam = constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     console.log(url);
     return getRequest(url).then((data) => {
@@ -99,7 +99,7 @@ const findItemsByProduct = function (options) {
     if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
     this.options.operationName = 'findItemsByProduct';
-    this.options.additionalParam = utils.constructAdditionalParams(options);
+    this.options.additionalParam = constructAdditionalParams(options);
     let url = urlObject.buildSearchUrl(this.options);
     url = `${url}&productId.@type=${type}`;
     console.log(url);
@@ -114,7 +114,7 @@ const findItemsIneBayStores = function (options) {
     if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
     if (!options.storeName) throw new Error('INVALID_REQUEST_PARMS --> Store name is required.');
     this.options.operationName = FIND_EBAY_STORES;
-    this.options.additionalParam = utils.constructAdditionalParams(options);
+    this.options.additionalParam = constructAdditionalParams(options);
     console.log(urlObject.buildSearchUrl(this.options));
     return getRequest(urlObject.buildSearchUrl(this.options)).then((data) => {
         return JSON.parse(data).findItemsIneBayStoresResponse;

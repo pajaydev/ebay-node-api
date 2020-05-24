@@ -11,13 +11,13 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
 
     it('should have client ID', () => {
         let ebayApi = new Ebay({ clientID: '12345' });
-        ebayApi.options.should.have.property('clientID');
+        ebayApi.credentials.should.have.property('clientID');
     });
 
     it('should not have client ID', () => {
         expect(() => {
             new Ebay({});
-        }).to.throw('Client ID is Missing\ncheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
+        }).to.throw('Client ID is Missing\nCheck documentation to get Client ID http://developer.ebay.com/DevZone/account/');
     });
 
     it('check instance of Ebay', () => {
@@ -29,26 +29,22 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
         const ebay = new Ebay({
             clientID: 'ClientId'
         });
-        const expected = {
-            clientID: 'ClientId',
-            env: 'PROD',
-            baseUrl: 'api.ebay.com',
-            baseSvcUrl: 'svcs.ebay.com',
-            globalID: 'EBAY-US',
-            siteId: '0'
-        };
-        expect(ebay.options).to.deep.equal(expected);
+        expect(ebay.credentials.clientID).to.equal('ClientId');
+        expect(ebay.baseUrl).to.equal('api.ebay.com');
+        expect(ebay.baseSvcUrl).to.equal('svcs.ebay.com');
+        expect(ebay.globalID).to.equal('EBAY-US');
+        expect(ebay.siteID).to.equal('0');
+        expect(ebay.environment).to.equal('PROD');
     });
 
     it('test site id, env and country code', () => {
         const ebay = new Ebay({
             clientID: 'ClientId',
-            siteId: 3,
-            env: 'SANDBOX',
-            countryCode: 'EBAY_UK'
+            environment: 'SANDBOX',
+            countryCode: 'EBAY-GB'
         });
-        expect(ebay.options.siteId).to.equals(3);
-        expect(ebay.options.env).to.equals('SANDBOX');
-        expect(ebay.options.globalID).to.equals('EBAY_UK');
+        expect(ebay.siteID).to.equals('3');
+        expect(ebay.environment).to.equals('SANDBOX');
+        expect(ebay.globalID).to.equals('EBAY-GB');
     });
 });
