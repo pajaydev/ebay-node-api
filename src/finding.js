@@ -76,10 +76,9 @@ const findItemsAdvanced = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     let config = {
-        operationName: FIND_ITEMS_ADV,
         additionalParam: constructAdditionalParams(options),
     }
-    const url = buildSearchUrl(this, config);
+    const url = buildSearchUrl(this, config, FIND_ITEMS_ADV);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error // eslint-disable-line no-console
@@ -87,10 +86,7 @@ const findItemsAdvanced = function (options) {
 };
 
 const getVersion = function () {
-    let config = {
-        operationName: 'getVersion',
-    }
-    const url = buildSearchUrl(this, config);
+    const url = buildSearchUrl(this, {}, 'getVersion');
     return getRequest(url).then((data) => {
         return JSON.parse(data).getVersionResponse[0];
     }, console.error // eslint-disable-line no-console
@@ -106,10 +102,9 @@ const findItemsByProduct = function (options) {
     if (!options.productID) throw new Error('Product ID is required.');
     let type = options.type ? options.type : 'ReferenceID';
     let config = {
-        operationName: FIND_ITEMS_PROD,
         additionalParam: constructAdditionalParams(options)
     }
-    let url = buildSearchUrl(this, config);
+    let url = buildSearchUrl(this, config, FIND_ITEMS_PROD);
     url = `${url}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
@@ -122,10 +117,9 @@ const findItemsIneBayStores = function (options) {
     if (!options) throw new Error('Options is required');
     if (!options.storeName) throw new Error('Store name is required.');
     let config = {
-        operationName: FIND_EBAY_STORE,
         additionalParam: constructAdditionalParams(options)
     }
-    return getRequest(buildSearchUrl(this, config)).then((data) => {
+    return getRequest(buildSearchUrl(this, config, FIND_EBAY_STORE)).then((data) => {
         return JSON.parse(data).findItemsIneBayStoresResponse;
 
     }, console.error // eslint-disable-line no-console
