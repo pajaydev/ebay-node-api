@@ -6,7 +6,7 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
     it('check input is provided or not', () => {
         expect(() => {
             new Ebay();
-        }).to.throw('Options is missing, please provide the input');
+        }).to.throw('Options is required');
     });
 
     it('should have client ID', () => {
