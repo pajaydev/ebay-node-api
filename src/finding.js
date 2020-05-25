@@ -113,6 +113,7 @@ const findItemsByProduct = function (options) {
 const findItemsIneBayStores = function (options) {
     if (!options) throw new Error('Options is required');
     if (!options.storeName) throw new Error('Store name is required.');
+    options.storeName = encodeURIComponent(options.storeName);
     let config = {
         additionalParam: constructAdditionalParams(options)
     }

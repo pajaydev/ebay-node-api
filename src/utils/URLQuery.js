@@ -30,7 +30,7 @@ module.exports = {
                 if (key === 'entriesPerPage' || key === 'pageNumber') {
                     params = `${params}paginationInput.${key}=${options[key]}&`;
                 }
-                else if (key === 'keywords' || key === 'sortOrder') {
+                else if (key === 'keywords' || key === 'sortOrder' || key === 'storeName') {
                     params = `${params}${key}=${options[key]}&`;
                 }
                 else if (key === 'categoryID' || key === 'productID') {
