@@ -14,14 +14,13 @@ const findItemsByKeywords = function (options) {
         throw new Error('Keyword is required');
     }
     let config = {
-        operationName: FIND_ITEMS_BY_KEYWORD,
         param: 'keywords'
     };
     // support only keyword string.
     if (!options.keywords) config = { keywords: options };
     config.keywords = encodeURIComponent(options.keywords);
     config.additionalParam = constructAdditionalParams(options);
-    const url = buildSearchUrl(this, config);
+    const url = buildSearchUrl(this, config, FIND_ITEMS_BY_KEYWORD);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
     }, console.error // eslint-disable-line no-console
@@ -32,10 +31,9 @@ const findItemsByCategory = function (categoryID) {
     if (!categoryID) throw new Error('Category ID is required');
     let config = {
         name: categoryID,
-        operationName: FIND_ITEMS_BY_CATEGORY,
         param: 'categoryId'
     }
-    const url = buildSearchUrl(this, config);
+    const url = buildSearchUrl(this, config, FIND_ITEMS_BY_CATEGORY);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
     }, console.error // eslint-disable-line no-console
@@ -53,10 +51,9 @@ const findCompletedItems = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     let config = {
-        operationName: FIND_COMPLETED_ITEMS,
         additionalParam: constructAdditionalParams(options),
     }
-    const url = buildSearchUrl(this, config);
+    const url = buildSearchUrl(this, config, FIND_COMPLETED_ITEMS);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
 
