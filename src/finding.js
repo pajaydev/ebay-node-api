@@ -7,7 +7,7 @@ const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
 const FIND_ITEMS_PROD = 'findItemsByProduct';
 const FIND_ITEMS_ADV = 'findItemsAdvanced';
-const FIND_EBAY_STORE = 'findItemsInEbayStores';
+const FIND_EBAY_STORE = 'findItemsIneBayStores';
 
 const findItemsByKeywords = function (options) {
     if (!options) {
