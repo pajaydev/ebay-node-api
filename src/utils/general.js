@@ -1,5 +1,9 @@
 'use strict';
 
+const isString = value => {
+    return typeof value === 'string' || value instanceof String;
+};
+
 module.exports = {
     base64Encode: data => {
         const buff = Buffer.from(data);
@@ -54,14 +58,12 @@ module.exports = {
                 throw new Error('Invalid globalID');
         }
     },
+
+    isString,
+    
     upperCase: data => {
         if (!isString(data)) data = data.toString();
         return data.toUpperCase();
-    },
-
-    // Returns if a value is a string
-    isString: value => {
-        return typeof value === 'string' || value instanceof String;
     },
 
     // Returns if object is empty or not
