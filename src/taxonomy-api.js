@@ -4,19 +4,19 @@ const { upperCase } = require('./utils');
 
 /**
   * @method getDefaultcategoryTreeId {Function}
-  * @param {String} marketPlaceId = default = EBAY_US
+  * @param {String} marketPlaceID = default = EBAY_US
   */
 
 const DEFAULT_CATEGORY_TREE = 'EBAY_US';
-const getDefaultCategoryTreeId = function (marketPlaceId) {
-    if (!marketPlaceId) marketPlaceId = DEFAULT_CATEGORY_TREE;
-    marketPlaceId = upperCase(marketPlaceId);
+const getDefaultCategoryTreeId = function (marketPlaceID) {
+    if (!marketPlaceID) marketPlaceID = DEFAULT_CATEGORY_TREE;
+    marketPlaceID = upperCase(marketPlaceID);
     if (!this.appAccessToken) throw new Error('Missing Access token, Generate access token');
     let config = {
         contentType: 'application/json'
     };
     const auth = 'Bearer ' + this.appAccessToken;
-    return makeRequest(this, config, `/commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=${marketPlaceId}`, 'GET', auth).then((result) => {
+    return makeRequest(this, config, `/commerce/taxonomy/v1_beta/get_default_category_tree_id?marketplace_id=${marketPlaceID}`, 'GET', auth).then((result) => {
         return JSON.parse(result);
     });
 };
