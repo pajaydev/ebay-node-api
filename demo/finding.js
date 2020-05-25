@@ -21,8 +21,8 @@ ebay.findItemsByKeywords({
     Condition: 3000,
     SoldItemsOnly: false,
     affiliate: {
-        networkId: 9,
-        trackingId: 1234567890
+        networkID: 9,
+        trackingID: 1234567890
     }
 }).then((data) => {
     console.log(data);
@@ -36,7 +36,7 @@ sale by category (using categoryId), by keywords (using keywords), or a combinat
 Keyword queries search the title and subtitle of the item; they do not search descriptions. */
 ebay.findCompletedItems({
     keywords: 'Garmin nuvi 1300 Automotive GPS Receiver',
-    categoryId: '156955',
+    categoryID: '156955',
     sortOrder: 'PricePlusShippingLowest', //https://developer.ebay.com/devzone/finding/callref/extra/fndcmpltditms.rqst.srtordr.html
     Condition: 3000,
     SoldItemsOnly: true,
@@ -50,7 +50,7 @@ ebay.findCompletedItems({
 // // This call searches for items on eBay using specific eBay product values.
 // https://developer.ebay.com/DevZone/finding/CallRef/findItemsByProduct.html#findItemsByProduct
 ebay.findItemsByProduct({
-    productId: 53039031,
+    productID: 53039031,
     entriesPerPage: 2
 }).then((data) => {
     console.log(data);

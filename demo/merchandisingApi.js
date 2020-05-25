@@ -4,17 +4,12 @@ const { clientId, clientSecret } = require('./credentials/index');
 let ebay = new Ebay({
     clientID: clientId,
     clientSecret: clientSecret,
-    body: {
-        grant_type: 'client_credentials',
-        scope: 'https://api.ebay.com/oauth/api_scope'
-
-    }
 });
 
 
 ebay.getMostWatchedItems({
     maxResults: 3, // optional
-    categoryId: 267 // optional
+    categoryID: 267 // optional
 }).then((data) => {
     if (data.errorMessage) {
         console.log('Error:' + data.errorMessage);
@@ -25,7 +20,7 @@ ebay.getMostWatchedItems({
 
 ebay.getSimilarItems({
     maxResults: 3, // optional
-    itemId: '280254552262' // optional
+    itemID: '280254552262' // optional
 }).then((data) => {
     if (data.errorMessage) {
         console.log('Error:' + data.errorMessage);

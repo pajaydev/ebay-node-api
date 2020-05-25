@@ -33,7 +33,7 @@ ebay.getItemStatus(['153265274986', '153265274986']).then((data) => {
 
 // https://developer.ebay.com/devzone/shopping/docs/callref/GetShippingCosts.html
 ebay.getShippingCosts({
-    itemId: '153265274986', destinationCountryCode: 'US',
+    itemID: '153265274986', destinationCountryCode: 'US',
     destinationPostalCode: '95128'
 }).then((data) => {
     console.log(data);

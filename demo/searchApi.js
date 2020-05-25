@@ -4,11 +4,6 @@ const { clientId, clientSecret } = require('./credentials');
 let ebay = new Ebay({
     clientID: clientId,
     clientSecret: clientSecret,
-    body: {
-        grant_type: 'client_credentials',
-        scope: 'https://api.ebay.com/oauth/api_scope'
-
-    }
 });
 
 
@@ -32,7 +27,7 @@ ebay.getApplicationToken()
     .then((data) => {
         ebay.setAppAccessToken(data);
         ebay.searchItems({
-            categoryId: 2080,
+            categoryID: 2080,
             limit: '3'
         }).then((data) => {
             console.log(data);
