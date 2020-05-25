@@ -48,7 +48,7 @@ const findItemsByCategory = function (categoryID) {
  * @param {Object} options
  */
 const findCompletedItems = function (options) {
-    if (!options || options.keywords || options.categoryID) throw new Error('Keyword or category ID is required');
+    if (!options || !options.keywords || !options.categoryID) throw new Error('Keyword or category ID is required');
     if (options.keywords) {
         options.keywords = encodeURIComponent(options.keywords);
     }
