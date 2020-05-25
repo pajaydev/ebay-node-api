@@ -40,8 +40,8 @@ ebay.getApplicationToken()
             legacyVariationSku: 'V-00031-WHM'
         }).then((data) => {
             console.log(data);
-            Data is in format of JSON
-            To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
+            // Data is in format of JSON
+            // To check the format of Data, Go to this url (https://jsonblob.com/56cbea67-30b8-11e8-953c-5d1886dcf4a0)
         });
     });
 
