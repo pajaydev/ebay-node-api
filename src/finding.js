@@ -13,13 +13,15 @@ const findItemsByKeywords = function (options) {
     if (!options) {
         throw new Error('Keyword is required');
     }
-    let config = {
-        param: 'keywords'
-    };
     // support only keyword string.
-    if (!options.keywords) config = { keywords: options };
-    config.keywords = encodeURIComponent(options.keywords);
-    config.additionalParam = constructAdditionalParams(options);
+    if (!options.keywords) {
+        options = { keywords: encodeURIComponent(options)};
+    } else {
+        options.keywords = encodeURIComponent(options.keywords);
+    }
+    let config = {
+        additionalParam: constructAdditionalParams(options)
+    }
     const url = buildSearchUrl(this, config, FIND_ITEMS_BY_KEYWORD);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
