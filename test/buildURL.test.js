@@ -11,7 +11,7 @@ describe('test building url methods', () => {
         let options = {
             name: 'iphone',
             param: 'keywords',
-            limit: 6,
+            limit: 6
         };
         self = {
             baseSvcUrl: 'svcs.ebay.com',
@@ -19,7 +19,7 @@ describe('test building url methods', () => {
                 clientID: 'testID'
             },
             globalID: 'EBAY-US'
-        }
+        };
         expect(buildSearchUrl(self, options, 'findItemsByKeywords')).to.be.equal(expectedSearchUrl);
     });
 

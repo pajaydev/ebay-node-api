@@ -3,7 +3,7 @@ const fs = require('fs');
 const makeString = require('make-string');
 const qs = require('querystring');
 const { makeRequest } = require('./request');
-const { base64Encode, encodeURLQuery } = require('./utils')
+const { base64Encode, encodeURLQuery } = require('./utils');
 
 const getItemById = function (itemID) {
     if (!itemID) throw new Error('Item ID is required');
@@ -92,7 +92,7 @@ const searchByImage = function (searchConfig) {
     const encodeImage = searchConfig.imgPath ? base64Encode(fs.readFileSync(searchConfig.imgPath)) : searchConfig.base64Image;
     let config = {
         data: JSON.stringify({ image: encodeImage }),
-        contentType: 'application/json',
+        contentType: 'application/json'
     };
     const queryString = makeString(searchConfig, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     return new Promise((resolve, reject) => {

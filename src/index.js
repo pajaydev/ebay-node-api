@@ -8,11 +8,12 @@ const ebayFindingApi = require('./finding');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const utils = require('./utils');
 const { postRequest } = require('./request');
-const { PROD_OAUTHENVIRONMENT_WEBENDPOINT,
-        SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT,
-        PROD_BASE_URL, SANDBOX_BASE_URL,
-        BASE_SANDBX_SVC_URL,
-        BASE_SVC_URL, DEFAULT_API_SCOPE
+const {
+    PROD_OAUTHENVIRONMENT_WEBENDPOINT,
+    SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT,
+    PROD_BASE_URL, SANDBOX_BASE_URL,
+    BASE_SANDBX_SVC_URL,
+    BASE_SVC_URL, DEFAULT_API_SCOPE
 } = require('./constants');
 const PROD_ENV = 'PROD';
 const SANDBOX_ENV = 'SANDBOX';
@@ -39,7 +40,8 @@ function Ebay(options) {
         this.baseUrl = SANDBOX_BASE_URL;
         this.baseSvcUrl = BASE_SANDBX_SVC_URL;
         this.oauthEndpoint = SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT;
-    } else {
+    }
+    else {
         this.environment = PROD_ENV;
         this.baseUrl = PROD_BASE_URL;
         this.baseSvcUrl = BASE_SVC_URL;
@@ -78,11 +80,11 @@ const getApplicationToken = function (scopes = DEFAULT_API_SCOPE) {
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
     });
-}
+};
 
 /**
  * Generates user consent authorization url
- * 
+ *
  * @param scopes array of scopes for the access token
  * @param state custom state value
  * @return userConsentUrl
@@ -98,11 +100,11 @@ const getUserAuthorizationUrl = function (scopes = DEFAULT_API_SCOPE, state = nu
     queryParam += `&scope=${scopesParam}`;
     queryParam += state ? `&state=${state}` : '';
     return `${this.oauthEndpoint}?${queryParam}`;
-}
+};
 
 /**
  * Generates a User access token given auth code
- * 
+ *
  * @param environment Environment (production/sandbox).
  * @param code code generated from browser using the method generateUserAuthorizationUrl.
  * @return userAccessToken object.
@@ -119,12 +121,12 @@ const getUserTokenByCode = function (code) {
     const auth = `Basic ${encodedStr}`;
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
-    });;
-}
+    });
+};
 
 /**
  * Use a refresh token to update a User access token (Updating the expired access token)
- * 
+ *
  * @param refreshToken refresh token, defaults to pre-assigned refresh token
  * @param scopes array of scopes for the access token
  * @return userAccessToken object
@@ -134,7 +136,7 @@ const getAccessTokenByRefresh = function (refreshToken = null, scopes) {
     if (!scopes) throw new Error('Scopes parameter is required');
     if (!this.credentials) throw new Error('Credentials are required');
     let scopesParam = Array.isArray(scopes) ? scopes.join('%20') : scopes;
-    if (!token) {
+    if (!refreshToken) {
         throw new Error('Refresh token is required, to generate refresh token use exchangeCodeForAccessToken method'); // eslint-disable-line max-len
     }
     const data = qs.stringify({
@@ -147,28 +149,28 @@ const getAccessTokenByRefresh = function (refreshToken = null, scopes) {
     return postRequest(this, 'application/x-www-form-urlencoded', data, '/identity/v1/oauth2/token', auth).then(result => {
         return JSON.parse(result);
     });
-}
+};
 
 /**
  * Assign user access token and refresh token returned from authorization grant workflow (i.e getAccessTokenByCode)
- * 
+ *
  * @param userAccessToken userAccessToken obj returned from getAccessTokenByCode or getAccessTokenByRefresh
 */
 const setUserAccessToken = function (userAccessToken) {
-    if (!userAccessToken.token_type == 'User Access Token') throw new Error('userAccessToken is either missing or invalid');
+    if (!userAccessToken.token_type === 'User Access Token') throw new Error('userAccessToken is either missing or invalid');
     this.refreshToken = userAccessToken.refresh_token;
     this.userAccessToken = userAccessToken.access_token;
-}
+};
 
 /**
  * Assign application access token returned from client credentials workflow (i.e getApplicationToken)
- * 
+ *
  * @param appAccessToken appAccessToken obj returned from getApplicationToken
 */
 const setAppAccessToken = function (appAccessToken) {
-    if (!appAccessToken.token_type == 'Application Access Token') throw new Error('appAccessToken is either missing or invalid');
+    if (!appAccessToken.token_type === 'Application Access Token') throw new Error('appAccessToken is either missing or invalid');
     this.appAccessToken = appAccessToken.access_token;
-}
+};
 
 Ebay.prototype = {
     getApplicationToken,

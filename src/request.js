@@ -29,7 +29,8 @@ const makeRequest = (self, customOptions, endpoint, methodName, token) => {
     let dataString = '';
     if (customOptions.data) {
         dataString = customOptions.data;
-    } else {
+    }
+    else {
         methodName === 'POST' ? dataString = qs.stringify(customOptions.body) : '';
     }
     const options = {
@@ -76,7 +77,7 @@ const postRequest = (self, contentType, data, endpoint, authToken) => {
                 'Content-Type': contentType,
                 'authorization': authToken,
                 ...self.headers
-            },
+            }
         });
         req.on('response', (res) => {
             let body = '';

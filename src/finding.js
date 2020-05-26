@@ -1,6 +1,6 @@
 'use strict';
 
-const { buildSearchUrl, constructAdditionalParams } = require('./utils')
+const { buildSearchUrl, constructAdditionalParams } = require('./utils');
 const { getRequest } = require('./request');
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
@@ -16,12 +16,13 @@ const findItemsByKeywords = function (options) {
     // support only keyword string.
     if (!options.keywords) {
         options = { keywords: encodeURIComponent(options)};
-    } else {
+    }
+    else {
         options.keywords = encodeURIComponent(options.keywords);
     }
     let config = {
         additionalParam: constructAdditionalParams(options)
-    }
+    };
     const url = buildSearchUrl(this, config, FIND_ITEMS_BY_KEYWORD);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByKeywordsResponse;
@@ -34,7 +35,7 @@ const findItemsByCategory = function (categoryID) {
     let config = {
         name: categoryID,
         param: 'categoryId'
-    }
+    };
     const url = buildSearchUrl(this, config, FIND_ITEMS_BY_CATEGORY);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
@@ -53,8 +54,8 @@ const findCompletedItems = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     let config = {
-        additionalParam: constructAdditionalParams(options),
-    }
+        additionalParam: constructAdditionalParams(options)
+    };
     const url = buildSearchUrl(this, config, FIND_COMPLETED_ITEMS);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
@@ -75,8 +76,8 @@ const findItemsAdvanced = function (options) {
         options.keywords = encodeURIComponent(options.keywords);
     }
     let config = {
-        additionalParam: constructAdditionalParams(options),
-    }
+        additionalParam: constructAdditionalParams(options)
+    };
     const url = buildSearchUrl(this, config, FIND_ITEMS_ADV);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
@@ -102,7 +103,7 @@ const findItemsByProduct = function (options) {
     let type = options.type ? options.type : 'ReferenceID';
     let config = {
         additionalParam: constructAdditionalParams(options)
-    }
+    };
     let url = buildSearchUrl(this, config, FIND_ITEMS_PROD);
     url = `${url}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
@@ -118,7 +119,7 @@ const findItemsIneBayStores = function (options) {
     options.storeName = encodeURIComponent(options.storeName);
     let config = {
         additionalParam: constructAdditionalParams(options)
-    }
+    };
     return getRequest(buildSearchUrl(this, config, FIND_EBAY_STORE)).then((data) => {
         return JSON.parse(data).findItemsIneBayStoresResponse;
 
