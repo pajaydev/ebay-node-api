@@ -107,7 +107,7 @@ const getUserAuthorizationUrl = function (state = null) {
 /**
  * Generates a User access token given auth code
  *
- * @param code code generated from browser using the method getUserAuthorizationUrl
+ * @param code code generated from browser using the method getUserAuthorizationUrl (should be urldecoded)
  * @return userAccessToken object (with refresh_token)
 */
 const getUserTokenByCode = function (code) {
