@@ -53,6 +53,7 @@ module.exports = {
         return data.toUpperCase();
     },
 
+    // Returns if a value is a string
     isString(value) { 
         return typeof value === 'string' || value instanceof String; 
     },
