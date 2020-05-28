@@ -1,9 +1,7 @@
 'use strict';
 const expect = require('chai').expect;
-const should = require('chai').should();
 const nock = require('nock');
 const Ebay = require('../src/index');
-const { constructAdditionalParams } = require('../src/common-utils/index');
 const nockFindingApi = nock('https://svcs.ebay.com/');
 
 describe('test ebay finding Api', () => {
@@ -24,66 +22,6 @@ describe('test ebay finding Api', () => {
         });
     });
 
-    describe('test constructAdditionalParams', () => {
-        it('test constructAdditionalParams with required params', () => {
-            let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
-            const options = {
-                keywords: 'iphone',
-                categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest'
-            };
-            const emptyOptions = {};
-            expect(constructAdditionalParams(options)).to.be.equal(expectedParam);
-            expect(constructAdditionalParams(emptyOptions)).to.be.equal('');
-        });
-
-        it('test constructAdditionalParams with affiliate params', () => {
-            let expectedParamWithAffiliate = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&affiliate.trackingId=1234567899&affiliate.networkId=123';
-            let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
-            const options = {
-                keywords: 'iphone',
-                categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest',
-                affiliate: {
-                    trackingId: 1234567899,
-                    networkId: 123
-                }
-            };
-
-            const optionsWithNoAffiliate = {
-                keywords: 'iphone',
-                categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest'
-            };
-            const emptyOptions = {};
-            expect(constructAdditionalParams(options)).to.be.equal(expectedParamWithAffiliate);
-            expect(constructAdditionalParams(optionsWithNoAffiliate)).to.be.equal(expectedParam);
-            expect(constructAdditionalParams(emptyOptions)).to.be.equal('');
-        });
-
-        it('test constructAdditionalParams with additional params', () => {
-            let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true';
-            let expectedPaginationParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&paginationInput.entriesPerPage=2';
-            const options = {
-                keywords: 'iphone',
-                categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest',
-                Condition: 3000,
-                SoldItemsOnly: true
-            };
-            const optionsWithPagination = {
-                keywords: 'iphone',
-                categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest',
-                Condition: 3000,
-                SoldItemsOnly: true,
-                entriesPerPage: 2
-            };
-            expect(constructAdditionalParams(options)).to.be.equal(expectedParam);
-            expect(constructAdditionalParams(optionsWithPagination)).to.be.equal(expectedPaginationParam);
-        });
-    });
-
     describe('test all get apis', () => {
         it('test findItemsAdvanced', () => {
             let ebay = new Ebay({
@@ -98,7 +36,7 @@ describe('test ebay finding Api', () => {
             }).then((data) => {
                 expect(data.findItemsAdvancedResponse).not.null;
             }, (error) => {
-                console.log(error);
+                console.log(error); // eslint-disable-line no-console
             });
         });
     });
