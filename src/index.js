@@ -59,10 +59,7 @@ function Ebay(options) {
 const getAccessToken = function () {
     if (!this.options.clientID) throw new Error('Missing Client ID');
     if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
-    if (!this.options.body) throw new Error('Missing Body, required Grant type');
-    const encodedStr = commonUtils.base64Encode(this.options.clientID + ':' + this.options.clientSecret);
-    const self = this;
-    const auth = 'Basic ' + encodedStr;
+    if (!this.options.body) throw new Error('Missing Body, required Grant type');    
     let scopesParam = this.options.body.scopes
         ? Array.isArray(this.options.body.scopes)
             ? this.options.body.scopes.join('%20')
@@ -73,6 +70,9 @@ const getAccessToken = function () {
         scope: scopesParam
     });
     this.options.contentType = 'application/x-www-form-urlencoded';
+    const self = this;
+    const encodedStr = commonUtils.base64Encode(this.options.clientID + ':' + this.options.clientSecret);
+    const auth = 'Basic ' + encodedStr;
     return makeRequest(this.options, '/identity/v1/oauth2/token', 'POST', auth).then((result) => {
         const resultJSON = JSON.parse(result);
         if (!resultJSON.error) self.setAppAccessToken(resultJSON);
@@ -157,6 +157,7 @@ const getUserTokenByRefresh = function (refreshToken = null) {
         scope: scopesParam
     });
     this.options.contentType = 'application/x-www-form-urlencoded';
+    const self = this;
     const encodedStr = commonUtils.base64Encode(`${this.options.clientID}:${this.options.clientSecret}`);
     const auth = `Basic ${encodedStr}`;
     return makeRequest(this.options, '/identity/v1/oauth2/token', 'POST', auth).then(result => {
