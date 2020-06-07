@@ -6,6 +6,10 @@ const base64Encode = (encodeData) => {
     return buff.toString('base64');
 };
 
+const isString = (value)=>{
+    return typeof value === 'string' || value instanceof String;
+}
+
 /**
  * Constructs query param based on some logic to support filter and aspect_filter params.
  * output will be keywords=iphone&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=SoldItemsOnly&itemFilter(2).value=true
@@ -71,9 +75,7 @@ module.exports = {
     },
 
     // Returns if a value is a string
-    isString(value) {
-        return typeof value === 'string' || value instanceof String;
-    },
+    isString,
 
     // Returns if object is empty or not
     isEmptyObj(obj) {
