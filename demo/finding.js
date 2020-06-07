@@ -7,7 +7,10 @@ let ebay = new Ebay({
     clientID: clientId,
 });
 
-ebay.findItemsByCategory(10181).then((data) => {
+ebay.findItemsByCategory({
+    categoryId: 10181,
+    Condition: 1000
+}).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);

@@ -23,8 +23,7 @@ const buildURL = {
         baseUrl += options.param ? '&' + options.param + '=' + options.name : '';
         baseUrl += options.additionalParam ? '&' + options.additionalParam : '';
         baseUrl += options.sortOrder ? '&sortOrder=' + options.sortOrder : '';
-        baseUrl += '&outputSelector(0)=SellerInfo';
-        baseUrl += '&outputSelector(1)=PictureURLLarge';
+        baseUrl += '&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLLarge';
         baseUrl += options.limit ? '&paginationInput.entriesPerPage=' + options.limit : '';
         baseUrl += options.globalID ? '&GLOBAL-ID=' + options.globalID : '';
         baseUrl += options.pageNumber ? '&paginationInput.pageNumber=' + options.pageNumber : '';
