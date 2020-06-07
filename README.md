@@ -78,6 +78,19 @@ ebay.getAccessToken()
             // To check the format of Data, Go to this url (https://developer.ebay.com/api-     docs/buy/browse/resources/item_summary/methods/search#w4-w1-w4-SearchforItemsbyKeyword-0)
         })
     });
+
+// perform Advance Search Items by Keyword or category or both
+// Search Buy It Now ipad items with one day shipping. (https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html)
+ebay.findItemsAdvanced({
+    entriesPerPage: 2,
+    keywords: 'ipad',
+    ExpeditedShippingType: 'OneDayShipping',
+    ListingType: 'AuctionWithBIN'
+}).then((data) => {
+    console.log(data);
+}, (error) => {
+    console.log(error);
+});
 ```
 
 [More Examples](https://pajaydev.github.io/ebay-node-api)
