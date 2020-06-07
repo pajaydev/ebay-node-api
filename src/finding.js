@@ -10,14 +10,10 @@ const FIND_ITEMS_ADV = 'findItemsAdvanced';
 const FIND_EBAY_STORES = 'findItemsIneBayStores';
 
 const findItemsByKeywords = function (options) {
-    if (!options) {
-        throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
-    }
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword is missing, Keyword is required');
     this.options.operationName = FIND_ITEMS_BY_KEYWORD;
-    this.options.param = 'keywords';
     // support only keyword string.
     if (!options.keywords) options = { keywords: options };
-    options.keywords = encodeURIComponent(options.keywords);
     this.options.additionalParam = utils.constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
@@ -26,11 +22,15 @@ const findItemsByKeywords = function (options) {
     );
 };
 
-const findItemsByCategory = function (categoryID) {
-    if (!categoryID) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
-    this.options.name = categoryID;
+/**
+ * searches for items on eBay using specific eBay category ID numbers (input category ID numbers using categoryId).
+ * @param {Object} options
+ */
+const findItemsByCategory = function (options) {
+    if (!options) throw new Error('INVALID_REQUEST_PARMS --> Category ID is null or invalid');
+    if (!options.categoryId) options = { categoryId: options };
     this.options.operationName = FIND_ITEMS_BY_CATEGORY;
-    this.options.param = 'categoryId';
+    this.options.additionalParam = utils.constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByCategoryResponse;
@@ -46,15 +46,11 @@ const findItemsByCategory = function (categoryID) {
 const findCompletedItems = function (options) {
     if (!options) throw new Error('INVALID_REQUEST_PARMS --> Keyword or category ID are required.');
     if (!options.keywords && !options.categoryId) throw new Error('Keyword or category ID are required.');
-    if (options.keywords) {
-        options.keywords = encodeURIComponent(options.keywords);
-    }
     this.options.operationName = FIND_COMPLETED_ITEMS;
     this.options.additionalParam = utils.constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findCompletedItemsResponse;
-
     }, console.error // eslint-disable-line no-console
     );
 };
@@ -67,13 +63,9 @@ const findCompletedItems = function (options) {
  */
 const findItemsAdvanced = function (options) {
     if (!options) throw new Error('INVALID_REQUEST_PARMS --> check here for input fields https://developer.ebay.com/DevZone/finding/CallRef/findItemsAdvanced.html#Input');
-    if (options.keywords) {
-        options.keywords = encodeURIComponent(options.keywords);
-    }
     this.options.operationName = FIND_ITEMS_ADV;
     this.options.additionalParam = utils.constructAdditionalParams(options);
     const url = urlObject.buildSearchUrl(this.options);
-    console.log(url);
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsAdvancedResponse;
     }, console.error // eslint-disable-line no-console
@@ -100,12 +92,9 @@ const findItemsByProduct = function (options) {
     let type = options.type ? options.type : 'ReferenceID';
     this.options.operationName = 'findItemsByProduct';
     this.options.additionalParam = utils.constructAdditionalParams(options);
-    let url = urlObject.buildSearchUrl(this.options);
-    url = `${url}&productId.@type=${type}`;
-    console.log(url);
+    let url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
-
     }, console.error // eslint-disable-line no-console
     );
 };
@@ -115,10 +104,8 @@ const findItemsIneBayStores = function (options) {
     if (!options.storeName) throw new Error('INVALID_REQUEST_PARMS --> Store name is required.');
     this.options.operationName = FIND_EBAY_STORES;
     this.options.additionalParam = utils.constructAdditionalParams(options);
-    console.log(urlObject.buildSearchUrl(this.options));
     return getRequest(urlObject.buildSearchUrl(this.options)).then((data) => {
         return JSON.parse(data).findItemsIneBayStoresResponse;
-
     }, console.error // eslint-disable-line no-console
     );
 };
