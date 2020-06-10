@@ -34,6 +34,7 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
             env: 'PROD',
             baseUrl: 'api.ebay.com',
             baseSvcUrl: 'svcs.ebay.com',
+            oauthEndpoint: 'https://auth.ebay.com/oauth2/authorize',
             globalID: 'EBAY-US',
             siteId: '0'
         };

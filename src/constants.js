@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
+    PROD_OAUTHENVIRONMENT_WEBENDPOINT: 'https://auth.ebay.com/oauth2/authorize',
+    SANDBOX_OAUTHENVIRONMENT_WEBENDPOINT: 'https://auth.sandbox.ebay.com/oauth2/authorize',
     PROD_BASE_URL: 'api.ebay.com',
     SANDBOX_BASE_URL: 'api.sandbox.ebay.com',
     BASE_SVC_URL: 'svcs.ebay.com',
