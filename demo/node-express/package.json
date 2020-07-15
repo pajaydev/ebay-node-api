@@ -1,0 +1,13 @@
+{
+  "name": "ebay-node-api-example",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "ebay-node-api": "^2.8.7",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start" : "node server.js"
+  }
+}

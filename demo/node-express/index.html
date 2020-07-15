@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Ebay node api demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    <h1>Ebay node api playground</h1>
+    <input type="text" id="searchId" placeholder="Search for some items"/>
+    <button type="submit" onclick="search()">search</button>
+    <h4>Items: </h4>
+    <div id="search-items"></div>
+</body>
+<script>
+    const searchItems = document.getElementById('search-items');
+    function renderData(data){
+        const items = data[0].searchResult[0].item;
+        items.forEach((searchItem) => {
+            if(searchItem.title){
+                let element = document.createElement('div');
+                element.textContent = searchItem.title[0];
+                searchItems.appendChild(element);
+            }
+        });
+    }
+    function search(){
+        const searchText = document.getElementById('searchId').value;
+        // clear the existing items.
+        searchItems.innerHTML = '';
+        fetch(`/search?keyword=${searchText}`)
+        .then(response => response.json())
+        .then(data => {
+            renderData(data); // prints actual data.
+        })
+        .catch(error => console.log(error));
+    }
+</script>
+</html>
