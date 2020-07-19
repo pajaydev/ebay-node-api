@@ -14,9 +14,10 @@ The intent is to simplify the request process by handling the tedious logic. It'
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [Starter Guide](#starter-guide)
+* [Using express js](#using-express-js)
 * [API Details](#api-details)
 * [Examples](#examples)
-* [Starter Guide](#starter-guide)
 * [Test](#test)
 * [Issues](#issues)
 
@@ -44,6 +45,9 @@ let ebay = new eBay({
 ## Starter Guide
 
 Check out the [Starter Guide](https://pajaydev.github.io/ebay-node-api) documentation with examples to get started.
+
+## Using Express js
+You can consume these ebay node api's using [Express](https://expressjs.com/). You can checkout the sample app [here](). 
 
 ## API details
 
