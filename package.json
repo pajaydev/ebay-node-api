@@ -10,7 +10,8 @@
     "docs": "docsify init ./docs",
     "serve-docs": "docsify serve docs",
     "docs-publish": "gh-pages --dist docs --dotfiles --message 'chore: Publish docs'",
-    "prepublish": "npm run test"
+    "prepublish": "npm run test",
+    "release": "npm test && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
   "author": "Ajaykumar prathap",
   "keywords": [
