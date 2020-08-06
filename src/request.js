@@ -1,28 +1,10 @@
 'use strict';
 let httpRequest = require('https');
 const qs = require('querystring');
+const axios = require('axios');
 
 const getRequest = (url) => {
-    if (url.includes('http://')) httpRequest = require('http');
-    return new Promise(((resolve, reject) => {
-        httpRequest.get(url, res => {
-            res.setEncoding('utf8');
-            let body = '';
-            res.on('data', data => {
-                body += data;
-            });
-            res.on('end', () => {
-                if (JSON.parse(body).errorMessage) {
-                    reject(body);
-                }
-                resolve(body);
-            });
-            res.on('error', (error) => {
-                reject(error);
-
-            });
-        });
-    }));
+    return axios.get(url);
 };
 
 const makeRequest = function postRequest(self, endpoint, methodName, token) {

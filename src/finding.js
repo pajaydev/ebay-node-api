@@ -1,8 +1,11 @@
 'use strict';
 
+const axios = require('axios');
+const xmlParser = require('xml2json');
 const urlObject = require('./buildURL');
 const { getRequest } = require('./request');
 const utils = require('./common-utils/index');
+
 const FIND_ITEMS_BY_KEYWORD = 'findItemsByKeywords';
 const FIND_ITEMS_BY_CATEGORY = 'findItemsByCategory';
 const FIND_COMPLETED_ITEMS = 'findCompletedItems';
@@ -86,17 +89,17 @@ const getVersion = function () {
  * Searches for items on eBay using specific eBay product values.
  * @param {Object} options
  */
-const findItemsByProduct = function (options) {
+const findItemsByProduct = async function (options) {
     if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
     if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
-    let type = options.type ? options.type : 'ReferenceID';
+    const type = options.type ? options.type : 'ReferenceID';
     this.options.operationName = 'findItemsByProduct';
     this.options.additionalParam = utils.constructAdditionalParams(options);
-    let url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
-    return getRequest(url).then((data) => {
-        return JSON.parse(data).findItemsByProductResponse;
-    }, console.error // eslint-disable-line no-console
-    );
+    const url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
+    await getRequest(url)
+    const data = await axios.get(url);
+    const payload = xmlParser.toJson(data.data);
+    return JSON.parse(payload);
 };
 
 const findItemsIneBayStores = function (options) {
