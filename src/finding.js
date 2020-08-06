@@ -98,7 +98,7 @@ const findItemsByProduct = async function (options) {
     const url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
     await getRequest(url)
     const data = await axios.get(url);
-    const payload = xmlParser.toJson(data.data);
+    const payload = xmlParser.toJson(data.data, { coerce: true });
     return JSON.parse(payload);
 };
 
