@@ -3,6 +3,7 @@ const ebayBuyApi = require('./buy-api');
 const shoppingApi = require('./shopping');
 const taxonomyApi = require('./taxonomy-api');
 const ebayFindingApi = require('./finding');
+const dealsApi = require('./deals');
 const commonUtils = require('./common-utils');
 const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
 const {
@@ -69,7 +70,8 @@ Ebay.prototype = {
     ...shoppingApi,
     ...ebayBuyApi,
     ...taxonomyApi,
-    ...ebayFindingApi
+    ...ebayFindingApi,
+    ...dealsApi
 };
 
 module.exports = Ebay;
