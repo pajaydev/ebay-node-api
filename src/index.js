@@ -5,7 +5,7 @@ const taxonomyApi = require('./taxonomy-api');
 const ebayFindingApi = require('./finding');
 const dealsApi = require('./deals');
 const commonUtils = require('./common-utils');
-const { getSimilarItems, getMostWatchedItems } = require('./merchandising');
+const merchandisingApi = require('./merchandising');
 const {
     getAccessToken,
     getUserAuthorizationUrl,
@@ -64,8 +64,7 @@ Ebay.prototype = {
     getUserTokenByRefresh,
     setUserAccessToken,
     setAppAccessToken,
-    getMostWatchedItems,
-    getSimilarItems,
+    ...merchandisingApi,
     ...commonUtils,
     ...shoppingApi,
     ...ebayBuyApi,

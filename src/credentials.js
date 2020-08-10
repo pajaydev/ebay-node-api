@@ -13,7 +13,6 @@ const getAccessToken = function () {
     if (!this.options.clientID) throw new Error('Missing Client ID');
     if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
     if (!this.options.body) throw new Error('Missing Body, required Grant type');
-    console.log(this.options);
     let scopesParam = this.options.body.scope
         ? Array.isArray(this.options.body.scope)
             ? this.options.body.scope.join('%20')
@@ -23,7 +22,6 @@ const getAccessToken = function () {
         grant_type: 'client_credentials',
         scope: scopesParam
     });
-    console.log(this.options.data);
     this.options.contentType = 'application/x-www-form-urlencoded';
     const self = this;
     const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
