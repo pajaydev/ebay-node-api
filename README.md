@@ -41,13 +41,14 @@ let ebay = new eBay({
     }
 })
 ```
+For Country Code and Marketplace id [check here](https://developer.ebay.com/DevZone/finding/CallRef/Enums/GlobalIdList.html)
 
 ## Starter Guide
 
 Check out the [Starter Guide](https://pajaydev.github.io/ebay-node-api) documentation with examples to get started.
 
 ## Using Express js
-You can consume these ebay node api's using [Express](https://expressjs.com/). You can checkout the sample app [here](). 
+You can consume these ebay node api's using [Express](https://expressjs.com/). You can checkout the sample app [here](https://github.com/pajaydev/ebay-node-api/tree/master/demo/node-express). 
 
 ## API details
 
@@ -127,7 +128,6 @@ ebay.findItemsAdvanced({
     console.log(error);
 });
 ```
-
 [More Examples](https://pajaydev.github.io/ebay-node-api)
 
 ## Test
