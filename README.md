@@ -56,6 +56,7 @@ You can consume these ebay node api's using [Express](https://expressjs.com/). Y
 
 HTTP Method | Methods           | Description |   Usage | Offical doc
 ----------- | ------------------ | ----------- | ---------------- | --------------------------------
+GET         | getDeals       | Get details about the deals across eBay.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/deals.js) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)
 GET         | findItemsByKeywords       | Searches for items on eBay by a keyword query.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L21) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)
 GET         | findCompletedItems       | Searches for items whose listings are completed and are no longer available for sale by category (using categoryId), by keywords (using keywords), or a combination of the two.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L40) | [doc](https://developer.ebay.com/devzone/finding/callref/findCompletedItems.html)
 GET         | findItemsByProduct       | Searches for items on eBay using specific eBay product values.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L55) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)

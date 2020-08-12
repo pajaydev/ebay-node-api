@@ -1,7 +1,6 @@
 'use strict';
 
 const axios = require('axios');
-const xmlParser = require('xml2json');
 const { parseObj } = require('./common-utils/index');
 const { DEALS_BASE_URL } = require('./constants');
 
@@ -9,8 +8,8 @@ module.exports = {
 
     /**
         * @method getDeals {Function}
-        * Add interest and excitement for buyers by showing them what other people are watching.
-        * @param {String} categoryId (optional)
+        * get deals based on site, category across ebay like (Today's top ten deals)
+        * @param {Object} options (optional)
     */
     getDeals: async function (options) {
         if (!this.options.clientID) throw new Error('Missing App id or client id');
