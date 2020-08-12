@@ -22,7 +22,8 @@
     "Browse",
     "Category",
     "FindingApi",
-    "node-api"
+    "node-api",
+    "deals"
   ],
   "license": "MIT",
   "repository": {
