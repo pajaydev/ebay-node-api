@@ -7,7 +7,7 @@ const Ebay = require('../src/index');
 describe('test shopping api', () => {
     describe('test all error scenarios', () => {
         it('test input params', () => {
-            let ebay = new Ebay({
+            const ebay = new Ebay({
                 clientID: 'ClientId'
             });
             expect(() => { ebay.getSingleItem(); }).to.throw('invalid_request_error -> Item ID is null or invalid');

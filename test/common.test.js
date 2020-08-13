@@ -19,7 +19,7 @@ describe('test common util methods', () => {
 
     describe('test constructAdditionalParams', () => {
         it('test constructAdditionalParams with required params', () => {
-            let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
+            const expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
             const options = {
                 keywords: 'iphone',
                 categoryId: '111',
@@ -31,8 +31,8 @@ describe('test common util methods', () => {
         });
 
         it('test constructAdditionalParams with affiliate params', () => {
-            let expectedParamWithAffiliate = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&affiliate.trackingId=1234567899&affiliate.networkId=123';
-            let expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
+            const expectedParamWithAffiliate = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&affiliate.trackingId=1234567899&affiliate.networkId=123';
+            const expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
             const options = {
                 keywords: 'iphone',
                 categoryId: '111',
@@ -55,8 +55,8 @@ describe('test common util methods', () => {
         });
 
         it('test constructAdditionalParams with additional params', () => {
-            let expectedParam = 'keywords=iphone%206s&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&storeName=addidas%20store';
-            let expectedPaginationParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&paginationInput.entriesPerPage=2';
+            const expectedParam = 'keywords=iphone%206s&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&storeName=addidas%20store';
+            const expectedPaginationParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=SoldItemsOnly&itemFilter(1).value=true&paginationInput.entriesPerPage=2';
             const options = {
                 keywords: 'iphone 6s',
                 categoryId: '111',
