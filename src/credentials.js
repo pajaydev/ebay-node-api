@@ -13,10 +13,10 @@ const getAccessToken = function () {
     if (!this.options.clientID) throw new Error('Missing Client ID');
     if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
     if (!this.options.body) throw new Error('Missing Body, required Grant type');
-    let scopesParam = this.options.body.scopes
-        ? Array.isArray(this.options.body.scopes)
-            ? this.options.body.scopes.join('%20')
-            : this.options.body.scopes
+    let scopesParam = this.options.body.scope
+        ? Array.isArray(this.options.body.scope)
+            ? this.options.body.scope.join('%20')
+            : this.options.body.scope
         : DEFAULT_API_SCOPE;
     this.options.data = qs.stringify({
         grant_type: 'client_credentials',
