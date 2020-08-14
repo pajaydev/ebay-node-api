@@ -44,10 +44,10 @@ const getUserAuthorizationUrl = function (state = null) {
     if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
     if (!this.options.body) throw new Error('Missing Body, required Grant type');
     if (!this.options.redirectUri) throw new Error('redirect_uri is required for redirection after sign in\nkindly check here https://developer.ebay.com/api-docs/static/oauth-redirect-uri.html');
-    const scopesParam = this.options.body.scopes
-        ? Array.isArray(this.options.body.scopes)
-            ? this.options.body.scopes.join('%20')
-            : this.options.body.scopes
+    const scopesParam = this.options.body.scope
+        ? Array.isArray(this.options.body.scope)
+            ? this.options.body.scope.join('%20')
+            : this.options.body.scope
         : DEFAULT_API_SCOPE;
     let queryParam = `client_id=${this.options.clientID}`;
     queryParam += `&redirect_uri=${this.options.redirectUri}`;
@@ -88,7 +88,7 @@ const getUserTokenByCode = function (code) {
  * Use a refresh token to update a User access token (Updating the expired access token)
  *
  * @param refreshToken refresh token, defaults to pre-assigned refresh token
- * @param scopes array of scopes for the access token
+ * @param scope array of scopes for the access token
  * @return userAccessToken object (without refresh_token)
 */
 const getUserTokenByRefresh = function (refreshToken = null) {
@@ -99,10 +99,10 @@ const getUserTokenByRefresh = function (refreshToken = null) {
         throw new Error('Refresh token is required, to generate refresh token use getUserTokenByCode method'); // eslint-disable-line max-len
     }
     refreshToken = refreshToken ? refreshToken : this.options.refreshToken;
-    const scopesParam = this.options.body.scopes
-        ? Array.isArray(this.options.body.scopes)
-            ? this.options.body.scopes.join('%20')
-            : this.options.body.scopes
+    const scopesParam = this.options.body.scope
+        ? Array.isArray(this.options.body.scope)
+            ? this.options.body.scope.join('%20')
+            : this.options.body.scope
         : DEFAULT_API_SCOPE;
     this.options.data = qs.stringify({
         refresh_token: refreshToken,
