@@ -7,7 +7,7 @@ const Ebay = require('../src/index');
 describe('test shopping api', () => {
     describe('test all error scenarios', () => {
         it('test input params', () => {
-            let ebay = new Ebay({
+            const ebay = new Ebay({
                 clientID: 'ClientId'
             });
             expect(() => { ebay.getSingleItem(); }).to.throw('invalid_request_error -> Item ID is null or invalid');
@@ -49,10 +49,22 @@ describe('test shopping api', () => {
                 clientID: 'ABCXXX123'
             });
             nock('https://api.ebay.com')
-                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test')
+                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=Details')
                 .reply(200, { getUserDetails: true });
             ebay.getUserDetails({ userId: 'test' }).then((data) => {
                 expect(data).to.deep.equal({ getUserDetails: true });
+            });
+        });
+
+        it('test getUserDetails method with include selector', () => {
+            const ebay = new Ebay({
+                clientID: 'ABCXXX123'
+            });
+            nock('https://api.ebay.com')
+                .get('/Shopping?appid=ABCXXX123&callname=GetUserProfile&version=967&siteid=0&responseencoding=JSON&userId=test&includeSelector=sample')
+                .reply(200, { getUserDetailsWithIncludeSelector: true });
+            ebay.getUserDetails({ userId: 'test', includeSelector: 'sample' }).then((data) => {
+                expect(data).to.deep.equal({ getUserDetailsWithIncludeSelector: true });
             });
         });
 

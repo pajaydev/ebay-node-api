@@ -5,10 +5,10 @@ const qs = require('querystring');
 const getRequest = (url) => {
     if (url.includes('http://')) httpRequest = require('http');
     return new Promise(((resolve, reject) => {
-        httpRequest.get(url, res => {
+        httpRequest.get(url, (res) => {
             res.setEncoding('utf8');
             let body = '';
-            res.on('data', data => {
+            res.on('data', (data) => {
                 body += data;
             });
             res.on('end', () => {
@@ -45,10 +45,10 @@ const makeRequest = function postRequest(self, endpoint, methodName, token) {
         }
     };
     return new Promise(((resolve, reject) => {
-        const req = httpRequest.request(options, res => {
+        const req = httpRequest.request(options, (res) => {
             res.setEncoding('utf8');
             let body = '';
-            res.on('data', data => {
+            res.on('data', (data) => {
                 body += data;
                 //console.log(body);
             });

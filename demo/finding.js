@@ -7,7 +7,10 @@ let ebay = new Ebay({
     clientID: clientId,
 });
 
-ebay.findItemsByCategory(10181).then((data) => {
+ebay.findItemsByCategory({
+    categoryId: 10181,
+    Condition: 1000
+}).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
@@ -71,6 +74,15 @@ ebay.findItemsAdvanced({
 
 ebay.getVersion().then((data) => {
     console.log(data.version);
+}, (error) => {
+    console.log(error);
+});
+
+
+// Find ebay stores here https://www.ebay.com/sns
+// https://developer.ebay.com/devzone/finding/callref/findItemsIneBayStores.html
+ebay.findItemsIneBayStores({storeName: 'Battery Gallery'}).then((data) => {
+    console.log(data);
 }, (error) => {
     console.log(error);
 });

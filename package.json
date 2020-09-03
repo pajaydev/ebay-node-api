@@ -1,6 +1,6 @@
 {
   "name": "ebay-node-api",
-  "version": "2.8.3",
+  "version": "2.8.9",
   "description": "Ebay node api client",
   "main": "./src/index.js",
   "homepage": "https://github.com/pajaydev/ebay-node-api",
@@ -9,8 +9,9 @@
     "test": "mocha && npm run lint",
     "docs": "docsify init ./docs",
     "serve-docs": "docsify serve docs",
-    "publish": "gh-pages --dist docs --dotfiles --message 'chore: Publish docs'",
-    "prepublish": "npm run test"
+    "docs-publish": "gh-pages --dist docs --dotfiles --message 'chore: Publish docs'",
+    "prepublish": "npm run test",
+    "release": "npm test && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
   "author": "Ajaykumar prathap",
   "keywords": [
@@ -21,7 +22,8 @@
     "Browse",
     "Category",
     "FindingApi",
-    "node-api"
+    "node-api",
+    "deals"
   ],
   "license": "MIT",
   "repository": {
@@ -32,9 +34,9 @@
     "extends": "ajay"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "eslint-config-ajay": "^1.0.6",
-    "make-string": "^1.0.3",
-    "oauth-ebay": "^1.0.0"
+    "make-string": "^1.0.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
