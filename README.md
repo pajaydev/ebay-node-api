@@ -14,9 +14,10 @@ The intent is to simplify the request process by handling the tedious logic. It'
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [Starter Guide](#starter-guide)
+* [Using express js](#using-express-js)
 * [API Details](#api-details)
 * [Examples](#examples)
-* [Starter Guide](#starter-guide)
 * [Test](#test)
 * [Issues](#issues)
 
@@ -40,10 +41,14 @@ let ebay = new eBay({
     }
 })
 ```
+For Country Code and Marketplace id [check here](https://developer.ebay.com/DevZone/finding/CallRef/Enums/GlobalIdList.html)
 
 ## Starter Guide
 
 Check out the [Starter Guide](https://pajaydev.github.io/ebay-node-api) documentation with examples to get started.
+
+## Using Express js
+You can consume these ebay node api's using [Express](https://expressjs.com/). You can checkout the sample app [here](https://github.com/pajaydev/ebay-node-api/tree/master/demo/node-express). 
 
 ## API details
 
@@ -51,6 +56,7 @@ Check out the [Starter Guide](https://pajaydev.github.io/ebay-node-api) document
 
 HTTP Method | Methods           | Description |   Usage | Offical doc
 ----------- | ------------------ | ----------- | ---------------- | --------------------------------
+GET         | getDeals       | Get details about the deals across eBay.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/deals.js) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)
 GET         | findItemsByKeywords       | Searches for items on eBay by a keyword query.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L21) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)
 GET         | findCompletedItems       | Searches for items whose listings are completed and are no longer available for sale by category (using categoryId), by keywords (using keywords), or a combination of the two.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L40) | [doc](https://developer.ebay.com/devzone/finding/callref/findCompletedItems.html)
 GET         | findItemsByProduct       | Searches for items on eBay using specific eBay product values.| [Example](https://github.com/pajaydev/ebay-node-api/blob/master/demo/finding.js#L55) | [doc](https://developer.ebay.com/devzone/finding/callref/finditemsbykeywords.html)
@@ -123,7 +129,6 @@ ebay.findItemsAdvanced({
     console.log(error);
 });
 ```
-
 [More Examples](https://pajaydev.github.io/ebay-node-api)
 
 ## Test
