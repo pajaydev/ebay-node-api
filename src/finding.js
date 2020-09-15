@@ -89,10 +89,10 @@ const getVersion = function () {
 const findItemsByProduct = function (options) {
     if (!options) throw new Error('INVALID_REQUEST_PARMS --> Please enter the Valid input.');
     if (!options.productId) throw new Error('INVALID_REQUEST_PARMS --> Product ID is required.');
-    let type = options.type ? options.type : 'ReferenceID';
+    const type = options.type ? options.type : 'ReferenceID';
     this.options.operationName = 'findItemsByProduct';
     this.options.additionalParam = utils.constructAdditionalParams(options);
-    let url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
+    const url = `${urlObject.buildSearchUrl(this.options)}&productId.@type=${type}`;
     return getRequest(url).then((data) => {
         return JSON.parse(data).findItemsByProductResponse;
     }, console.error // eslint-disable-line no-console

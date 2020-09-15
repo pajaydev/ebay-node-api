@@ -1,6 +1,6 @@
-let expect = require('chai').expect;
-let should = require('chai').should();
-let Ebay = require('../src/index');
+const expect = require('chai').expect;
+const should = require('chai').should();
+const Ebay = require('../src/index');
 
 describe('check all the options provided is valid or not - Ebay Constructor ', () => {
     it('check input is provided or not', () => {
@@ -10,7 +10,7 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
     });
 
     it('should have client ID', () => {
-        let ebayApi = new Ebay({ clientID: '12345' });
+        const ebayApi = new Ebay({ clientID: '12345' });
         ebayApi.options.should.have.property('clientID');
     });
 
@@ -21,7 +21,7 @@ describe('check all the options provided is valid or not - Ebay Constructor ', (
     });
 
     it('check instance of Ebay', () => {
-        let ebayApi = new Ebay({ clientID: '12345' });
+        const ebayApi = new Ebay({ clientID: '12345' });
         expect(ebayApi).to.be.a.instanceOf(Ebay);
     });
 
