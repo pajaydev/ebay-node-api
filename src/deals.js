@@ -1,10 +1,11 @@
-"use strict";
-
-const axios = require("axios");
-const { parseObj } = require("./common-utils/index");
-const { DEALS_BASE_URL } = require("./constants");
+'use strict';
+/* eslint-disable indent */
+const axios = require('axios');
+const { parseObj } = require('./common-utils/index');
+const { DEALS_BASE_URL } = require('./constants');
 
 module.exports = {
+
   /**
    * @deprecated will be removed in a future major version.
    * @method getDeals {Function}
