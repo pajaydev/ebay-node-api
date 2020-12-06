@@ -1,5 +1,6 @@
 'use strict';
 const { makeRequest } = require('../request');
+const currency = require('./currency.json');
 
 const base64Encode = encodeData => {
     const buff = Buffer.from(encodeData);;
@@ -15,9 +16,11 @@ const isString = (value)=>{
  * output will be keywords=iphone&itemFilter(0).name=Condition&itemFilter(0).value=3000&itemFilter(1).name=FreeShippingOnly&itemFilter(1).value=true&itemFilter(2).name=SoldItemsOnly&itemFilter(2).value=true
  * @param {Object} options
  */
-const constructAdditionalParams = (options) => {
+function constructAdditionalParams(options){
     let params = '';
     let count = 0;
+    let currencyKey = this ? this.options.globalID : 'EBAY-US';
+
     for (let key in options) {
         if (options.hasOwnProperty(key)) {
             if (key === 'entriesPerPage' || key === 'pageNumber') {
@@ -36,6 +39,11 @@ const constructAdditionalParams = (options) => {
             else {
                 params = `${params}itemFilter(${count}).name=${key}&
                 itemFilter(${count}).value=${options[key]}&`;
+                if(key === "MinPrice" || key === "MaxPrice"){
+                    params = `${params}itemFilter(${count}).paramName=Currency&
+                    itemFilter(${count}).paramValue=${currency[currencyKey]}&`;
+                }
+                
                 count += 1;
             }
         }

@@ -5,6 +5,7 @@ const { clientId } = require('./credentials/index');
 
 let ebay = new Ebay({
     clientID: clientId,
+    countryCode: 'EBAY-US'
 });
 
 ebay.findItemsByCategory({
@@ -81,7 +82,12 @@ ebay.getVersion().then((data) => {
 
 // Find ebay stores here https://www.ebay.com/sns
 // https://developer.ebay.com/devzone/finding/callref/findItemsIneBayStores.html
-ebay.findItemsIneBayStores({storeName: 'Battery Gallery'}).then((data) => {
+ebay.findItemsIneBayStores({
+    storeName: 'Battery Gallery',
+    SoldItemsOnly: true,
+    MinPrice: '5.00',
+    MaxPrice: '800.00',
+}).then((data) => {
     console.log(data);
 }, (error) => {
     console.log(error);
