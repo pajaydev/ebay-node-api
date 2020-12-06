@@ -11,8 +11,8 @@ module.exports = {
    * get deals based on site, category across ebay like (Today's top ten deals)
    * @param {Object} options (optional)
    */
-  getDeals: async function(options) {
-    if (!this.options.clientID) throw new Error("Missing App id or client id");
+  getDeals: async function (options) {
+    if (!this.options.clientID) throw new Error('Missing App id or client id');
     if (!options) options = {};
     const countryCode = options.countryCode
       ? options.countryCode
