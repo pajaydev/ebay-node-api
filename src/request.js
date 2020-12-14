@@ -1,6 +1,5 @@
 'use strict';
 let httpRequest = require('https');
-const qs = require('querystring');
 
 const getRequest = (url) => {
     if (url.includes('http://')) httpRequest = require('http');
@@ -25,22 +24,17 @@ const getRequest = (url) => {
     }));
 };
 
-const makeRequest = function postRequest(self, endpoint, methodName, token) {
-    let dataString = '';
-    if (self.data) {
-        dataString = self.data;
-    }
-    else {
-        methodName === 'POST' ? dataString = qs.stringify(self.body) : '';
-    }
+function makeRequest(self, endpoint, methodName, token) {
+    const dataString = self.body ||  '';
     const options = {
         'hostname': self.baseUrl,
         'path': endpoint,
         'method': methodName || 'GET',
         'headers': {
             'content-type': self.contentType ? self.contentType : 'application/json',
-            'authorization': token,
+            'Authorization': token,
             'cache-control': 'no-cache',
+            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
             ...self.headers
         }
     };
@@ -50,23 +44,19 @@ const makeRequest = function postRequest(self, endpoint, methodName, token) {
             let body = '';
             res.on('data', (data) => {
                 body += data;
-                //console.log(body);
             });
             res.on('end', () => {
                 resolve(body);
-
             });
             res.on('error', (error) => {
                 reject(error);
-
             });
         });
         //console.log('request ' + dataString);
         if (methodName === 'POST') req.write(dataString);
         req.end();
     }));
-};
-
+}
 
 const base64Encode = (encodeData) => {
     const buff = Buffer.from(encodeData);

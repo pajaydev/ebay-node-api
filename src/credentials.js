@@ -2,6 +2,7 @@
 const qs = require('querystring');
 const { base64Encode } = require('./common-utils');
 const { makeRequest } = require('./request');
+const { DEFAULT_BODY } = require('./constants');
 const DEFAULT_API_SCOPE = 'https://api.ebay.com/oauth/api_scope';
 
 /**
@@ -12,16 +13,20 @@ const DEFAULT_API_SCOPE = 'https://api.ebay.com/oauth/api_scope';
 const getAccessToken = function () {
     if (!this.options.clientID) throw new Error('Missing Client ID');
     if (!this.options.clientSecret) throw new Error('Missing Client Secret or Cert Id');
-    if (!this.options.body) throw new Error('Missing Body, required Grant type');
-    const scopesParam = this.options.body.scopes
-        ? Array.isArray(this.options.body.scopes)
-            ? this.options.body.scopes.join('%20')
-            : this.options.body.scopes
-        : DEFAULT_API_SCOPE;
-    this.options.data = qs.stringify({
-        grant_type: 'client_credentials',
-        scope: scopesParam
-    });
+    if (!this.options.body) {
+        this.options.body = qs.stringify(DEFAULT_BODY);
+    }
+    else {
+        const scopesParam = this.options.body.scopes
+            ? Array.isArray(this.options.body.scopes)
+                ? this.options.body.scopes.join('%20')
+                : this.options.body.scopes
+            : DEFAULT_API_SCOPE;
+        this.options.body = qs.stringify({
+            grant_type: 'client_credentials',
+            scope: scopesParam
+        });
+    }
     this.options.contentType = 'application/x-www-form-urlencoded';
     const self = this;
     const encodedStr = base64Encode(this.options.clientID + ':' + this.options.clientSecret);
