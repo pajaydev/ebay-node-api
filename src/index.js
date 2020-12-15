@@ -1,4 +1,5 @@
 'use strict';
+const qs = require('querystring');
 const ebayBuyApi = require('./buy-api');
 const shoppingApi = require('./shopping');
 const taxonomyApi = require('./taxonomy-api');
@@ -6,6 +7,7 @@ const ebayFindingApi = require('./finding');
 const dealsApi = require('./deals');
 const commonUtils = require('./common-utils');
 const merchandisingApi = require('./merchandising');
+const itemApi = require('./item');
 const {
     getAccessToken,
     getUserAuthorizationUrl,
@@ -70,7 +72,8 @@ Ebay.prototype = {
     ...ebayBuyApi,
     ...taxonomyApi,
     ...ebayFindingApi,
-    ...dealsApi
+    ...dealsApi,
+    ...itemApi
 };
 
 module.exports = Ebay;
