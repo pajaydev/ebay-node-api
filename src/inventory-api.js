@@ -132,6 +132,7 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
 
 /**
  * This call is used by the seller to retrieve up to 25 inventory item records.
+ * https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkGetInventoryItem
  */
 const bulkGetInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
@@ -149,17 +150,6 @@ const bulkGetInventoryItem = function (params) {
     });
 }
 
-/**
- * ==========================
- * inventory_item:product_compatibility
- * ==========================
- */
-
-
-
-/**
- * Exports method
- */
 module.exports = {
     createOrReplaceInventoryItem,
     getInventoryItem,
