@@ -34,7 +34,7 @@
     "extends": "ajay"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "eslint-config-ajay": "^1.0.6",
     "make-string": "^1.0.3"
   },
