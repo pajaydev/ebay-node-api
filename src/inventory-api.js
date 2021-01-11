@@ -57,7 +57,7 @@ const getInventoryItems = function (filters) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     let queryString = '';
     if (filters){
-        if (typeof sku === 'string' && typeof sku === 'int') throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
+        if (typeof filters === 'string' && typeof filters === 'int') throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -96,7 +96,7 @@ const deleteInventoryItem = function (sku) {
  */
 const bulkUpdatePriceQuantity = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
-    if (typeof sku === 'string' && typeof sku === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
+    if (typeof params === 'string' && typeof params === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.data = JSON.stringify(params);
@@ -116,7 +116,7 @@ const bulkUpdatePriceQuantity = function (params) {
  */
 const bulkCreateOrReplaceInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
-    if (typeof sku === 'string' && typeof sku === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
+    if (typeof params === 'string' && typeof params === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.data = JSON.stringify(params);
@@ -135,7 +135,7 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
  */
 const bulkGetInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
-    if (typeof sku === 'string' && typeof sku === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkGetInventoryItem)');
+    if (typeof params === 'string' && typeof sku === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkGetInventoryItem)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.data = JSON.stringify(params);
