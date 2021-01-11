@@ -7,7 +7,7 @@ const createOrReplaceInventoryItem = function (sku, params) {
     if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (params) {
-        if (typeof params === 'string' && typeof params === 'int') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
+        if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
         this.options.data = JSON.stringify(params);
     }
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -39,7 +39,7 @@ const getInventoryItem = function (sku) {
 const getInventoryItems = function (filters) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     let queryString = '';
-    if (filters){
+    if (filters) {
         if (!(typeof sku === 'object')) throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
@@ -67,7 +67,7 @@ const deleteInventoryItem = function (sku) {
             reject(error);
         });
     });
-}
+};
 
 const bulkUpdatePriceQuantity = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
@@ -83,7 +83,7 @@ const bulkUpdatePriceQuantity = function (params) {
             reject(error);
         });
     });
-}
+};
 
 const bulkCreateOrReplaceInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
@@ -99,7 +99,7 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
             reject(error);
         });
     });
-} 
+};
 
 const bulkGetInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
@@ -115,7 +115,24 @@ const bulkGetInventoryItem = function (params) {
             reject(error);
         });
     });
-}
+};
+
+const createOrReplaceProductCompatibility = function (sku, params) {
+    if (!sku) throw new Error('Error sku is required');
+    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
+    if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
+    this.options.data = JSON.stringify(params);
+    const auth = 'Bearer ' + this.options.appAccessToken;
+    this.options.contentType = 'application/json';
+    return new Promise((resolve, reject) => {
+        makeRequest(this.options, `/sell/inventory/v1/inventory_item/${sku}/product_compatibility`, 'PUT', auth).then((result) => {
+            resolve(result);
+        }).then((error) => {
+            reject(error);
+        });
+    });
+};
 
 module.exports = {
     createOrReplaceInventoryItem,
@@ -124,5 +141,6 @@ module.exports = {
     deleteInventoryItem,
     bulkUpdatePriceQuantity,
     bulkCreateOrReplaceInventoryItem,
-    bulkGetInventoryItem
+    bulkGetInventoryItem,
+    createOrReplaceProductCompatibility
 };
