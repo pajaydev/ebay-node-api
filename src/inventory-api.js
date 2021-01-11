@@ -3,12 +3,6 @@ const makeString = require('make-string');
 const { makeRequest } = require('./request');
 
 /**
- * ==========================
- * inventory_item
- * ==========================
- */
-
-/**
  * This call creates a new inventory item record or updates an existing inventory item record.
  * https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem
  */
