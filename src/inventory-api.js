@@ -182,7 +182,7 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (!params.compatibleProducts) throw new Error('Error compatibleProducts is required');
     this.options.data = JSON.stringify(params);
-    this.options.headers = {'Content-Language' :lang};
+    this.options.headers = {'Content-Language': lang};
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
