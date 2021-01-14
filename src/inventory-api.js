@@ -4,6 +4,61 @@ const { makeRequest } = require('./request');
 const URI_SELL_EBAY = '/sell/inventory/v1';
 
 /**
+ * This enumeration type is used to indicate the different eBay marketplace sites.
+ * @type {{EBAY_DE: string, EBAY_NO: string, EBAY_NL: string, EBAY_PT: string, EBAY_BE: string, EBAY_TW: string, EBAY_FI: string, EBAY_HK: string, EBAY_RU: string, EBAY_PR: string, EBAY_PH: string, EBAY_VN: string, EBAY_CZ: string, EBAY_PL: string, EBAY_SG: string, EBAY_SE: string, EBAY_MOTORS: string, EBAY_DK: string, EBAY_JP: string, EBAY_HU: string, EBAY_FR: string, EBAY_NZ: string, EBAY_US: string, EBAY_CA: string, EBAY_CH: string, EBAY_IN: string, EBAY_IL: string, EBAY_IE: string, EBAY_GB: string, EBAY_ID: string, EBAY_ES: string, EBAY_PE: string, EBAY_AU: string, EBAY_TH: string, EBAY_AT: string, EBAY_ZA: string, EBAY_MY: string, EBAY_IT: string, EBAY_GR: string, EBAY_CN: string}}
+ */
+const MarketplaceEnum = {
+    'EBAY_US': 'EBAY_US',
+    'EBAY_MOTORS': 'EBAY_MOTORS',
+    'EBAY_CA': 'EBAY_CA',
+    'EBAY_GB': 'EBAY_GB',
+    'EBAY_AU': 'EBAY_AU',
+    'EBAY_AT': 'EBAY_AT',
+    'EBAY_BE': 'EBAY_BE',
+    'EBAY_FR': 'EBAY_FR',
+    'EBAY_DE': 'EBAY_DE',
+    'EBAY_IT': 'EBAY_IT',
+    'EBAY_NL': 'EBAY_NL',
+    'EBAY_ES': 'EBAY_ES',
+    'EBAY_CH': 'EBAY_CH',
+    'EBAY_TW': 'EBAY_TW',
+    'EBAY_CZ': 'EBAY_CZ',
+    'EBAY_DK': 'EBAY_DK',
+    'EBAY_FI': 'EBAY_FI',
+    'EBAY_GR': 'EBAY_GR',
+    'EBAY_HK': 'EBAY_HK',
+    'EBAY_HU': 'EBAY_HU',
+    'EBAY_IN': 'EBAY_IN',
+    'EBAY_ID': 'EBAY_ID',
+    'EBAY_IE': 'EBAY_IE',
+    'EBAY_IL': 'EBAY_IL',
+    'EBAY_MY': 'EBAY_MY',
+    'EBAY_NZ': 'EBAY_NZ',
+    'EBAY_NO': 'EBAY_NO',
+    'EBAY_PH': 'EBAY_PH',
+    'EBAY_PL': 'EBAY_PL',
+    'EBAY_PT': 'EBAY_PT',
+    'EBAY_PR': 'EBAY_PR',
+    'EBAY_RU': 'EBAY_RU',
+    'EBAY_SG': 'EBAY_SG',
+    'EBAY_ZA': 'EBAY_ZA',
+    'EBAY_SE': 'EBAY_SE',
+    'EBAY_TH': 'EBAY_TH',
+    'EBAY_VN': 'EBAY_VN',
+    'EBAY_CN': 'EBAY_CN',
+    'EBAY_PE': 'EBAY_PE',
+    'EBAY_JP': 'EBAY_JP'
+};
+
+/**
+ * This enumeration type is used to indicate the listing format of the offer.
+ * @type {{FIXED_PRICE: string}}
+ */
+const FormatTypeEnum = {
+    'FIXED_PRICE': 'FIXED_PRICE'
+};
+
+/**
  * Call callback promise request
  * TODO Add this method
  * @param uri {string}
@@ -15,7 +70,7 @@ function callbackRequest(uri, method) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, uri, method, auth).then((result) => {
-            return resolve(JSON.parse(result));
+            return resolve(result);
         }).then((error) => {
             return reject(error);
         });
@@ -42,9 +97,9 @@ const createOrReplaceInventoryItem = function (sku, params) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}`, 'PUT', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -63,9 +118,9 @@ const getInventoryItem = function (sku) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}`, 'GET', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -87,7 +142,7 @@ const getInventoryItems = function (filters) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET', auth).then((result) => {
-            return resolve(JSON.parse(result));
+            return resolve(result);
         }).then((error) => {
             return reject(error);
         });
@@ -109,9 +164,9 @@ const deleteInventoryItem = function (sku) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}`, 'DELETE', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -133,9 +188,9 @@ const bulkUpdatePriceQuantity = function (params) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/bulk_update_price_quantity`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -156,9 +211,9 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/bulk_create_or_replace_inventory_item`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -179,9 +234,9 @@ const bulkGetInventoryItem = function (sku) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -208,9 +263,9 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}/product_compatibility`, 'PUT', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -229,9 +284,9 @@ const getProductCompatibility = function (sku) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}/product_compatibility`, 'GET', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -250,9 +305,9 @@ const deleteProductCompatibility = function (sku) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/inventory_item/${sku}/product_compatibility`, 'DELETE', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -278,9 +333,9 @@ const createOffer = function (lang, params) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -307,9 +362,9 @@ const updateOffer = function (offerId, lang, params) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/${offerId}`, 'PUT', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -318,8 +373,8 @@ const updateOffer = function (offerId, lang, params) {
  * This call retrieves all existing offers for the specified SKU value.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffers#uri.marketplace_id
  * @param sku {string}
- * @param marketplaceId {[]}
- * @param format {[]}
+ * @param marketplaceId {MarketplaceEnum}
+ * @param format {FormatTypeEnum}
  * @param limit {string}
  * @param offset {string}
  * @returns {Promise<{object}>}
@@ -341,9 +396,9 @@ const getOffers = function (sku, marketplaceId, format, limit, offset) {
     queryParam = queryParam + (offset ? '&offset=' + offset : '');
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer?${queryParam}`, 'GET', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -366,9 +421,9 @@ const getOffer = function (offerId, param) {
     }
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/${offerId}`, 'GET', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -386,9 +441,9 @@ const deleteOffer = function (offerId) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/${offerId}`, 'DELETE', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -406,9 +461,9 @@ const publishOffer = function (offerId) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/${offerId}`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -417,7 +472,7 @@ const publishOffer = function (offerId) {
  * This call is used to convert all unpublished offers associated with an inventory item group into an active, multiple-variation listing.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/publishOfferByInventoryItemGroup
  * @param inventoryItemGroupKey {string} This is the unique identifier of the inventory item group. All unpublished offers associated with this inventory item group will be published as a multiple-variation listing if the publishByInventoryItemGroup call is successful. The inventoryItemGroupKey identifier is automatically generated by eBay once an inventory item group is created.
- * @param marketplaceId {array} This is the unique identifier of the eBay site on which the multiple-variation listing will be published. The marketPlaceId enumeration values are found in MarketplaceIdEnum.
+ * @param marketplaceId {MarketplaceEnum} This is the unique identifier of the eBay site on which the multiple-variation listing will be published. The marketPlaceId enumeration values are found in MarketplaceIdEnum.
  * @returns {Promise<{object}>}
  */
 const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, marketplaceId) {
@@ -430,9 +485,9 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, market
     this.options.data = {'inventoryItemGroupKey': inventoryItemGroupKey, 'marketplaceId': marketplaceId};
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -441,7 +496,7 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, market
  * This call is used to end a multiple-variation eBay listing that is associated with the specified inventory item group. This call only ends multiple-variation eBay listing associated with the inventory item group but does not delete the inventory item group object. Similarly, this call also does not delete any of the offers associated with the inventory item group, but instead all of these offers go into the unpublished state. If the seller wanted to relist the multiple-variation eBay listing, they could use the publishOfferByInventoryItemGroup method.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/withdrawOfferByInventoryItemGroup
  * @param inventoryItemGroupKey {string}
- * @param marketplaceId {[]}
+ * @param marketplaceId {MarketplaceEnum}
  * @returns {Promise<{object}>}
  */
 const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey, marketplaceId) {
@@ -460,9 +515,9 @@ const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey, marke
     this.options.data = {'inventoryItemGroupKey': inventoryItemGroupKey, 'marketplaceId': marketplaceId};
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -481,9 +536,9 @@ const getListingFees = function (offers) {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
@@ -498,14 +553,16 @@ const bulkCreateOffer = function () {
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `${URI_SELL_EBAY}/bulk_create_offer`, 'POST', auth).then((result) => {
-            resolve(result);
+            return resolve(result);
         }).then((error) => {
-            reject(error);
+            return reject(error);
         });
     });
 };
 
 module.exports = {
+    MarketplaceEnum,
+    FormatTypeEnum,
     createOrReplaceInventoryItem,
     getInventoryItem,
     getInventoryItems,
