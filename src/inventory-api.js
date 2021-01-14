@@ -4,64 +4,9 @@ const { makeRequest } = require('./request');
 const URI_SELL_EBAY = '/sell/inventory/v1';
 
 /**
- * This enumeration type is used to indicate the different eBay marketplace sites.
- * @type {{EBAY_DE: string, EBAY_NO: string, EBAY_NL: string, EBAY_PT: string, EBAY_BE: string, EBAY_TW: string, EBAY_FI: string, EBAY_HK: string, EBAY_RU: string, EBAY_PR: string, EBAY_PH: string, EBAY_VN: string, EBAY_CZ: string, EBAY_PL: string, EBAY_SG: string, EBAY_SE: string, EBAY_MOTORS: string, EBAY_DK: string, EBAY_JP: string, EBAY_HU: string, EBAY_FR: string, EBAY_NZ: string, EBAY_US: string, EBAY_CA: string, EBAY_CH: string, EBAY_IN: string, EBAY_IL: string, EBAY_IE: string, EBAY_GB: string, EBAY_ID: string, EBAY_ES: string, EBAY_PE: string, EBAY_AU: string, EBAY_TH: string, EBAY_AT: string, EBAY_ZA: string, EBAY_MY: string, EBAY_IT: string, EBAY_GR: string, EBAY_CN: string}}
- */
-const MarketplaceEnum = {
-    'EBAY_US': 'EBAY_US',
-    'EBAY_MOTORS': 'EBAY_MOTORS',
-    'EBAY_CA': 'EBAY_CA',
-    'EBAY_GB': 'EBAY_GB',
-    'EBAY_AU': 'EBAY_AU',
-    'EBAY_AT': 'EBAY_AT',
-    'EBAY_BE': 'EBAY_BE',
-    'EBAY_FR': 'EBAY_FR',
-    'EBAY_DE': 'EBAY_DE',
-    'EBAY_IT': 'EBAY_IT',
-    'EBAY_NL': 'EBAY_NL',
-    'EBAY_ES': 'EBAY_ES',
-    'EBAY_CH': 'EBAY_CH',
-    'EBAY_TW': 'EBAY_TW',
-    'EBAY_CZ': 'EBAY_CZ',
-    'EBAY_DK': 'EBAY_DK',
-    'EBAY_FI': 'EBAY_FI',
-    'EBAY_GR': 'EBAY_GR',
-    'EBAY_HK': 'EBAY_HK',
-    'EBAY_HU': 'EBAY_HU',
-    'EBAY_IN': 'EBAY_IN',
-    'EBAY_ID': 'EBAY_ID',
-    'EBAY_IE': 'EBAY_IE',
-    'EBAY_IL': 'EBAY_IL',
-    'EBAY_MY': 'EBAY_MY',
-    'EBAY_NZ': 'EBAY_NZ',
-    'EBAY_NO': 'EBAY_NO',
-    'EBAY_PH': 'EBAY_PH',
-    'EBAY_PL': 'EBAY_PL',
-    'EBAY_PT': 'EBAY_PT',
-    'EBAY_PR': 'EBAY_PR',
-    'EBAY_RU': 'EBAY_RU',
-    'EBAY_SG': 'EBAY_SG',
-    'EBAY_ZA': 'EBAY_ZA',
-    'EBAY_SE': 'EBAY_SE',
-    'EBAY_TH': 'EBAY_TH',
-    'EBAY_VN': 'EBAY_VN',
-    'EBAY_CN': 'EBAY_CN',
-    'EBAY_PE': 'EBAY_PE',
-    'EBAY_JP': 'EBAY_JP'
-};
-
-/**
- * This enumeration type is used to indicate the listing format of the offer.
- * @type {{FIXED_PRICE: string}}
- */
-const FormatTypeEnum = {
-    'FIXED_PRICE': 'FIXED_PRICE'
-};
-
-/**
  * Call callback promise request
- * TODO Add this method
- * @param uri {string}
+ * TODO Add this method? Or not?
+ * @param uri {string} Uri request
  * @param method {string} POST GET DELETE PUT
  * @returns {Promise<{object}>}
  */
@@ -561,8 +506,6 @@ const bulkCreateOffer = function () {
 };
 
 module.exports = {
-    MarketplaceEnum,
-    FormatTypeEnum,
     createOrReplaceInventoryItem,
     getInventoryItem,
     getInventoryItems,
