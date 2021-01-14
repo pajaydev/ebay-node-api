@@ -32,10 +32,10 @@ function callbackRequest(uri, method) {
  */
 const createOrReplaceInventoryItem = function (sku, params) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
-    if (!(typeof params === 'undefined')) {
-        if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
+    if (typeof params !== 'undefined') {
+        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
         this.options.data = JSON.stringify(params);
     }
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -57,7 +57,7 @@ const createOrReplaceInventoryItem = function (sku, params) {
  */
 const getInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -79,8 +79,8 @@ const getInventoryItem = function (sku) {
 const getInventoryItems = function (filters) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     let queryString = '';
-    if (!(typeof filters === 'undefined')) {
-        if (!(typeof filters === 'object')) throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
+    if (typeof filters !== 'undefined') {
+        if (typeof filters !== 'object') throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -103,7 +103,7 @@ const getInventoryItems = function (filters) {
  */
 const deleteInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -125,7 +125,7 @@ const deleteInventoryItem = function (sku) {
  */
 const bulkUpdatePriceQuantity = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
-    if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
+    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (!params.requests) throw new Error('Error requests is required');
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -148,7 +148,7 @@ const bulkUpdatePriceQuantity = function (params) {
  */
 const bulkCreateOrReplaceInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
-    if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
+    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (!params.requests) throw new Error('Error requests is required');
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -172,7 +172,7 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
 const bulkGetInventoryItem = function (sku) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
-    if (!(typeof sku === 'undefined')) { // If is present sku
+    if (typeof sku !== 'undefined') { // If is present sku
         const param = {'requests': {'sky': sku}};
         this.options.data = JSON.stringify(param);
     }
@@ -197,9 +197,9 @@ const bulkGetInventoryItem = function (sku) {
 const createOrReplaceProductCompatibility = function (sku, params, lang) {
     if (!sku) throw new Error('Error sku is required');
     if (!lang) throw new Error('Error lang is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
-    if (!(typeof lang === 'string')) throw new Error('Expecting String to lang');
-    if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/createOrReplaceProductCompatibility)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof lang !== 'string') throw new Error('Expecting String to lang');
+    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/createOrReplaceProductCompatibility)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (!params.compatibleProducts) throw new Error('Error compatibleProducts is required');
     this.options.data = JSON.stringify(params);
@@ -223,7 +223,7 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
  */
 const getProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -244,7 +244,7 @@ const getProductCompatibility = function (sku) {
  */
 const deleteProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -266,8 +266,8 @@ const deleteProductCompatibility = function (sku) {
  */
 const createOffer = function (lang, params) {
     if (!lang) throw new Error('Error lang is required');
-    if (!(typeof lang === 'string')) throw new Error('Expecting String to lang');
-    if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/createOffer)');
+    if (typeof lang !== 'string') throw new Error('Expecting String to lang');
+    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/createOffer)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (!params.format) throw new Error('Error format is required');
     if (!params.marketplaceId) throw new Error('Error marketplaceId is required');
@@ -295,11 +295,11 @@ const createOffer = function (lang, params) {
  */
 const updateOffer = function (offerId, lang, params) {
     if (!lang) throw new Error('Error lang is required');
-    if (!(typeof offerId === 'string')) throw new Error('Expecting String to offerId');
-    if (!(typeof lang === 'string')) throw new Error('Expecting String to lang');
+    if (typeof offerId !== 'string') throw new Error('Expecting String to offerId');
+    if (typeof lang !== 'string') throw new Error('Expecting String to lang');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
-    if (!(typeof params === 'undefined')) {
-        if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/updateOffer)');
+    if (typeof params !== 'undefined') {
+        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/updateOffer)');
         this.options.data = JSON.stringify(params);
     }
     this.options.headers = {'Content-Language': lang}; // Add content language
@@ -318,27 +318,19 @@ const updateOffer = function (offerId, lang, params) {
  * This call retrieves all existing offers for the specified SKU value.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffers#uri.marketplace_id
  * @param sku {string}
- * @param marketplace_id {array}
- * @param format {array}
+ * @param marketplaceId {[]}
+ * @param format {[]}
  * @param limit {string}
  * @param offset {string}
  * @returns {Promise<{object}>}
  */
 const getOffers = function (sku, marketplaceId, format, limit, offset) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku === 'object') throw new Error('Expecting String or Int (Item Sku)');
-    if (marketplaceId) {
-        if (!Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
-    }
-    if (format) {
-        if (!Array.isArray(format)) throw new Error('Expecting array (Item format)');
-    }
-    if (limit) {
-        if (!(typeof limit === 'string')) throw new Error('Expecting string (Item marketplace_id)');
-    }
-    if (offset) {
-        if (!(typeof offset === 'string')) throw new Error('Expecting string (Item offset)');
-    }
+    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+    if (marketplaceId && !Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
+    if (format && !Array.isArray(format)) throw new Error('Expecting array (Item format)');
+    if (limit && typeof limit !== 'string') throw new Error('Expecting string (Item marketplace_id)');
+    if (offset && typeof offset !== 'string') throw new Error('Expecting string (Item offset)');
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -369,7 +361,7 @@ const getOffer = function (offerId, param) {
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
     if (param) {
-        if (!(typeof params === 'object')) throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffer#h2-input)');
+        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffer#h2-input)');
         this.options.data = JSON.stringify(param);
     }
     return new Promise((resolve, reject) => {
@@ -431,7 +423,7 @@ const publishOffer = function (offerId) {
 const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, marketplaceId) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (!marketplaceId) throw new Error('Error marketplaceId is required');
-    if (!(typeof inventoryItemGroupKey === 'string')) throw new Error('Expecting String of inventoryItemGroupKey');
+    if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String of inventoryItemGroupKey');
     if (!Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
     const auth = 'Bearer ' + this.options.appAccessToken;
     this.options.contentType = 'application/json';
@@ -449,7 +441,7 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, market
  * This call is used to end a multiple-variation eBay listing that is associated with the specified inventory item group. This call only ends multiple-variation eBay listing associated with the inventory item group but does not delete the inventory item group object. Similarly, this call also does not delete any of the offers associated with the inventory item group, but instead all of these offers go into the unpublished state. If the seller wanted to relist the multiple-variation eBay listing, they could use the publishOfferByInventoryItemGroup method.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/withdrawOfferByInventoryItemGroup
  * @param inventoryItemGroupKey {string}
- * @param marketplaceId {array}
+ * @param marketplaceId {[]}
  * @returns {Promise<{object}>}
  */
 const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey, marketplaceId) {
@@ -457,7 +449,7 @@ const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey, marke
     this.options.contentType = 'application/json';
     const value = {};
     if (inventoryItemGroupKey) {
-        if (!(typeof inventoryItemGroupKey === 'string')) throw new Error('Expecting String of inventoryItemGroupKey');
+        if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String of inventoryItemGroupKey');
         value.inventoryItemGroupKey = inventoryItemGroupKey;
     }
     if (marketplaceId) {
