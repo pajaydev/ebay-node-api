@@ -153,3 +153,13 @@ const WeightUnitOfMeasureEnum = {
     'OUNCE': 'OUNCE',
     'GRAM': 'GRAM'
 };
+
+module.exports = {
+    MarketplaceEnum,
+    FormatTypeEnum,
+    TimeDurationUnitEnum,
+    ConditionEnum,
+    LengthUnitOfMeasureEnum,
+    PackageTypeEnum,
+    WeightUnitOfMeasureEnum
+};
