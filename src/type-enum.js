@@ -154,6 +154,17 @@ const WeightUnitOfMeasureEnum = {
     'GRAM': 'GRAM'
 };
 
+/**
+ * This enumeration type is used to indicate whether an inventory item has quantity available for purchase at the merchant's store indicated in the pickupAtLocationAvailability.merchantLocationKey field. This type is only applicable to inventory available for In-Store Pickup orders.
+ * @link https://developer.ebay.com/api-docs/sell/inventory/types/slr:AvailabilityTypeEnum
+ * @type {{SHIP_TO_STORE: string, OUT_OF_STOCK: string, IN_STOCK: string}}
+ */
+const AvailabilityTypeEnum = {
+    'IN_STOCK': 'IN_STOCK',
+    'OUT_OF_STOCK': 'OUT_OF_STOCK',
+    'SHIP_TO_STORE': 'SHIP_TO_STORE'
+};
+
 module.exports = {
     MarketplaceEnum,
     FormatTypeEnum,
@@ -161,5 +172,6 @@ module.exports = {
     ConditionEnum,
     LengthUnitOfMeasureEnum,
     PackageTypeEnum,
-    WeightUnitOfMeasureEnum
+    WeightUnitOfMeasureEnum,
+    AvailabilityTypeEnum
 };
