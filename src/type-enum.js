@@ -151,5 +151,5 @@ const WeightUnitOfMeasureEnum = {
     'POUND': 'POUND',
     'KILOGRAM': 'KILOGRAM',
     'OUNCE': 'OUNCE',
-    'GRAM': 'GRAM',
+    'GRAM': 'GRAM'
 };
