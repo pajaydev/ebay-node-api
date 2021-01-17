@@ -24,10 +24,10 @@ const SCOPE_INVENTORY_API_READ_ONLY = 'https://api.ebay.com/oauth/api_scope/sell
  * Call callback promise request
  * @param uri {string} Uri request
  * @param method {string} POST GET DELETE PUT
- * @param checkScopeReadOnly {boolean}
+ * @param checkScopeOrReadOnly {boolean}
  * @returns {Promise<{object}>}
  */
-function callbackRequest(uri, method, checkScopeReadOnly = false) {
+function callbackRequest(uri, method, checkScopeOrReadOnly = false) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (checkScopeReadOnly) {
         if (this.options.body.scope !== SCOPE_INVENTORY_API || this.options.body.scope !== SCOPE_INVENTORY_API_READ_ONLY) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
@@ -50,17 +50,22 @@ function callbackRequest(uri, method, checkScopeReadOnly = false) {
  * This call creates a new inventory item record or updates an existing inventory item record.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem
  * @param sku {string || int}
+ * @param lang {string}
  * @param params {object}
  * @returns {Promise<object>}
+ * OK
  */
-const createOrReplaceInventoryItem = function (sku, params) {
+const createOrReplaceInventoryItem = function (sku, lang, params = null) {
     if (!sku) throw new Error('Error sku is required');
+    if (!lang) throw new Error('Error lang is required');
     if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    if (typeof params !== 'undefined') {
+    if (typeof lang !== 'string') throw new Error('Expecting String to lang');
+    if (params) {
         if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
         this.options.data = JSON.stringify(params);
     }
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${sku}`, 'PUT');
+    this.options.headers = {'Content-Language': lang};
+    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'PUT');
 };
 
 /**
@@ -68,11 +73,12 @@ const createOrReplaceInventoryItem = function (sku, params) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItem
  * @param sku {string || int}
  * @returns {Promise<object>}
+ * OK
  */
 const getInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET');
+    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET', true);
 };
 
 /**
@@ -80,14 +86,17 @@ const getInventoryItem = function (sku) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems
  * @param filters {object}
  * @returns {Promise<object>}
+ * OK
  */
-const getInventoryItems = function (filters) {
+const getInventoryItems = function (limit = null, offset = null) {
     let queryString = '';
-    if (typeof filters !== 'undefined') {
-        if (typeof filters !== 'object') throw new Error('Expecting Object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItems)');
-        queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
+    if (limit || offset) {
+        const filter = {};
+        if (limit) filter.limit = limit;
+        if (offset) filter.offset = offset;
+        queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET');
+    return callbackRequest(`${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET', true);
 };
 
 /**
@@ -96,6 +105,7 @@ const getInventoryItems = function (filters) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/deleteInventoryItem
  * @param sku {string || int}
  * @returns {Promise<object>}
+ * OK
  */
 const deleteInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
@@ -109,9 +119,10 @@ const deleteInventoryItem = function (sku) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity
  * @param params {object}
  * @returns {Promise<{object}>}
+ * OK
  */
 const bulkUpdatePriceQuantity = function (params) {
-    if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
+    if (!params) throw new Error('INVALID_REQUEST_PARAMS --> Missing or invalid input parameter');
     if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
@@ -123,9 +134,10 @@ const bulkUpdatePriceQuantity = function (params) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem
  * @param params {object}
  * @returns {Promise<object>}
+ * OK
  */
 const bulkCreateOrReplaceInventoryItem = function (params) {
-    if (!params) throw new Error('INVALID_REQUEST_PARMS --> Missing or invalid input parameter');
+    if (!params) throw new Error('INVALID_REQUEST_PARAMS --> Missing or invalid input parameter');
     if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
@@ -137,13 +149,14 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkGetInventoryItem
  * @param sku {string || int}
  * @returns {Promise<object>}
+ * OK
  */
-const bulkGetInventoryItem = function (sku) {
-    if (typeof sku !== 'undefined') { // If is present sku
-        const param = {'requests': {'sky': encodeURIComponent(sku)}};
-        this.options.data = JSON.stringify(param);
+const bulkGetInventoryItem = function (sku = null) {
+    if (sku) {
+        if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+        this.options.data = JSON.stringify({'requests': {'sky': encodeURIComponent(sku)}});
     }
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST');
+    return callbackRequest(`${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST', true);
 };
 
 /**
@@ -153,6 +166,7 @@ const bulkGetInventoryItem = function (sku) {
  * @param params {object}
  * @param lang {string}
  * @returns {Promise<{object}>}
+ * OK
  */
 const createOrReplaceProductCompatibility = function (sku, params, lang) {
     if (!sku) throw new Error('Error sku is required');
@@ -171,11 +185,12 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/getProductCompatibility
  * @param sku {string || int}
  * @returns {Promise<object>}
+ * OK
  */
 const getProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET');
+    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET', true);
 };
 
 /**
@@ -183,6 +198,7 @@ const getProductCompatibility = function (sku) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/deleteProductCompatibility
  * @param sku {string}
  * @returns {Promise<object>}
+ * OK
  */
 const deleteProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
@@ -196,6 +212,7 @@ const deleteProductCompatibility = function (sku) {
  * @param lang {string}
  * @param params {object}
  * @returns {Promise<{object}>}
+ * OK
  */
 const createOffer = function (lang, params) {
     if (!lang) throw new Error('Error lang is required');
@@ -216,12 +233,13 @@ const createOffer = function (lang, params) {
  * @param lang {string}
  * @param params {object}
  * @returns {Promise<{object}>}
+ * OK
  */
-const updateOffer = function (offerId, lang, params) {
+const updateOffer = function (offerId, lang, params = null) {
     if (!lang) throw new Error('Error lang is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String to offerId');
     if (typeof lang !== 'string') throw new Error('Expecting String to lang');
-    if (typeof params !== 'undefined') {
+    if (params) {
         if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/updateOffer)');
         this.options.data = JSON.stringify(params);
     }
@@ -238,37 +256,32 @@ const updateOffer = function (offerId, lang, params) {
  * @param limit {string}
  * @param offset {string}
  * @returns {Promise<{object}>}
+ * OK
  */
-const getOffers = function (sku, marketplaceId, format, limit, offset) {
+const getOffers = function (sku, marketplaceId = null, format= null, limit= null, offset= null) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    if (marketplaceId && !Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
-    if (format && !Array.isArray(format)) throw new Error('Expecting array (Item format)');
-    if (limit && typeof limit !== 'string') throw new Error('Expecting string (Item marketplace_id)');
-    if (offset && typeof offset !== 'string') throw new Error('Expecting string (Item offset)');
-    let queryParam = 'sku=' + sku;
-    queryParam = queryParam + (marketplaceId ? '&marketplace_id=' + marketplaceId : '');
-    queryParam = queryParam + (format ? '&format=' + format : '');
-    queryParam = queryParam + (limit ? '&limit=' + limit : '');
-    queryParam = queryParam + (offset ? '&offset=' + offset : '');
-    return callbackRequest(`${URI_SELL_EBAY}/offer?${queryParam}`, 'GET');
+    const filter = {};
+    filter.sku = sku;
+    if (marketplaceId) filter.marketplaceId = marketplaceId;
+    if (format) filter.format = format;
+    if (limit) filter.limit = limit;
+    if (offset) filter.offset = offset;
+    const queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
+    return callbackRequest(`${URI_SELL_EBAY}/offer?${queryString}`, 'GET', true);
 };
 
 /**
  * This call retrieves a specific offer.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffer
  * @param offerId {string} The unique identifier of the offer that is to be retrieved.
- * @param param {object}
  * @returns {Promise<{object}>}
+ * OK
  */
-const getOffer = function (offerId, param) {
+const getOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    if (param) {
-        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getOffer#h2-input)');
-        this.options.data = JSON.stringify(param);
-    }
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET');
+    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET', true);
 };
 
 /**
@@ -276,6 +289,7 @@ const getOffer = function (offerId, param) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/deleteOffer
  * @param offerId {string}
  * @returns {Promise<{object}>}
+ * OK
  */
 const deleteOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
@@ -288,6 +302,7 @@ const deleteOffer = function (offerId) {
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/publishOffer
  * @param offerId {string}
  * @returns {Promise<{object}>}
+ * OK
  */
 const publishOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
@@ -301,13 +316,21 @@ const publishOffer = function (offerId) {
  * @param inventoryItemGroupKey {string} This is the unique identifier of the inventory item group. All unpublished offers associated with this inventory item group will be published as a multiple-variation listing if the publishByInventoryItemGroup call is successful. The inventoryItemGroupKey identifier is automatically generated by eBay once an inventory item group is created.
  * @param marketplaceId {MarketplaceEnum[]} This is the unique identifier of the eBay site on which the multiple-variation listing will be published. The marketPlaceId enumeration values are found in MarketplaceIdEnum.
  * @returns {Promise<{object}>}
+ * OK
  */
-const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, ...marketplaceId) {
+const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, marketplaceId) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (!marketplaceId) throw new Error('Error marketplaceId is required');
     if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String of inventoryItemGroupKey');
     if (!Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
-    this.options.data = JSON.stringify({'inventoryItemGroupKey': inventoryItemGroupKey, 'marketplaceId': marketplaceId});
+    const data = {};
+    const requests = [];
+    marketplaceId.forEach((e) => {
+        requests.push({'MarketplaceEnum': e});
+    });
+    data.inventoryItemGroupKey = inventoryItemGroupKey;
+    data.marketplaceId = requests;
+    this.options.data = JSON.stringify(data);
     return callbackRequest(`${URI_SELL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST');
 };
 
@@ -317,68 +340,90 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, ...mar
  * @param inventoryItemGroupKey {string}
  * @param marketplaceId {MarketplaceEnum[]}
  * @returns {Promise<{object}>}
+ * OK
  */
-const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey, ...marketplaceId) {
-    const value = {};
+const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey = null, marketplaceId = []) {
+    const data = {};
     if (inventoryItemGroupKey) {
         if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String of inventoryItemGroupKey');
-        value.inventoryItemGroupKey = inventoryItemGroupKey;
+        data.inventoryItemGroupKey = inventoryItemGroupKey;
     }
-    if (marketplaceId) {
+    if (marketplaceId.length > 0) {
         if (!Array.isArray(marketplaceId)) throw new Error('Expecting array (Item marketplace_id)');
-        value.marketplaceId = marketplaceId;
+        const requests = [];
+        marketplaceId.forEach((e) => {
+            requests.push({'MarketplaceEnum': e});
+        });
+        data.marketplaceId = requests;
     }
-    this.options.data = JSON.stringify(value);
+    this.options.data = JSON.stringify(data);
     return callbackRequest(`${URI_SELL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST');
 };
 
 /**
  * This call is used to retrieve the expected listing fees for up to 250 unpublished offers. An array of one or more offerId values are passed in under the offers container.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/getListingFees
- * @param offers {object}
+ * @param offerIds {string[]}
  * @returns {Promise<{object}>}
+ * OK
  */
-const getListingFees = function (offers) {
-    if (!offers) throw new Error('Error offers is required');
-    if (typeof offers !== 'object') throw new Error('Expecting object of offers');
-    if (!offers.offerId) throw new Error('Error offerId is required');
-    if (!Array.isArray(offers.offerId)) throw new Error('Expecting array of offers.offerId');
-    return callbackRequest(`${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST');
+const getListingFees = function (offerIds) {
+    if (!offerIds) throw new Error('Error offers is required');
+    if (!Array.isArray(offerIds)) throw new Error('Expecting array of offers.offerId');
+    const data = {};
+    const requests = [];
+    offerIds.forEach((e) => {
+        requests.push({'offerId': e});
+    });
+    data.offers = requests;
+    this.options.data = JSON.stringify(data);
+    return callbackRequest(`${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST', true, true);
 };
 
 /**
  * This call is used to retrieve the expected listing fees for one to 250 unpublished offers.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/bulkCreateOffer
+ * @param params {object}
  * @returns {Promise<{object}>}
+ * OK
  */
-const bulkCreateOffer = function () {
+const bulkCreateOffer = function (params) {
+    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/createOffer)');
+    if (!params.requests.sku) throw new Error('Error requests.sku is required');
+    if (!params.requests.marketplaceId) throw new Error('Error requests.marketplaceId is required');
+    if (!params.requests.format) throw new Error('Error requests.format is required');
+    this.options.data = JSON.stringify(params);
     return callbackRequest(`${URI_SELL_EBAY}/bulk_create_offer`, 'POST');
 };
 
 /**
  * This call is used to convert unpublished offers (up to 25) into published offers, or live eBay listings. The unique identifier (offerId) of each offer to publlish is passed into the request payload. It is possible that some unpublished offers will be successfully created into eBay listings, but others may fail. The response payload will show the results for each offerId value that is passed into the request payload. The errors and warnings containers will be returned for an offer that had one or more issues being published.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/bulkPublishOffer
- * @param offerId {string}
+ * @param offerIds {string[]}
  * @returns {Promise<{object}>}
+ * OK
  */
-const bulkPublishOffer = function (...offerId) {
-    if (Array.isArray(offerId)) throw new Error('Expecting array of offerId');
-    if (offerId.length > 25) throw new Error('Error max 25 offerId');
+const bulkPublishOffer = function (offerIds) {
+    if (Array.isArray(offerIds)) throw new Error('Expecting array of offerId');
+    if (offerIds.length > 25) throw new Error('Error max 25 offerId');
+    const data = {};
     const requests = [];
-    offerId.forEach((e) => {
+    offerIds.forEach((e) => {
         requests.push({'offerId': e});
     });
-    this.options.data = JSON.stringify({'requests': requests});
+    data.requests = requests;
+    this.options.data = JSON.stringify(data);
     return callbackRequest(`${URI_SELL_EBAY}/bulk_publish_offer`, 'POST');
 };
 
 /**
  * This call is used to end a single-variation listing that is associated with the specified offer. This call is used in place of the deleteOffer call if the seller only wants to end the listing associated with the offer but does not want to delete the offer object. With this call, the offer object remains, but it goes into the unpublished state, and will require a publishOffer call to relist the offer.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/withdrawOffer
- * @param offerId {string}
+ * @param offerIds {string}
  * @returns {Promise<{object}>}
+ * OK
  */
-const withdrawOffer = function (offerId) {
+const withdrawOffer = function (offerIds) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw  new Error('Expecting String of offerId');
     return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}/withdraw`, 'POST');
