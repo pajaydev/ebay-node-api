@@ -1,4 +1,6 @@
 'use strict';
+// This is a list of all types in the schema, types upon which fields are based. You can learn more about how different calls and different types make use of these types. See also Simple Schema Types.
+// https://developer.ebay.com/api-docs/sell/inventory/types
 
 /**
  * This enumeration type is used to indicate the different eBay marketplace sites.
@@ -165,6 +167,30 @@ const AvailabilityTypeEnum = {
     'SHIP_TO_STORE': 'SHIP_TO_STORE'
 };
 
+/**
+ * An enumerated type defining the possible states of an inventory location.
+ * @type {{DISABLED: string, ENABLED: string}}
+ */
+const StatusEnum = {
+    'DISABLED': 'DISABLED',
+    'ENABLED': 'ENABLED'
+};
+
+/**
+ * An enumerated type defining the days of the week. This type is used by the dayOfWeekEnum field under the operatingHours container to indicate which days a merchant's store is open to pick up In-Store Pickup or Click and Collect orders.
+ * @link https://developer.ebay.com/api-docs/sell/inventory/types/api:DayOfWeekEnum
+ * @type {{WEDNESDAY: string, MONDAY: string, THURSDAY: string, SUNDAY: string, TUESDAY: string, FRIDAY: string, SATURDAY: string}}
+ */
+const DayOfWeekEnum = {
+    'MONDAY': 'MONDAY',
+    'TUESDAY': 'TUESDAY',
+    'WEDNESDAY': 'WEDNESDAY',
+    'THURSDAY': 'THURSDAY',
+    'FRIDAY': 'FRIDAY',
+    'SATURDAY': 'SATURDAY',
+    'SUNDAY': 'SUNDAY'
+};
+
 module.exports = {
     MarketplaceEnum,
     FormatTypeEnum,
@@ -173,5 +199,7 @@ module.exports = {
     LengthUnitOfMeasureEnum,
     PackageTypeEnum,
     WeightUnitOfMeasureEnum,
-    AvailabilityTypeEnum
+    AvailabilityTypeEnum,
+    StatusEnum,
+    DayOfWeekEnum
 };
