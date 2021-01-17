@@ -29,9 +29,10 @@ const SCOPE_INVENTORY_API_READ_ONLY = 'https://api.ebay.com/oauth/api_scope/sell
  */
 function callbackRequest(uri, method, checkScopeReadOnly = false) {
     if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
-    if (checkScopeReadOnly){
+    if (checkScopeReadOnly) {
         if (this.options.body.scope !== SCOPE_INVENTORY_API || this.options.body.scope !== SCOPE_INVENTORY_API_READ_ONLY) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
-    } else {
+    }
+    else {
         if (this.options.body.scope !== SCOPE_INVENTORY_API) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
     }
     const auth = 'Bearer ' + this.options.appAccessToken;
@@ -453,13 +454,13 @@ const createInventoryLocation = function (merchantLocationKey, params) {
     if (!params.location.address.country) throw new Error('Error location.address.country is required');
     if (!params.operatingHours.dayOfWeekEnum) throw new Error('Error operatingHours.dayOfWeekEnum is required');
     if (!params.operatingHours.intervals) throw new Error('Error operatingHours.intervals is required');
-    if (!params.ooperatingHours.intervals.close	) throw new Error('Error operatingHours.intervals.close is required');
+    if (!params.ooperatingHours.intervals.close) throw new Error('Error operatingHours.intervals.close is required');
     if (!params.operatingHours.intervals.open) throw new Error('Error operatingHours.intervals.open is required');
     if (!params.specialHours.intervals) throw new Error('Error specialHours.intervals is required');
     if (!params.specialHours.intervals.close) throw new Error('Error specialHours.intervals.close is required');
     if (!params.specialHours.intervals.open) throw new Error('Error specialHours.intervals.open is required');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'POST')
+    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'POST');
 };
 
 /**
@@ -470,7 +471,7 @@ const createInventoryLocation = function (merchantLocationKey, params) {
  */
 const deleteInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
-    if (typeof merchantLocationKey !== "string") throw new Error('Expecting String of merchantLocationKey');
+    if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
     return callbackRequest(`${URI_SELL_EBAY}/bulk_migrate_listing/${merchantLocationKey}`, 'DELETE');
 };
 
@@ -482,7 +483,7 @@ const deleteInventoryLocation = function (merchantLocationKey) {
  */
 const disableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
-    if (typeof merchantLocationKey !== "string") throw new Error('Expecting String of merchantLocationKey');
+    if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
     return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/disable`, 'POST');
 };
 
@@ -494,7 +495,7 @@ const disableInventoryLocation = function (merchantLocationKey) {
  */
 const enableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
-    if (typeof merchantLocationKey !== "string") throw new Error('Expecting String of merchantLocationKey');
+    if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
     return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/enable`, 'POST');
 };
 
@@ -506,7 +507,7 @@ const enableInventoryLocation = function (merchantLocationKey) {
  */
 const getInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
-    if (typeof merchantLocationKey !== "string") throw new Error('Expecting String of merchantLocationKey');
+    if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
     return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'GET', false);
 };
 
@@ -519,10 +520,10 @@ const getInventoryLocation = function (merchantLocationKey) {
  */
 const getInventoryLocations = function (offset = null, limit = null) {
     let queryString = '';
-    if (offset || limit){
-        let filters = {}
-        if (offset) filters['offset'] = offset;
-        if (limit) filters['limit'] = limit;
+    if (offset || limit) {
+        const filters = {};
+        if (offset) filters.offset = offset;
+        if (limit) filters.limit = limit;
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
     return callbackRequest(`${URI_SELL_EBAY}/location?${queryString}`, 'GET', false);
@@ -546,7 +547,7 @@ const updateInventoryLocation = function (merchantLocationKey, params) {
     if (!params.specialHours.intervals.close) throw new Error('Error specialHours.intervals.close is required');
     if (!params.specialHours.intervals.open) throw new Error('Error specialHours.intervals.open is required');
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
-    if (typeof merchantLocationKey !== "string") throw new Error('Expecting String of merchantLocationKey');
+    if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
     return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/update_location_details`, 'POST');
 };
 
