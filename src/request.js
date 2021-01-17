@@ -1,6 +1,11 @@
 'use strict';
 let httpRequest = require('https');
 
+/**
+ * Get request from Url
+ * @param url {String}
+ * @returns {Promise<{Object}>}
+ */
 const getRequest = (url) => {
     if (url.includes('http://')) httpRequest = require('http');
     return new Promise(((resolve, reject) => {
@@ -24,7 +29,16 @@ const getRequest = (url) => {
     }));
 };
 
-function makeRequest(self, endpoint, methodName, token) {
+/**
+ * MakeRequest
+ * @param self {Object}
+ * @param endpoint {String}
+ * @param methodName {String}
+ * @param token {String}
+ * @param marketPlaceID {String}
+ * @returns {Promise<{Object}>}
+ */
+function makeRequest(self, endpoint, methodName, token, marketPlaceID = 'EBAY_US') {
     const dataString = self.body ||  '';
     const options = {
         'hostname': self.baseUrl,
@@ -34,7 +48,7 @@ function makeRequest(self, endpoint, methodName, token) {
             'content-type': self.contentType ? self.contentType : 'application/json',
             'Authorization': token,
             'cache-control': 'no-cache',
-            'X-EBAY-C-MARKETPLACE-ID': 'EBAY_US',
+            'X-EBAY-C-MARKETPLACE-ID': marketPlaceID,
             ...self.headers
         }
     };
