@@ -29,7 +29,7 @@ describe('test inventory api', () => {
             expect(() => { ebay.createOrReplaceInventoryItem('1234', '1234', {'1234': '1234'}); }).to.throw('INVALID_SCOPE --> Missing body.scope');
             expect(() => { ebay1.createOrReplaceInventoryItem('1234', '1234', {'1234': '1234'}); }).to.throw('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
             ebay1.options.body.scope = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
-            expect(() => { ebay1.createOrReplaceInventoryItem('1234', '1234', {'1234': '1234'}); }).to.be.not.throw;
+            expect(() => { ebay1.createOrReplaceInventoryItem('1234', '1234', {'1234': '1234'}); }).to.not.throw;
         });
         it('test getInventoryItem method', () => {
             const ebay = new Ebay({
@@ -51,7 +51,7 @@ describe('test inventory api', () => {
             expect(() => { ebay.getInventoryItem('1234'); }).to.throw('INVALID_SCOPE --> Missing body.scope');
             expect(() => { ebay1.getInventoryItem('1234'); }).to.throw('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
             ebay1.options.body.scope = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
-            expect(() => { ebay1.getInventoryItem('1234'); }).to.be.not.throw;
+            expect(() => { ebay1.getInventoryItem('1234'); }).to.not.throw;
         });
         it('test getInventoryItems method', () => {
             const ebay = new Ebay({
@@ -71,7 +71,7 @@ describe('test inventory api', () => {
             expect(() => { ebay.getInventoryItems(); }).to.throw('INVALID_SCOPE --> Missing body.scope');
             expect(() => { ebay1.getInventoryItems(); }).to.throw('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
             ebay1.options.body.scope = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
-            expect(() => { ebay1.getInventoryItems(); }).to.be.not.throw;
+            expect(() => { ebay1.getInventoryItems(); }).to.not.throw;
         });
         it('test deleteInventoryItem method', () => {
             const ebay = new Ebay({
@@ -93,7 +93,7 @@ describe('test inventory api', () => {
             expect(() => { ebay.deleteInventoryItem('1234'); }).to.throw('INVALID_SCOPE --> Missing body.scope');
             expect(() => { ebay1.deleteInventoryItem('1234'); }).to.throw('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
             ebay1.options.body.scope = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
-            expect(() => { ebay1.deleteInventoryItem('1234'); }).to.be.not.throw;
+            expect(() => { ebay1.deleteInventoryItem('1234'); }).to.not.throw;
         });
         it('test bulkUpdatePriceQuantity method', () => {
             const ebay = new Ebay({
@@ -115,7 +115,7 @@ describe('test inventory api', () => {
             expect(() => { ebay.bulkUpdatePriceQuantity({requests: {}}); }).to.throw('INVALID_SCOPE --> Missing body.scope');
             expect(() => { ebay1.bulkUpdatePriceQuantity({requests: {}}); }).to.throw('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
             ebay1.options.body.scope = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
-            expect(() => { ebay1.bulkUpdatePriceQuantity({requests: {}}); }).to.be.not.throw;
+            expect(() => { ebay1.bulkUpdatePriceQuantity({requests: {}}); }).to.not.throw;
         });
     });
 });
