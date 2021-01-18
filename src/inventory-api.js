@@ -22,23 +22,24 @@ const SCOPE_INVENTORY_API_READ_ONLY = 'https://api.ebay.com/oauth/api_scope/sell
 
 /**
  * Call callback promise request
+ * @param {Object} self
  * @param {String} uri Uri request
  * @param {String} method POST GET DELETE PUT
  * @param {Boolean} AndCheckIfScopeIsReadOnly
  * @returns {Promise<Object>}
  */
-function callbackRequest(uri, method, AndCheckIfScopeIsReadOnly = false) {
-    if (!this.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
+function callbackRequest(self, uri, method, AndCheckIfScopeIsReadOnly = false) {
+    if (!self.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, Generate access token');
     if (AndCheckIfScopeIsReadOnly) {
-        if (this.options.body.scope !== SCOPE_INVENTORY_API || this.options.body.scope !== SCOPE_INVENTORY_API_READ_ONLY) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
+        if (self.options.body.scope !== SCOPE_INVENTORY_API || self.options.body.scope !== SCOPE_INVENTORY_API_READ_ONLY) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
     }
     else {
-        if (this.options.body.scope !== SCOPE_INVENTORY_API) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
+        if (self.options.body.scope !== SCOPE_INVENTORY_API) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
     }
-    const auth = 'Bearer ' + this.options.appAccessToken;
+    const auth = 'Bearer ' + self.options.appAccessToken;
     this.options.contentType = 'application/json';
     return new Promise((resolve, reject) => {
-        makeRequest(this.options, uri, method, auth, this.options.globalID).then((result) => {
+        makeRequest(self.options, uri, method, auth, self.options.globalID).then((result) => {
             return resolve(result);
         }).then((error) => {
             return reject(error);
@@ -49,7 +50,7 @@ function callbackRequest(uri, method, AndCheckIfScopeIsReadOnly = false) {
 /**
  * This call creates a new inventory item record or updates an existing inventory item record.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem
- * @param {String || Number} sku
+ * @param {String} sku
  * @param {String} lang
  * @param {Object} params
  * @returns {Promise<Object>}
@@ -57,26 +58,26 @@ function callbackRequest(uri, method, AndCheckIfScopeIsReadOnly = false) {
 const createOrReplaceInventoryItem = function (sku, lang, params = null) {
     if (!sku) throw new Error('Error sku is required');
     if (!lang) throw new Error('Error lang is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
     if (typeof lang !== 'string') throw new Error('Expecting String to lang');
     if (params) {
-        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/createOrReplaceInventoryItem)');
+        if (typeof params !== 'object') throw new Error('Expecting object to params');
         this.options.data = JSON.stringify(params);
     }
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'PUT');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'PUT');
 };
 
 /**
  * This call retrieves the inventory item record for a given SKU.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/getInventoryItem
- * @param {String || Number} sku
+ * @param {String} sku
  * @returns {Promise<Object>}
  */
 const getInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET', true);
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET', true);
 };
 
 /**
@@ -94,20 +95,20 @@ const getInventoryItems = function (limit = null, offset = null) {
         if (offset) filter.offset = offset;
         queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET', true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET', true);
 };
 
 /**
  * This call is used to delete an inventory item record associated with a specified SKU.
  * @method
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/deleteInventoryItem
- * @param {String || Number} sku
+ * @param {String} sku
  * @returns {Promise<Object>}
  */
 const deleteInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'DELETE');
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'DELETE');
 };
 
 /**
@@ -120,10 +121,10 @@ const deleteInventoryItem = function (sku) {
  */
 const bulkUpdatePriceQuantity = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARAMS --> Missing or invalid input parameter');
-    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkUpdatePriceQuantity)');
+    if (typeof params !== 'object') throw new Error('Expecting object to params');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_update_price_quantity`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_update_price_quantity`, 'POST');
 };
 
 /**
@@ -135,30 +136,30 @@ const bulkUpdatePriceQuantity = function (params) {
  */
 const bulkCreateOrReplaceInventoryItem = function (params) {
     if (!params) throw new Error('INVALID_REQUEST_PARAMS --> Missing or invalid input parameter');
-    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkCreateOrReplaceInventoryItem)');
+    if (typeof params !== 'object') throw new Error('Expecting object to params');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_create_or_replace_inventory_item`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_create_or_replace_inventory_item`, 'POST');
 };
 
 /**
  * This call is used by the seller to retrieve up to 25 inventory item records.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/methods/bulkGetInventoryItem
- * @param {String || Number} sku
+ * @param {String} sku
  * @returns {Promise<Object>}
  */
 const bulkGetInventoryItem = function (sku = null) {
     if (sku) {
-        if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+        if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
         this.options.data = JSON.stringify({'requests': {'sky': encodeURIComponent(sku)}});
     }
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST', true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST', true);
 };
 
 /**
  * This call is used by the seller to create or replace a list of products that are compatible with the inventory item.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/createOrReplaceProductCompatibility
- * @param {String || Number} sku
+ * @param {String} sku
  * @param {Object} params
  * @param {String} lang
  * @returns {Promise<Object>}
@@ -166,24 +167,24 @@ const bulkGetInventoryItem = function (sku = null) {
 const createOrReplaceProductCompatibility = function (sku, params, lang) {
     if (!sku) throw new Error('Error sku is required');
     if (!lang) throw new Error('Error lang is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
     if (typeof lang !== 'string') throw new Error('Expecting String to lang');
     if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/createOrReplaceProductCompatibility)');
     this.options.data = JSON.stringify(params);
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'PUT');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'PUT');
 };
 
 /**
  * This call is used by the seller to retrieve the list of products that are compatible with the inventory item.
  * @link https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/getProductCompatibility
- * @param {String || Number} sku
+ * @param {String} sku
  * @returns {Promise<Object>}
  */
 const getProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET', true);
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET', true);
 };
 
 /**
@@ -194,8 +195,8 @@ const getProductCompatibility = function (sku) {
  */
 const deleteProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'DELETE');
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'DELETE');
 };
 
 /**
@@ -208,10 +209,10 @@ const deleteProductCompatibility = function (sku) {
 const createOffer = function (lang, params) {
     if (!lang) throw new Error('Error lang is required');
     if (typeof lang !== 'string') throw new Error('Expecting String to lang');
-    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/createOffer)');
+    if (typeof params !== 'object') throw new Error('Expecting object to params');
     this.options.data = JSON.stringify(params);
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(`${URI_SELL_EBAY}/offer`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer`, 'POST');
 };
 
 /**
@@ -227,11 +228,11 @@ const updateOffer = function (offerId, lang, params = null) {
     if (typeof offerId !== 'string') throw new Error('Expecting String to offerId');
     if (typeof lang !== 'string') throw new Error('Expecting String to lang');
     if (params) {
-        if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/updateOffer)');
+        if (typeof params !== 'object') throw new Error('Expecting object to params');
         this.options.data = JSON.stringify(params);
     }
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'PUT');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'PUT');
 };
 
 /**
@@ -246,7 +247,7 @@ const updateOffer = function (offerId, lang, params = null) {
  */
 const getOffers = function (sku, marketplaceId = null, format = null, limit = null, offset = null) {
     if (!sku) throw new Error('Error sku is required');
-    if (typeof sku !== 'string' || typeof sku !== 'int') throw new Error('Expecting String or Int (Item Sku)');
+    if (typeof sku !== 'string') throw new Error('Expecting String (Item Sku)');
     const filter = {};
     filter.sku = sku;
     if (marketplaceId) filter.marketplaceId = marketplaceId;
@@ -254,7 +255,7 @@ const getOffers = function (sku, marketplaceId = null, format = null, limit = nu
     if (limit) filter.limit = limit;
     if (offset) filter.offset = offset;
     const queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
-    return callbackRequest(`${URI_SELL_EBAY}/offer?${queryString}`, 'GET', true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer?${queryString}`, 'GET', true);
 };
 
 /**
@@ -266,7 +267,7 @@ const getOffers = function (sku, marketplaceId = null, format = null, limit = nu
 const getOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET', true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET', true);
 };
 
 /**
@@ -278,7 +279,7 @@ const getOffer = function (offerId) {
 const deleteOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'DELETE');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'DELETE');
 };
 
 /**
@@ -290,7 +291,7 @@ const deleteOffer = function (offerId) {
 const publishOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'POST');
 };
 
 /**
@@ -313,7 +314,7 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, market
     data.inventoryItemGroupKey = inventoryItemGroupKey;
     data.marketplaceId = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(`${URI_SELL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST');
 };
 
 /**
@@ -338,7 +339,7 @@ const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey = null
         data.marketplaceId = requests;
     }
     this.options.data = JSON.stringify(data);
-    return callbackRequest(`${URI_SELL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST');
 };
 
 /**
@@ -357,7 +358,7 @@ const getListingFees = function (offerIds) {
     });
     data.offers = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(`${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST', true, true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST', true, true);
 };
 
 /**
@@ -367,9 +368,9 @@ const getListingFees = function (offerIds) {
  * @returns {Promise<Object>}
  */
 const bulkCreateOffer = function (params) {
-    if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/offer/methods/createOffer)');
+    if (typeof params !== 'object') throw new Error('Expecting object to params');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_create_offer`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_create_offer`, 'POST');
 };
 
 /**
@@ -388,7 +389,7 @@ const bulkPublishOffer = function (offerIds) {
     });
     data.requests = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_publish_offer`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_publish_offer`, 'POST');
 };
 
 /**
@@ -400,7 +401,7 @@ const bulkPublishOffer = function (offerIds) {
 const withdrawOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw  new Error('Expecting String of offerId');
-    return callbackRequest(`${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}/withdraw`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}/withdraw`, 'POST');
 };
 
 /**
@@ -419,7 +420,7 @@ const createOrReplaceInventoryItemGroup = function (inventoryItemGroupKey, lang,
     if (typeof inventoryItemGroupKey !== 'string') throw  new Error('Expecting String of inventoryItemGroupKey');
     if (typeof params !== 'object') throw new Error('Expecting object');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'PUT');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'PUT');
 };
 
 /**
@@ -431,7 +432,7 @@ const createOrReplaceInventoryItemGroup = function (inventoryItemGroupKey, lang,
 const getInventoryItemGroup = function (inventoryItemGroupKey) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String to inventoryItemGroupKey');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'GET', true);
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'GET', true);
 };
 
 /**
@@ -442,7 +443,7 @@ const getInventoryItemGroup = function (inventoryItemGroupKey) {
 const deleteInventoryItemGroup = function (inventoryItemGroupKey) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String to inventoryItemGroupKey');
-    return callbackRequest(`${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'DELETE');
+    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'DELETE');
 };
 
 /**
@@ -464,7 +465,7 @@ const bulkMigrateListing = function (listingIds) {
         requests.push({'listingId': e});
     });
     this.options.data = JSON.stringify({'requests': requests});
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_migrate_listing`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_migrate_listing`, 'POST');
 };
 
 /**
@@ -480,7 +481,7 @@ const createInventoryLocation = function (merchantLocationKey, params) {
     if (!params) throw new Error('Error params is required');
     if (typeof params !== 'object') throw new Error('Expecting object');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'POST');
 };
 
 /**
@@ -492,7 +493,7 @@ const createInventoryLocation = function (merchantLocationKey, params) {
 const deleteInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(`${URI_SELL_EBAY}/bulk_migrate_listing/${merchantLocationKey}`, 'DELETE');
+    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_migrate_listing/${merchantLocationKey}`, 'DELETE');
 };
 
 /**
@@ -504,7 +505,7 @@ const deleteInventoryLocation = function (merchantLocationKey) {
 const disableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/disable`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/disable`, 'POST');
 };
 
 /**
@@ -516,7 +517,7 @@ const disableInventoryLocation = function (merchantLocationKey) {
 const enableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/enable`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/enable`, 'POST');
 };
 
 /**
@@ -528,7 +529,7 @@ const enableInventoryLocation = function (merchantLocationKey) {
 const getInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'GET', false);
+    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'GET', false);
 };
 
 /**
@@ -546,7 +547,7 @@ const getInventoryLocations = function (offset = null, limit = null) {
         if (limit) filters.limit = limit;
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
-    return callbackRequest(`${URI_SELL_EBAY}/location?${queryString}`, 'GET', false);
+    return callbackRequest(this, `${URI_SELL_EBAY}/location?${queryString}`, 'GET', false);
 };
 
 /**
@@ -561,7 +562,7 @@ const updateInventoryLocation = function (merchantLocationKey, params) {
     if (typeof params !== 'object') throw new Error('Expecting object in params');
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(`${URI_SELL_EBAY}/location/${merchantLocationKey}/update_location_details`, 'POST');
+    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/update_location_details`, 'POST');
 };
 
 module.exports = {
