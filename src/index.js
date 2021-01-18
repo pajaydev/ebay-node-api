@@ -8,6 +8,7 @@ const dealsApi = require('./deals');
 const commonUtils = require('./common-utils');
 const merchandisingApi = require('./merchandising');
 const itemApi = require('./item');
+const inventory_api = require('./inventory-api');
 const {
     getAccessToken,
     getUserAuthorizationUrl,
@@ -66,6 +67,7 @@ Ebay.prototype = {
     getUserTokenByRefresh,
     setUserAccessToken,
     setAppAccessToken,
+    ...inventory_api,
     ...merchandisingApi,
     ...commonUtils,
     ...shoppingApi,
