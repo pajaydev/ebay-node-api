@@ -1,11 +1,6 @@
 'use strict';
 let httpRequest = require('https');
 
-/**
- * Get request from Url
- * @param url {String}
- * @returns {Promise<{Object}>}
- */
 const getRequest = (url) => {
     if (url.includes('http://')) httpRequest = require('http');
     return new Promise(((resolve, reject) => {
@@ -29,15 +24,6 @@ const getRequest = (url) => {
     }));
 };
 
-/**
- * MakeRequest
- * @param self {Object}
- * @param endpoint {String}
- * @param methodName {String}
- * @param token {String}
- * @param marketPlaceID {String}
- * @returns {Promise<{Object}>}
- */
 function makeRequest(self, endpoint, methodName, token, marketPlaceID = 'EBAY_US') {
     const dataString = self.body ||  '';
     const options = {

@@ -8,7 +8,7 @@ const dealsApi = require('./deals');
 const commonUtils = require('./common-utils');
 const merchandisingApi = require('./merchandising');
 const itemApi = require('./item');
-const inventoryApi = require('./inventory-api');
+const inventoryApi = require('./sale-api/inventory-api');
 const {
     getAccessToken,
     getUserAuthorizationUrl,

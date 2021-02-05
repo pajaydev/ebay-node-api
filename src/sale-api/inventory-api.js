@@ -1,53 +1,24 @@
 'use strict';
 const makeString = require('make-string');
-const { makeRequest } = require('./request');
+const { callbackRequest } = require('./callbackRequest');
 
 /**
- * Url inventory Api /sell/inventory/v1
+ * Url inventory Api
  * @type {String}
  */
-const URI_SELL_EBAY = '/sell/inventory/v1';
+const URL_EBAY = '/sell/inventory/v1';
 
 /**
- * String of url for scope oauth 'https://api.ebay.com/oauth/api_scope/sell.inventory'
+ * String of url for scope oauth
  * @type {String}
  */
-const SCOPE_INVENTORY_API = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
+const SCOPE_API = 'https://api.ebay.com/oauth/api_scope/sell.inventory';
 
 /**
- * tring of url for scope oauth readonly 'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly'
+ * String of url for scope oauth readonly
  * @type {String}
  */
-const SCOPE_INVENTORY_API_READ_ONLY = 'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly';
-
-/**
- * Call callback promise request
- * @param {Object} self
- * @param {String} uri Uri request
- * @param {String} method POST GET DELETE PUT
- * @param {Boolean} AndCheckIfScopeIsReadOnly
- * @returns {Promise<Object>}
- */
-function callbackRequest(self, uri, method, AndCheckIfScopeIsReadOnly = false) {
-    if (!self.options.appAccessToken) throw new Error('INVALID_AUTH_TOKEN --> Missing Access token, generate access token');
-    if (!self.options.body) throw new Error('INVALID_SCOPE --> Missing body.scope');
-    if (!self.options.body.scope) throw new Error('INVALID_SCOPE --> Missing scope');
-    if (AndCheckIfScopeIsReadOnly) {
-        if (self.options.body.scope !== SCOPE_INVENTORY_API || self.options.body.scope !== SCOPE_INVENTORY_API_READ_ONLY) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
-    }
-    else {
-        if (self.options.body.scope !== SCOPE_INVENTORY_API) throw new Error('INVALID_SCOPE_URL --> Invalid scope url, correct https://api.ebay.com/oauth/api_scope/sell.inventory');
-    }
-    const auth = 'Bearer ' + self.options.appAccessToken;
-    self.options.contentType = 'application/json';
-    return new Promise((resolve, reject) => {
-        makeRequest(self.options, uri, method, auth, self.options.globalID).then((result) => {
-            return resolve(result);
-        }).then((error) => {
-            return reject(error);
-        });
-    });
-}
+const SCOPE_READ_ONLY = 'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly';
 
 /**
  * This call creates a new inventory item record or updates an existing inventory item record.
@@ -67,7 +38,7 @@ const createOrReplaceInventoryItem = function (sku, lang, params = null) {
         this.options.data = JSON.stringify(params);
     }
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'PUT');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'PUT', SCOPE_API);
 };
 
 /**
@@ -79,7 +50,7 @@ const createOrReplaceInventoryItem = function (sku, lang, params = null) {
 const getInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string') throw new Error('Expecting string to sku');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -97,7 +68,7 @@ const getInventoryItems = function (limit = null, offset = null) {
         if (offset) filter.offset = offset;
         queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item?${queryString}`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/inventory_item?${queryString}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -109,7 +80,7 @@ const getInventoryItems = function (limit = null, offset = null) {
 const deleteInventoryItem = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string') throw new Error('Expecting string to sku');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'DELETE');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}`, 'DELETE', SCOPE_API);
 };
 
 /**
@@ -125,7 +96,7 @@ const bulkUpdatePriceQuantity = function (params) {
     if (typeof params !== 'object') throw new Error('Expecting object to params');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_update_price_quantity`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/bulk_update_price_quantity`, 'POST', SCOPE_API);
 };
 
 /**
@@ -140,7 +111,7 @@ const bulkCreateOrReplaceInventoryItem = function (params) {
     if (typeof params !== 'object') throw new Error('Expecting object to params');
     if (!params.requests) throw new Error('Error requests is required');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_create_or_replace_inventory_item`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/bulk_create_or_replace_inventory_item`, 'POST', SCOPE_API);
 };
 
 /**
@@ -154,7 +125,7 @@ const bulkGetInventoryItem = function (sku = null) {
         if (typeof sku !== 'string') throw new Error('Expecting String to sku');
         this.options.data = JSON.stringify({'requests': {'sky': encodeURIComponent(sku)}});
     }
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_get_inventory_item`, 'POST', true);
+    return callbackRequest(this, `${URL_EBAY}/bulk_get_inventory_item`, 'POST', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -173,7 +144,7 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
     if (typeof params !== 'object') throw new Error('Expecting object (https://developer.ebay.com/api-docs/sell/inventory/resources/inventory_item/product_compatibility/methods/createOrReplaceProductCompatibility)');
     this.options.data = JSON.stringify(params);
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'PUT');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'PUT', SCOPE_API);
 };
 
 /**
@@ -185,7 +156,7 @@ const createOrReplaceProductCompatibility = function (sku, params, lang) {
 const getProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string') throw new Error('Expecting String to sku');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -197,7 +168,7 @@ const getProductCompatibility = function (sku) {
 const deleteProductCompatibility = function (sku) {
     if (!sku) throw new Error('Error sku is required');
     if (typeof sku !== 'string') throw new Error('Expecting String to sku');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'DELETE');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item/${encodeURIComponent(sku)}/product_compatibility`, 'DELETE', SCOPE_API);
 };
 
 /**
@@ -213,7 +184,7 @@ const createOffer = function (lang, params) {
     if (typeof params !== 'object') throw new Error('Expecting object to params');
     this.options.data = JSON.stringify(params);
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/offer`, 'POST', SCOPE_API);
 };
 
 /**
@@ -233,7 +204,7 @@ const updateOffer = function (offerId, lang, params = null) {
         this.options.data = JSON.stringify(params);
     }
     this.options.headers = {'Content-Language': lang};
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'PUT');
+    return callbackRequest(this, `${URL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'PUT', SCOPE_API);
 };
 
 /**
@@ -256,7 +227,7 @@ const getOffers = function (sku, marketplaceId = null, format = null, limit = nu
     if (limit) filter.limit = limit;
     if (offset) filter.offset = offset;
     const queryString = makeString(filter, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer?${queryString}`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/offer?${queryString}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -268,7 +239,7 @@ const getOffers = function (sku, marketplaceId = null, format = null, limit = nu
 const getOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -280,7 +251,7 @@ const getOffer = function (offerId) {
 const deleteOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'DELETE');
+    return callbackRequest(this, `${URL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'DELETE', SCOPE_API);
 };
 
 /**
@@ -292,7 +263,7 @@ const deleteOffer = function (offerId) {
 const publishOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw new Error('Expecting String of offerId');
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/offer/${encodeURIComponent(offerId)}`, 'POST', SCOPE_API);
 };
 
 /**
@@ -315,7 +286,7 @@ const publishOfferByInventoryItemGroup = function (inventoryItemGroupKey, market
     data.inventoryItemGroupKey = inventoryItemGroupKey;
     data.marketplaceId = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/offer/publish_by_inventory_item_group/`, 'POST', SCOPE_API);
 };
 
 /**
@@ -340,7 +311,7 @@ const withdrawOfferByInventoryItemGroup = function (inventoryItemGroupKey = null
         data.marketplaceId = requests;
     }
     this.options.data = JSON.stringify(data);
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/offer/withdraw_by_inventory_item_group`, 'POST', SCOPE_API);
 };
 
 /**
@@ -359,7 +330,7 @@ const getListingFees = function (offerIds) {
     });
     data.offers = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/get_listing_fees`, 'POST', true, true);
+    return callbackRequest(this, `${URL_EBAY}/offer/get_listing_fees`, 'POST', SCOPE_API, SCOPE_READ_ONLY,  true);
 };
 
 /**
@@ -371,7 +342,7 @@ const getListingFees = function (offerIds) {
 const bulkCreateOffer = function (params) {
     if (typeof params !== 'object') throw new Error('Expecting object to params');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_create_offer`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/bulk_create_offer`, 'POST', SCOPE_API);
 };
 
 /**
@@ -390,7 +361,7 @@ const bulkPublishOffer = function (offerIds) {
     });
     data.requests = requests;
     this.options.data = JSON.stringify(data);
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_publish_offer`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/bulk_publish_offer`, 'POST', SCOPE_API);
 };
 
 /**
@@ -402,7 +373,7 @@ const bulkPublishOffer = function (offerIds) {
 const withdrawOffer = function (offerId) {
     if (!offerId) throw new Error('Error offerId is required');
     if (typeof offerId !== 'string') throw  new Error('Expecting String of offerId');
-    return callbackRequest(this, `${URI_SELL_EBAY}/offer/${encodeURIComponent(offerId)}/withdraw`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/offer/${encodeURIComponent(offerId)}/withdraw`, 'POST', SCOPE_API);
 };
 
 /**
@@ -421,7 +392,7 @@ const createOrReplaceInventoryItemGroup = function (inventoryItemGroupKey, lang,
     if (typeof inventoryItemGroupKey !== 'string') throw  new Error('Expecting String of inventoryItemGroupKey');
     if (typeof params !== 'object') throw new Error('Expecting object');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'PUT');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'PUT', SCOPE_API);
 };
 
 /**
@@ -433,7 +404,7 @@ const createOrReplaceInventoryItemGroup = function (inventoryItemGroupKey, lang,
 const getInventoryItemGroup = function (inventoryItemGroupKey) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String to inventoryItemGroupKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'GET', true);
+    return callbackRequest(this, `${URL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -444,7 +415,7 @@ const getInventoryItemGroup = function (inventoryItemGroupKey) {
 const deleteInventoryItemGroup = function (inventoryItemGroupKey) {
     if (!inventoryItemGroupKey) throw new Error('Error inventoryItemGroupKey is required');
     if (typeof inventoryItemGroupKey !== 'string') throw new Error('Expecting String to inventoryItemGroupKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'DELETE');
+    return callbackRequest(this, `${URL_EBAY}/inventory_item_group/${encodeURIComponent(inventoryItemGroupKey)}`, 'DELETE', SCOPE_API);
 };
 
 /**
@@ -466,7 +437,7 @@ const bulkMigrateListing = function (listingIds) {
         requests.push({'listingId': e});
     });
     this.options.data = JSON.stringify({'requests': requests});
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_migrate_listing`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/bulk_migrate_listing`, 'POST', SCOPE_API);
 };
 
 /**
@@ -482,7 +453,7 @@ const createInventoryLocation = function (merchantLocationKey, params) {
     if (!params) throw new Error('Error params is required');
     if (typeof params !== 'object') throw new Error('Expecting object');
     this.options.data = JSON.stringify(params);
-    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/location/${merchantLocationKey}`, 'POST', SCOPE_API);
 };
 
 /**
@@ -494,7 +465,7 @@ const createInventoryLocation = function (merchantLocationKey, params) {
 const deleteInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/bulk_migrate_listing/${merchantLocationKey}`, 'DELETE');
+    return callbackRequest(this, `${URL_EBAY}/bulk_migrate_listing/${merchantLocationKey}`, 'DELETE', SCOPE_API);
 };
 
 /**
@@ -506,7 +477,7 @@ const deleteInventoryLocation = function (merchantLocationKey) {
 const disableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/disable`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/location/${merchantLocationKey}/disable`, 'POST', SCOPE_API);
 };
 
 /**
@@ -518,7 +489,7 @@ const disableInventoryLocation = function (merchantLocationKey) {
 const enableInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/enable`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/location/${merchantLocationKey}/enable`, 'POST', SCOPE_API);
 };
 
 /**
@@ -530,7 +501,7 @@ const enableInventoryLocation = function (merchantLocationKey) {
 const getInventoryLocation = function (merchantLocationKey) {
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}`, 'GET', false);
+    return callbackRequest(this, `${URL_EBAY}/location/${merchantLocationKey}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -548,7 +519,7 @@ const getInventoryLocations = function (offset = null, limit = null) {
         if (limit) filters.limit = limit;
         queryString = makeString(filters, { quotes: 'no', braces: 'false', seperator: '&', assignment: '=' });
     }
-    return callbackRequest(this, `${URI_SELL_EBAY}/location?${queryString}`, 'GET', false);
+    return callbackRequest(this, `${URL_EBAY}/location?${queryString}`, 'GET', SCOPE_API, SCOPE_READ_ONLY, true);
 };
 
 /**
@@ -563,7 +534,7 @@ const updateInventoryLocation = function (merchantLocationKey, params) {
     if (typeof params !== 'object') throw new Error('Expecting object in params');
     if (!merchantLocationKey) throw new Error('Error merchantLocationKey is required');
     if (typeof merchantLocationKey !== 'string') throw new Error('Expecting String of merchantLocationKey');
-    return callbackRequest(this, `${URI_SELL_EBAY}/location/${merchantLocationKey}/update_location_details`, 'POST');
+    return callbackRequest(this, `${URL_EBAY}/location/${merchantLocationKey}/update_location_details`, 'POST', SCOPE_API);
 };
 
 module.exports = {
