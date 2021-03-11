@@ -19,11 +19,12 @@ describe('test common util methods', () => {
 
     describe('test constructAdditionalParams', () => {
         it('test constructAdditionalParams with required params', () => {
-            const expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest';
+            const expectedParam = 'keywords=iphone&categoryId=111&sortOrder=PricePlusShippingLowest&itemFilter(0).name=condition&itemFilter(0).value(0)=3000&itemFilter(0).value(1)=4000';
             const options = {
                 keywords: 'iphone',
                 categoryId: '111',
-                sortOrder: 'PricePlusShippingLowest'
+                sortOrder: 'PricePlusShippingLowest',
+                condition: ['3000', '4000']
             };
             const emptyOptions = {};
             expect(constructAdditionalParams(options)).to.be.equal(expectedParam);
