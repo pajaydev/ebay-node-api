@@ -1,5 +1,4 @@
 'use strict';
-const { makeRequest } = require('../request');
 const currency = require('./currency.json');
 
 const base64Encode = encodeData => {
@@ -22,37 +21,39 @@ function constructAdditionalParams(options){
     let currencyKey = this ? this.options.globalID : 'EBAY-US';
 
     for (let key in options) {
-        if (options.hasOwnProperty(key)) {
-            if (key === 'entriesPerPage' || key === 'pageNumber') {
-                params = `${params}paginationInput.${key}=${options[key]}&`;
-            }
-            else if (key === 'keywords' || key === 'categoryId' || key === 'productId' || key === 'sortOrder' || key === 'storeName') {
-                const encodeParam = encodeURIComponent(options[key]);
-                params = `${params}${key}=${encodeParam}&`;
-            }
-            else if (key === 'affiliate') {
-                const innerParams = options[key];
-                for (let innerKey in innerParams) {
-                    params = `${params}${key}.${innerKey}=${innerParams[innerKey]}&`;
-                }
-            }
-            else {
-                params = `${params}itemFilter(${count}).name=${key}&`;
-                if (!Array.isArray(options[key])) {
-                    params = `${params}itemFilter(${count}).value=${options[key]}&`;
-                } else {
-                    for (let valKey in options[key]) {
-                        params = `${params}itemFilter(${count}).value(${valKey})=${options[key][valKey]}&`;
-                    }
-                }
-                if(key === "MinPrice" || key === "MaxPrice"){
-                    params = `${params}itemFilter(${count}).paramName=Currency&
-                    itemFilter(${count}).paramValue=${currency[currencyKey]}&`;
-                }
-                
-                count += 1;
+        if (!options.hasOwnProperty(key)) {
+            continue;
+        }
+        const value = options[key];
+        if (['entriesPerPage', 'pageNumber'].includes(key)) {
+            params += `paginationInput.${key}=${value}&`;
+        }
+        else if (['keywords', 'categoryId', 'productId', 'sortOrder', 'storeName'].includes(key)) {
+            const encodeParam = encodeURIComponent(value);
+            params += `${key}=${encodeParam}&`;
+        }
+        else if (key === 'affiliate') {
+            for (let innerKey in value) {
+                params += `${key}.${innerKey}=${value[innerKey]}&`;
             }
         }
+        else {
+            params += `itemFilter(${count}).name=${key}&`;
+            if (!Array.isArray(value)) {
+                params += `itemFilter(${count}).value=${value}&`;
+            } else {
+                for (let innerKey in value) {
+                    params += `itemFilter(${count}).value(${innerKey})=${value[innerKey]}&`;
+                }
+            }
+            if(key === "MinPrice" || key === "MaxPrice"){
+                params += `itemFilter(${count}).paramName=Currency&
+                itemFilter(${count}).paramValue=${currency[currencyKey]}&`;
+            }
+            
+            count++;
+        }
+        
     }
     // replace extra space
     params = params.replace(/\s/g, '');
