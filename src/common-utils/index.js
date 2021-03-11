@@ -37,8 +37,14 @@ function constructAdditionalParams(options){
                 }
             }
             else {
-                params = `${params}itemFilter(${count}).name=${key}&
-                itemFilter(${count}).value=${options[key]}&`;
+                params = `${params}itemFilter(${count}).name=${key}&`;
+                if (!Array.isArray(options[key])) {
+                    params = `${params}itemFilter(${count}).value=${options[key]}&`;
+                } else {
+                    for (let valKey in options[key]) {
+                        params = `${params}itemFilter(${count}).value(${valKey})=${options[key][valKey]}&`;
+                    }
+                }
                 if(key === "MinPrice" || key === "MaxPrice"){
                     params = `${params}itemFilter(${count}).paramName=Currency&
                     itemFilter(${count}).paramValue=${currency[currencyKey]}&`;
