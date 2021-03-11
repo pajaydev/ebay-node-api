@@ -60,8 +60,13 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
     if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURLQuery(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
+<<<<<<< HEAD
     queryParam = queryParam + (searchConfig.aspect_filter ? '&aspect_filter=' + encodeURLQuery(makeString(searchConfig.aspect_filter, { quotes: 'no', braces: 'false' })) : '');
     this.options.contentType = 'application/json';
+=======
+    console.log(this.options.baseUrl + `/buy/browse/v1/item_summary/search?${(queryParam)}`);
+    //this.options.baseUrl, `/buy/browse/v1/item_summary/search?${encodeURI(queryParam)}
+>>>>>>> c9c8b5d365ec0c00f7642b365414ef7e5075a386
     return new Promise((resolve, reject) => {
         makeRequest(this.options, `/buy/browse/v1/item_summary/search?${(queryParam)}`, 'GET', auth).then((result) => {
             resolve(result);
