@@ -28,7 +28,7 @@ function constructAdditionalParams(options){
         if (['entriesPerPage', 'pageNumber'].includes(key)) {
             params += `paginationInput.${key}=${value}&`;
         }
-        else if (['keywords', 'categoryId', 'productId', 'sortOrder', 'storeName'].includes(key)) {
+        else if (['keywords', 'categoryId', 'productId', 'sortOrder', 'storeName', 'buyerPostalCode'].includes(key)) {
             const encodeParam = encodeURIComponent(value);
             params += `${key}=${encodeParam}&`;
         }
