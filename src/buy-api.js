@@ -49,7 +49,7 @@ const getItemByItemGroup = function (itemGroupId) {
 
 const searchItems = function (searchConfig) {
     if (!searchConfig) throw new Error('Error --> Missing or invalid input parameter to search');
-    if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin && !searchConfig.epid) throw new Error('Error --> Keyword or category id is required in query param');
+    if (!searchConfig.keyword && !searchConfig.categoryId && !searchConfig.gtin) throw new Error('Error --> Keyword or category id is required in query param');
     if (!this.options.appAccessToken) throw new Error('Error -->Missing Access token, Generate access token');
     const auth = 'Bearer ' + this.options.appAccessToken;
     let queryParam = searchConfig.keyword ? 'q=' + encodeURIComponent(searchConfig.keyword) : '';
@@ -58,7 +58,7 @@ const searchItems = function (searchConfig) {
     queryParam = queryParam + (searchConfig.limit ? '&limit=' + searchConfig.limit : '');
     queryParam = queryParam + (searchConfig.offset ? '&offset=' + searchConfig.offset : '');
     queryParam = queryParam + (searchConfig.sort ? '&sort=' + searchConfig.sort : '');
-    queryParam = queryParam + (searchConfig.sort ? '&epid=' + searchConfig.epid : '');
+    queryParam = queryParam + (searchConfig.epid ? '&epid=' + searchConfig.epid : '');
     if (searchConfig.fieldgroups !== undefined) queryParam = queryParam + '&fieldgroups=' + searchConfig.fieldgroups;
     if (searchConfig.filter !== undefined) queryParam = queryParam + '&filter=' + encodeURLQuery(makeString(searchConfig.filter, { quotes: 'no', braces: 'false' }));
     queryParam = queryParam + (searchConfig.aspect_filter ? '&aspect_filter=' + encodeURLQuery(makeString(searchConfig.aspect_filter, { quotes: 'no', braces: 'false' })) : '');
