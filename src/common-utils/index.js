@@ -16,7 +16,7 @@ const isString = (value)=>{
  * @param {Object} options
  */
 function constructAdditionalParams(options){
-    let params = '';
+    let params = '', filterParams = '';
     let count = 0;
     let currencyKey = this ? this.options.globalID : 'EBAY-US';
 
@@ -38,16 +38,16 @@ function constructAdditionalParams(options){
             }
         }
         else {
-            params += `itemFilter(${count}).name=${key}&`;
+            filterParams += `itemFilter(${count}).name=${key}&`;
             if (!Array.isArray(value)) {
-                params += `itemFilter(${count}).value=${value}&`;
+                filterParams += `itemFilter(${count}).value=${value}&`;
             } else {
                 for (let innerKey in value) {
-                    params += `itemFilter(${count}).value(${innerKey})=${value[innerKey]}&`;
+                    filterParams += `itemFilter(${count}).value(${innerKey})=${value[innerKey]}&`;
                 }
             }
             if(key === "MinPrice" || key === "MaxPrice"){
-                params += `itemFilter(${count}).paramName=Currency&
+                filterParams += `itemFilter(${count}).paramName=Currency&
                 itemFilter(${count}).paramValue=${currency[currencyKey]}&`;
             }
             
@@ -55,6 +55,7 @@ function constructAdditionalParams(options){
         }
         
     }
+    params += filterParams;
     // replace extra space
     params = params.replace(/\s/g, '');
     return params.substring(0, params.length - 1);
